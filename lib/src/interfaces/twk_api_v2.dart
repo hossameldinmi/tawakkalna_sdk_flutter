@@ -1,5 +1,3 @@
-import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
-
 /// Tawakkalna SDK Helper for V2 API
 ///
 /// This class provides access to all V2 endpoints of the Tawakkalna SDK.
@@ -24,7 +22,7 @@ abstract class TwkApiV2 {
   Future<List<Map<String, dynamic>>> getUserFamilyMembers({
     int? minAge,
     int? maxAge,
-    Gender? gender,
+    int? gender,
   });
 
   /// Get user's sponsors with optional filters - V2 version
@@ -32,7 +30,7 @@ abstract class TwkApiV2 {
   Future<List<Map<String, dynamic>>> getUserSponsors({
     int? minAge,
     int? maxAge,
-    Gender? gender,
+    int? gender,
   });
 
   /// Get user's nationality name - V2 version

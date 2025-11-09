@@ -1,7 +1,5 @@
 import 'dart:typed_data';
-
 import 'package:cross_file/cross_file.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 
 /// Tawakkalna SDK Helper for V1 API
 ///
@@ -20,23 +18,23 @@ abstract class TwkApiV1 {
 
   /// Get user's national ID
   /// Corresponds to: window.TWK.getUserId()
-  Future<int> getUserId();
+  Future<Map<String, dynamic>> getUserId();
 
   /// Get user's type (citizen, resident, visitor, etc.)
   /// Corresponds to: window.TWK.getUserType()
-  Future<int> getUserType();
+  Future<Map<String, dynamic>> getUserType();
 
   /// Get user's birth date
   /// Corresponds to: window.TWK.getUserBirthDate()
-  Future<String?> getUserBirthDate();
+  Future<Map<String, dynamic>> getUserBirthDate();
 
   /// Get user's mobile number
   /// Corresponds to: window.TWK.getUserMobileNumber()
-  Future<String?> getUserMobileNumber();
+  Future<Map<String, dynamic>> getUserMobileNumber();
 
   /// Get user's gender
   /// Corresponds to: window.TWK.getUserGender()
-  Future<int?> getUserGender();
+  Future<Map<String, dynamic>> getUserGender();
 
   /// Get user's location
   /// Corresponds to: window.TWK.getUserLocation()
@@ -56,7 +54,7 @@ abstract class TwkApiV1 {
 
   /// Get user's marital status
   /// Corresponds to: window.TWK.getUserMaritalStatus()
-  Future<String?> getUserMaritalStatus();
+  Future<Map<String, dynamic>> getUserMaritalStatus();
 
   /// Get user's health status
   /// Corresponds to: window.TWK.getUserHealthStatus()
@@ -64,11 +62,11 @@ abstract class TwkApiV1 {
 
   /// Get user's disability type
   /// Corresponds to: window.TWK.getUserDisabilityType()
-  Future<String?> getUserDisabilityType();
+  Future<Map<String, dynamic>> getUserDisabilityType();
 
   /// Get user's blood type
   /// Corresponds to: window.TWK.getUserBloodType()
-  Future<String?> getUserBloodType();
+  Future<Map<String, dynamic>> getUserBloodType();
 
   /// Get user's national address
   /// Corresponds to: window.TWK.getUserNationalAddress()
@@ -76,7 +74,7 @@ abstract class TwkApiV1 {
 
   /// Get user's degree/education type
   /// Corresponds to: window.TWK.getUserDegreeType()
-  Future<String?> getUserDegreeType();
+  Future<Map<String, dynamic>> getUserDegreeType();
 
   /// Get user's occupation
   /// Corresponds to: window.TWK.getUserOccupation()
@@ -84,7 +82,7 @@ abstract class TwkApiV1 {
 
   /// Get user's family members with optional filters
   /// Corresponds to: window.TWK.getUserFamilyMembers(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserFamilyMembers({
+  Future<Map<String, dynamic>> getUserFamilyMembers({
     int? minAge,
     int? maxAge,
     int? gender,
@@ -95,12 +93,12 @@ abstract class TwkApiV1 {
   Future<List<Map<String, dynamic>>> getUserSponsors({
     int? minAge,
     int? maxAge,
-    Gender? gender,
+    int? gender,
   });
 
   /// Get user's unpaid violations
   /// Corresponds to: window.TWK.getUserUnPaidViolations()
-  Future<List<Map<String, dynamic>>> getUserUnPaidViolations();
+  Future<Map<String, dynamic>> getUserUnPaidViolations();
 
   /// Get user's paid violations
   /// Corresponds to: window.TWK.getUserPaidViolations()
@@ -108,7 +106,7 @@ abstract class TwkApiV1 {
 
   /// Get user's vehicles
   /// Corresponds to: window.TWK.getUserVehicles()
-  Future<List<Map<String, dynamic>>> getUserVehicles();
+  Future<Map<String, dynamic>> getUserVehicles();
 
   /// Get user's profile photo
   /// Corresponds to: window.TWK.getUserProfilePhoto()
@@ -120,23 +118,23 @@ abstract class TwkApiV1 {
 
   /// Get user's ID expiry date
   /// Corresponds to: window.TWK.getUserIdExpiryDate()
-  Future<DateTime?> getUserIdExpiryDate();
+  Future<Map<String, dynamic>> getUserIdExpiryDate();
 
   /// Get user's document number
   /// Corresponds to: window.TWK.getUserDocumentNumber()
-  Future<String?> getUserDocumentNumber();
+  Future<Map<String, dynamic>> getUserDocumentNumber();
 
   /// Get user's birth city
   /// Corresponds to: window.TWK.getUserBirthCity()
-  Future<String?> getUserBirthCity();
+  Future<Map<String, dynamic>> getUserBirthCity();
 
   /// Get user's email
   /// Corresponds to: window.TWK.getUserEmail()
-  Future<String?> getUserEmail();
+  Future<Map<String, dynamic>> getUserEmail();
 
   /// Get user's iqama type
   /// Corresponds to: window.TWK.getUserIqamaType()
-  Future<String?> getUserIqamaType();
+  Future<Map<String, dynamic>> getUserIqamaType();
 
   /// Get image by national ID
   /// Corresponds to: window.TWK.getImage(nationalId)
@@ -212,11 +210,11 @@ abstract class TwkApiV1 {
 
   /// Authenticate using biometric
   /// Corresponds to: window.TWK.authenticateBiometric()
-  Future<bool> authenticateBiometric();
+  Future<Map<String, dynamic>> authenticateBiometric();
 
   /// Generate authentication token
   /// Corresponds to: window.TWK.generateToken()
-  Future<String> generateToken();
+  Future<Map<String, dynamic>> generateToken();
 
   // ==================== Share Methods ====================
 

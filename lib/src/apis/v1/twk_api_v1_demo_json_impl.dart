@@ -1,27 +1,23 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
-import 'package:tawakkalna_sdk_flutter/src/interfaces/apis/twk_api_v1.dart';
+import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
 
 class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   final String jsonPath;
   final AssetBundle? assetBundle;
   final Map<String, dynamic> _map = {};
-  TwkApiV1DemoJsonImpl({this.jsonPath = 'mock_profile1.0.2.json', this.assetBundle});
+  TwkApiV1DemoJsonImpl({this.jsonPath = 'assets/mock_profile1.0.2.json', this.assetBundle});
 
   dynamic _getResponseFromJson(String path) => (_map['mock_endpoints'] as List<dynamic>)
       .firstWhere((element) => element['path'] == path, orElse: () => null)?['return'];
 
   Future<void> _loadJsonIfNeeded() async {
-    if (_map.isEmpty) {
-      final bundle = assetBundle ?? rootBundle;
-      final jsonString = await bundle.loadString(jsonPath);
-      _map.addAll(await Future.value(Map<String, dynamic>.from(await Future.value(
-          jsonString.isNotEmpty ? await Future.value(jsonDecode(jsonString)) : <String, dynamic>{}))));
-    }
+    if (_map.isNotEmpty) return;
+    final bundle = assetBundle ?? rootBundle;
+    final jsonString = await bundle.loadString(jsonPath);
+    _map.addAll(await Future.value(Map<String, dynamic>.from(
+        await Future.value(jsonString.isNotEmpty ? await Future.value(jsonDecode(jsonString)) : <String, dynamic>{}))));
   }
 
   @override
@@ -80,9 +76,10 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<bool> authenticateBiometric() async {
+  Future<Map<String, dynamic>> authenticateBiometric() async {
     await _loadJsonIfNeeded();
-    return _getResponseFromJson('/authenticate/biometric') as bool;
+    final response = _getResponseFromJson('/authenticate/biometric');
+    return response;
   }
 
   @override
@@ -98,9 +95,10 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<String> generateToken() async {
+  Future<Map<String, dynamic>> generateToken() async {
     await _loadJsonIfNeeded();
-    return _getResponseFromJson('/authenticate/generatetoken') as String;
+    final response = _getResponseFromJson('/authenticate/generatetoken');
+    return response;
   }
 
   @override
@@ -170,141 +168,165 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<String?> getUserBirthCity() {
-    // TODO: implement getUserBirthCity
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String?> getUserBirthDate() async {
+  Future<Map<String, dynamic>> getUserBirthCity() async {
     await _loadJsonIfNeeded();
-    return _getResponseFromJson('/user_data/birth_date') as String;
+    final response = _getResponseFromJson('/user_data/user_birth_city');
+    return response;
   }
 
   @override
-  Future<String?> getUserBloodType() async {
+  Future<Map<String, dynamic>> getUserBirthDate() async {
     await _loadJsonIfNeeded();
-    return _getResponseFromJson('/user_data/blood_type') as String?;
+    final response = _getResponseFromJson('/user_data/birth_date');
+    return response;
   }
 
   @override
-  Future<String?> getUserDegreeType() async {
+  Future<Map<String, dynamic>> getUserBloodType() async {
     await _loadJsonIfNeeded();
-    return _getResponseFromJson('/user_data/degree_type') as String?;
+    final response = _getResponseFromJson('/user_data/blood_type');
+    return response;
   }
 
   @override
-  Future<String?> getUserDisabilityType() {
-    // TODO: implement getUserDisabilityType
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String?> getUserDocumentNumber() async {
+  Future<Map<String, dynamic>> getUserDegreeType() async {
     await _loadJsonIfNeeded();
-    return _getResponseFromJson('/user_data/document_number') as String?;
+    final response = _getResponseFromJson('/user_data/degree_type');
+    return response;
   }
 
   @override
-  Future<String?> getUserEmail() async {
+  Future<Map<String, dynamic>> getUserDisabilityType() async {
     await _loadJsonIfNeeded();
-    return _getResponseFromJson('/user_data/email') as String?;
+    final response = _getResponseFromJson('/user_data/disability_type');
+    return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserFamilyMembers({int? minAge, int? maxAge, int? gender}) {
-    // TODO: implement getUserFamilyMembers
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserDocumentNumber() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/user_document_number');
+    return response;
   }
 
   @override
-  Future<Map<String, String>> getUserFullName() {
-    // TODO: implement getUserFullName
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserEmail() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/email');
+    return response;
   }
 
   @override
-  Future<int?> getUserGender() {
-    // TODO: implement getUserGender
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserFamilyMembers({int? minAge, int? maxAge, int? gender}) async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/family_members');
+    return response;
   }
 
   @override
-  Future<String?> getUserHealthStatus() {
-    // TODO: implement getUserHealthStatus
-    throw UnimplementedError();
+  Future<Map<String, String>> getUserFullName() async {
+    await _loadJsonIfNeeded();
+    // prefer richer V2 mock if available
+    final response = _getResponseFromJson('v2/user_data/full_name');
+    return response;
   }
 
   @override
-  Future<int> getUserId() {
-    // TODO: implement getUserId
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserGender() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/gender');
+    return response;
   }
 
   @override
-  Future<DateTime?> getUserIdExpiryDate() {
-    // TODO: implement getUserIdExpiryDate
-    throw UnimplementedError();
+  Future<String?> getUserHealthStatus() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/health_status');
+    return response;
   }
 
   @override
-  Future<String?> getUserIqamaType() {
-    // TODO: implement getUserIqamaType
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserId() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/user_id');
+    return response;
   }
 
   @override
-  Future<Map<String, double?>> getUserLocation() {
-    // TODO: implement getUserLocation
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserIdExpiryDate() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/id_expiry_date');
+    return response;
   }
 
   @override
-  Future<String?> getUserMaritalStatus() {
-    // TODO: implement getUserMaritalStatus
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserIqamaType() async {
+    await _loadJsonIfNeeded();
+    final ret = _getResponseFromJson('/user_data/iqama_type');
+    return ret;
   }
 
   @override
-  Future<String?> getUserMobileNumber() {
-    // TODO: implement getUserMobileNumber
-    throw UnimplementedError();
+  Future<Map<String, double?>> getUserLocation() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/user_location');
+    return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserNationalAddress() {
-    // TODO: implement getUserNationalAddress
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserMaritalStatus() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/marital_status');
+    return response;
   }
 
   @override
-  Future<String?> getUserNationality() {
-    // TODO: implement getUserNationality
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserMobileNumber() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/mobile_number');
+    return response;
   }
 
   @override
-  Future<String?> getUserNationalityIso() {
-    // TODO: implement getUserNationalityIso
-    throw UnimplementedError();
+  Future<List<Map<String, dynamic>>> getUserNationalAddress() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/national_address');
+    return response;
   }
 
   @override
-  Future<String?> getUserOccupation() {
-    // TODO: implement getUserOccupation
-    throw UnimplementedError();
+  Future<String?> getUserNationality() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/nationality_name');
+    return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserPaidViolations() {
-    // TODO: implement getUserPaidViolations
-    throw UnimplementedError();
+  Future<String?> getUserNationalityIso() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/nationality_iso');
+    return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserPassports() {
-    // TODO: implement getUserPassports
-    throw UnimplementedError();
+  Future<String?> getUserOccupation() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/occupation');
+    return response;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getUserPaidViolations() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/violations/paid');
+    return response;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getUserPassports() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/passports');
+    return response;
   }
 
   @override
@@ -314,27 +336,31 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserSponsors({int? minAge, int? maxAge, Gender? gender}) {
-    // TODO: implement getUserSponsors
-    throw UnimplementedError();
+  Future<List<Map<String, dynamic>>> getUserSponsors({int? minAge, int? maxAge, int? gender}) async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/sponsors');
+    return response;
   }
 
   @override
-  Future<int> getUserType() {
-    // TODO: implement getUserType
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserType() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/user_type');
+    return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserUnPaidViolations() {
-    // TODO: implement getUserUnPaidViolations
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserUnPaidViolations() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/violations/unpaid');
+    return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserVehicles() {
-    // TODO: implement getUserVehicles
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUserVehicles() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/user_data/vehicles');
+    return response;
   }
 
   @override

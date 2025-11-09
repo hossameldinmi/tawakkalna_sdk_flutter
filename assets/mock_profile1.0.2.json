@@ -54,7 +54,7 @@
       }
     },
     {
-      "path": "v2/user_data/full_name",
+      "path": "/v2/user_data/full_name",
       "return": {
         "full_name_ar": "محمد عبدالعزيز",
         "full_name_en": "Mohammad Abdalziz"
@@ -116,7 +116,7 @@
       }
     },
     {
-      "path": "v2/user_data/nationality_name",
+      "path": "/v2/user_data/nationality_name",
       "return": {
         "nationality_code": 113,
         "nationality_name_ar": "المملكة العربيه السعودية",

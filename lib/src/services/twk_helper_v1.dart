@@ -1,11 +1,16 @@
 import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/log_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/url_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/user_type.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/device_info.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/location.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/national_address.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/passport.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/vehicle.dart';
 
 /// Tawakkalna SDK Helper for V1 API
 ///
@@ -76,7 +81,7 @@ abstract class TwkHelperV1 {
 
   /// Get user's national address
   /// Corresponds to: window.TWK.getUserNationalAddress()
-  Future<List<Map<String, dynamic>>> getUserNationalAddress();
+  Future<List<NationalAddress>> getUserNationalAddress();
 
   /// Get user's degree/education type
   /// Corresponds to: window.TWK.getUserDegreeType()
@@ -112,7 +117,7 @@ abstract class TwkHelperV1 {
 
   /// Get user's vehicles
   /// Corresponds to: window.TWK.getUserVehicles()
-  Future<List<Map<String, dynamic>>> getUserVehicles();
+  Future<List<Vehicle>> getUserVehicles();
 
   /// Get user's profile photo
   /// Corresponds to: window.TWK.getUserProfilePhoto()
@@ -120,7 +125,7 @@ abstract class TwkHelperV1 {
 
   /// Get user's passports
   /// Corresponds to: window.TWK.getUserPassports()
-  Future<List<Map<String, dynamic>>> getUserPassports();
+  Future<PassportResponse> getUserPassports();
 
   /// Get user's ID expiry date
   /// Corresponds to: window.TWK.getUserIdExpiryDate()
@@ -140,7 +145,7 @@ abstract class TwkHelperV1 {
 
   /// Get user's iqama type
   /// Corresponds to: window.TWK.getUserIqamaType()
-  Future<String?> getUserIqamaType();
+  Future<IqamaType> getUserIqamaType();
 
   /// Get image by national ID
   /// Corresponds to: window.TWK.getImage(nationalId)
@@ -150,7 +155,7 @@ abstract class TwkHelperV1 {
 
   /// Get device information and capabilities
   /// Corresponds to: window.TWK.getDeviceInfo()
-  Future<Map<String, dynamic>> getDeviceInfo();
+  Future<DeviceInfo?> getDeviceInfo();
 
   // ==================== Gallery Methods ====================
 
@@ -220,7 +225,7 @@ abstract class TwkHelperV1 {
 
   /// Generate authentication token
   /// Corresponds to: window.TWK.generateToken()
-  Future<String> generateToken();
+  // Future<String> generateToken();
 
   // ==================== Share Methods ====================
 
