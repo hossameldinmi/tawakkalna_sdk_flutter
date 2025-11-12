@@ -458,7 +458,7 @@
       }
     },
     {
-      "path": "user_data/email",
+      "path": "/user_data/email",
       "return": {
         "email": "testmail@gmail.com"
       }

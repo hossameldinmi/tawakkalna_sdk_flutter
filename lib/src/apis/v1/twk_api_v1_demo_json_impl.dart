@@ -9,15 +9,14 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   final Map<String, dynamic> _map = {};
   TwkApiV1DemoJsonImpl({this.jsonPath = 'assets/mock_profile1.0.2.json', this.assetBundle});
 
-  dynamic _getResponseFromJson(String path) => (_map['mock_endpoints'] as List<dynamic>)
-      .firstWhere((element) => element['path'] == path, orElse: () => null)?['return'];
+  dynamic _getResponseFromJson(String path) => _map[path];
 
   Future<void> _loadJsonIfNeeded() async {
     if (_map.isNotEmpty) return;
     final bundle = assetBundle ?? rootBundle;
     final jsonString = await bundle.loadString(jsonPath);
-    _map.addAll(await Future.value(Map<String, dynamic>.from(
-        await Future.value(jsonString.isNotEmpty ? await Future.value(jsonDecode(jsonString)) : <String, dynamic>{}))));
+    final json = jsonDecode(jsonString);
+    _map.addEntries((json['mock_endpoints'] as List).map((e) => MapEntry<String, dynamic>(e['path'], e['return'])));
   }
 
   @override
@@ -227,8 +226,8 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   Future<Map<String, String>> getUserFullName() async {
     await _loadJsonIfNeeded();
     // prefer richer V2 mock if available
-    final response = _getResponseFromJson('v2/user_data/full_name');
-    return response;
+    final response = _getResponseFromJson('/user_data/full_name') as Map;
+    return response.cast<String, String>();
   }
 
   @override
@@ -239,7 +238,7 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<String?> getUserHealthStatus() async {
+  Future<Map<String, dynamic>> getUserHealthStatus() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/health_status');
     return response;
@@ -267,7 +266,7 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<Map<String, double?>> getUserLocation() async {
+  Future<Map<String, dynamic>> getUserLocation() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/user_location');
     return response;
@@ -288,55 +287,55 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserNationalAddress() async {
+  Future<Map<String, dynamic>> getUserNationalAddress() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/national_address');
     return response;
   }
 
   @override
-  Future<String?> getUserNationality() async {
+  Future<Map<String, dynamic>> getUserNationality() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/nationality_name');
     return response;
   }
 
   @override
-  Future<String?> getUserNationalityIso() async {
+  Future<Map<String, dynamic>> getUserNationalityIso() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/nationality_iso');
     return response;
   }
 
   @override
-  Future<String?> getUserOccupation() async {
+  Future<Map<String, dynamic>> getUserOccupation() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/occupation');
     return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserPaidViolations() async {
+  Future<Map<String, dynamic>> getUserPaidViolations() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/violations/paid');
     return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserPassports() async {
+  Future<Map<String, dynamic>> getUserPassports() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/passports');
     return response;
   }
 
   @override
-  Future<String?> getUserProfilePhoto() {
+  Future<Map<String, dynamic>> getUserProfilePhoto() {
     // TODO: implement getUserProfilePhoto
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserSponsors({int? minAge, int? maxAge, int? gender}) async {
+  Future<Map<String, dynamic>> getUserSponsors({int? minAge, int? maxAge, int? gender}) async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/user_data/sponsors');
     return response;

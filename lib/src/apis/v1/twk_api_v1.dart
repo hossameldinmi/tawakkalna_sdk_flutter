@@ -38,15 +38,15 @@ abstract class TwkApiV1 {
 
   /// Get user's location
   /// Corresponds to: window.TWK.getUserLocation()
-  Future<Map<String, double?>> getUserLocation();
+  Future<Map<String, dynamic>> getUserLocation();
 
   /// Get user's nationality name
   /// Corresponds to: window.TWK.getUserNationality()
-  Future<String?> getUserNationality();
+  Future<Map<String, dynamic>> getUserNationality();
 
   /// Get user's nationality ISO code
   /// Corresponds to: window.TWK.getUserNationalityISO()
-  Future<String?> getUserNationalityIso();
+  Future<Map<String, dynamic>> getUserNationalityIso();
 
   /// Get user's full name (Arabic and English)
   /// Corresponds to: window.TWK.getUserFullName()
@@ -58,7 +58,7 @@ abstract class TwkApiV1 {
 
   /// Get user's health status
   /// Corresponds to: window.TWK.getUserHealthStatus()
-  Future<String?> getUserHealthStatus();
+  Future<Map<String, dynamic>> getUserHealthStatus();
 
   /// Get user's disability type
   /// Corresponds to: window.TWK.getUserDisabilityType()
@@ -70,7 +70,7 @@ abstract class TwkApiV1 {
 
   /// Get user's national address
   /// Corresponds to: window.TWK.getUserNationalAddress()
-  Future<List<Map<String, dynamic>>> getUserNationalAddress();
+  Future<Map<String, dynamic>> getUserNationalAddress();
 
   /// Get user's degree/education type
   /// Corresponds to: window.TWK.getUserDegreeType()
@@ -78,7 +78,7 @@ abstract class TwkApiV1 {
 
   /// Get user's occupation
   /// Corresponds to: window.TWK.getUserOccupation()
-  Future<String?> getUserOccupation();
+  Future<Map<String, dynamic>> getUserOccupation();
 
   /// Get user's family members with optional filters
   /// Corresponds to: window.TWK.getUserFamilyMembers(minage, maxage, gender)
@@ -90,7 +90,7 @@ abstract class TwkApiV1 {
 
   /// Get user's sponsors with optional filters
   /// Corresponds to: window.TWK.getUserSponsors(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserSponsors({
+  Future<Map<String, dynamic>> getUserSponsors({
     int? minAge,
     int? maxAge,
     int? gender,
@@ -102,7 +102,7 @@ abstract class TwkApiV1 {
 
   /// Get user's paid violations
   /// Corresponds to: window.TWK.getUserPaidViolations()
-  Future<List<Map<String, dynamic>>> getUserPaidViolations();
+  Future<Map<String, dynamic>> getUserPaidViolations();
 
   /// Get user's vehicles
   /// Corresponds to: window.TWK.getUserVehicles()
@@ -110,11 +110,11 @@ abstract class TwkApiV1 {
 
   /// Get user's profile photo
   /// Corresponds to: window.TWK.getUserProfilePhoto()
-  Future<String?> getUserProfilePhoto();
+  Future<Map<String, dynamic>> getUserProfilePhoto();
 
   /// Get user's passports
   /// Corresponds to: window.TWK.getUserPassports()
-  Future<List<Map<String, dynamic>>> getUserPassports();
+  Future<Map<String, dynamic>> getUserPassports();
 
   /// Get user's ID expiry date
   /// Corresponds to: window.TWK.getUserIdExpiryDate()

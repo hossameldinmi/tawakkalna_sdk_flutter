@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/log_type.dart';
@@ -11,6 +12,7 @@ import 'package:tawakkalna_sdk_flutter/src/models/location.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/national_address.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/passport.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/vehicle.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/violation.dart';
 
 /// Tawakkalna SDK Helper for V1 API
 ///
@@ -59,9 +61,9 @@ abstract class TwkHelperV1 {
   /// Corresponds to: window.TWK.getUserNationalityISO()
   Future<String?> getUserNationalityIso();
 
-  /// Get user's full name (Arabic and English)
+  /// Get user's full name
   /// Corresponds to: window.TWK.getUserFullName()
-  Future<Map<String, String>> getUserFullName();
+  Future<String> getUserFullName();
 
   /// Get user's marital status
   /// Corresponds to: window.TWK.getUserMaritalStatus()
@@ -77,7 +79,7 @@ abstract class TwkHelperV1 {
 
   /// Get user's blood type
   /// Corresponds to: window.TWK.getUserBloodType()
-  Future<String?> getUserBloodType();
+  Future<BloodType?> getUserBloodType();
 
   /// Get user's national address
   /// Corresponds to: window.TWK.getUserNationalAddress()
@@ -91,29 +93,13 @@ abstract class TwkHelperV1 {
   /// Corresponds to: window.TWK.getUserOccupation()
   Future<String?> getUserOccupation();
 
-  /// Get user's family members with optional filters
-  /// Corresponds to: window.TWK.getUserFamilyMembers(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserFamilyMembers({
-    int? minAge,
-    int? maxAge,
-    Gender? gender,
-  });
-
-  /// Get user's sponsors with optional filters
-  /// Corresponds to: window.TWK.getUserSponsors(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserSponsors({
-    int? minAge,
-    int? maxAge,
-    Gender? gender,
-  });
-
   /// Get user's unpaid violations
   /// Corresponds to: window.TWK.getUserUnPaidViolations()
-  Future<List<Map<String, dynamic>>> getUserUnPaidViolations();
+  Future<List<Violation>> getUserUnPaidViolations();
 
   /// Get user's paid violations
   /// Corresponds to: window.TWK.getUserPaidViolations()
-  Future<List<Map<String, dynamic>>> getUserPaidViolations();
+  Future<List<Violation>> getUserPaidViolations();
 
   /// Get user's vehicles
   /// Corresponds to: window.TWK.getUserVehicles()
@@ -225,7 +211,7 @@ abstract class TwkHelperV1 {
 
   /// Generate authentication token
   /// Corresponds to: window.TWK.generateToken()
-  // Future<String> generateToken();
+  Future<String> generateToken();
 
   // ==================== Share Methods ====================
 
