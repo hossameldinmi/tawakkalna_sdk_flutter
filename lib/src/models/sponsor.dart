@@ -51,7 +51,7 @@ class SponsorDetails {
         nationality: json['nationality'] as String,
         relation: Relation.fromString(json['relation'] as String),
         passportNumber: json['passport_number'] as String,
-        dateOfBirth: DateTime.parse(json['date_of_birth'] as String),
+        dateOfBirth: JsonUtil.parseDateTime(json['date_of_birth'])!,
         birthCity: json['birth_city'] as String,
       );
 }

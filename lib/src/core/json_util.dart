@@ -10,14 +10,15 @@ class JsonUtil {
     if (dateString == null || dateString.isEmpty) {
       return null;
     }
+    late DateTime? dateTime;
     try {
-      return DateTime.tryParse(dateString);
+      dateTime = DateTime.parse(dateString);
     } catch (_) {
       final parts = dateString.split('/');
       if (parts.length == 3) {
-        return DateTime(int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2]));
+        dateTime = DateTime(int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2]));
       }
     }
-    return null;
+    return dateTime;
   }
 }

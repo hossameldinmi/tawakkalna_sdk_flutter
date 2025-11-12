@@ -9,7 +9,7 @@ class Nationality {
 
   factory Nationality.fromJson(Map<String, dynamic> json) {
     return Nationality(
-      nationality: nat_enum.Nationality.fromIsoCode(json['nationality_code'] as String)!,
+      nationality: nat_enum.Nationality.fromKey(json['nationality_code'])!,
       nameAr: json['nationality_name_ar'] as String,
       nameEn: json['nationality_name_en'] as String,
     );

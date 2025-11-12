@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cross_file/cross_file.dart';
 import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
+import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
@@ -167,16 +168,10 @@ class TwkHelperV1Impl implements TwkHelperV1 {
   }
 
   @override
-  Future<String?> getUserBirthCity() {
-    return _api.getUserBirthCity().then((r) => r['birth_city'] as String?);
-  }
+  Future<String?> getUserBirthCity() => _api.getUserBirthCity().then((r) => r['birth_city'] as String?);
 
   @override
-  Future<DateTime?> getUserBirthDate() {
-    return _api
-        .getUserBirthDate()
-        .then((r) => r['birth_date'] != null ? DateTime.tryParse(r['birth_date'].toString()) : null);
-  }
+  Future<DateTime?> getUserBirthDate() => _api.getUserBirthDate().then((r) => JsonUtil.parseDateTime(r['birth_date']));
 
   @override
   Future<BloodType?> getUserBloodType() {

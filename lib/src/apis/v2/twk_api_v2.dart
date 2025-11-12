@@ -9,7 +9,7 @@ abstract class TwkApiV2 {
 
   /// Generate authentication token (V2)
   /// Corresponds to: window.TWK.V2.generateToken()
-  Future<String> generateToken();
+  Future<Map<String, dynamic>> generateToken();
 
   // ==================== User Data Methods ====================
 
@@ -19,7 +19,7 @@ abstract class TwkApiV2 {
 
   /// Get user's family members with optional filters - V2 version
   /// Corresponds to: window.TWK.V2.getUserFamilyMembers(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserFamilyMembers({
+  Future<Map<String, dynamic>> getUserFamilyMembers({
     int? minAge,
     int? maxAge,
     int? gender,
@@ -27,7 +27,7 @@ abstract class TwkApiV2 {
 
   /// Get user's sponsors with optional filters - V2 version
   /// Corresponds to: window.TWK.V2.getUserSponsors(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserSponsors({
+  Future<Map<String, dynamic>> getUserSponsors({
     int? minAge,
     int? maxAge,
     int? gender,
@@ -35,5 +35,5 @@ abstract class TwkApiV2 {
 
   /// Get user's nationality name - V2 version
   /// Corresponds to: window.TWK.V2.getUserNationality()
-  Future<String?> getUserNationality();
+  Future<Map<String, dynamic>> getUserNationality();
 }

@@ -1,14 +1,14 @@
 enum Nationality {
-  sa(0, 'SA'),
+  sa(113, 'SA'),
   ae(1, 'AE');
 
   const Nationality(this.key, this.isoCode);
   final int key;
   final String isoCode;
 
-  static Nationality? fromIsoCode(String isoCode) {
+  static Nationality? fromKey(int key) {
     for (var nationality in Nationality.values) {
-      if (nationality.isoCode.toLowerCase() == isoCode.toLowerCase()) {
+      if (nationality.key == key) {
         return nationality;
       }
     }

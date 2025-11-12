@@ -21,14 +21,14 @@ class TwkApiV2DemoJsonImpl implements TwkApiV2 {
   }
 
   @override
-  Future<String> generateToken() async {
+  Future<Map<String, dynamic>> generateToken() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/v2/authenticate/generatetoken');
     return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserFamilyMembers({int? minAge, int? maxAge, int? gender}) async {
+  Future<Map<String, dynamic>> getUserFamilyMembers({int? minAge, int? maxAge, int? gender}) async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/v2/user_data/family_members');
     return response;
@@ -37,19 +37,19 @@ class TwkApiV2DemoJsonImpl implements TwkApiV2 {
   @override
   Future<Map<String, String>> getUserFullName() async {
     await _loadJsonIfNeeded();
-    final response = _getResponseFromJson('/v2/user_data/full_name');
-    return response;
+    final response = _getResponseFromJson('/v2/user_data/full_name') as Map;
+    return response.cast();
   }
 
   @override
-  Future<String?> getUserNationality() async {
+  Future<Map<String, dynamic>> getUserNationality() async {
     await _loadJsonIfNeeded();
-    final response = _getResponseFromJson('v2/user_data/nationality_name');
+    final response = _getResponseFromJson('/v2/user_data/nationality_name');
     return response;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserSponsors({int? minAge, int? maxAge, int? gender}) async {
+  Future<Map<String, dynamic>> getUserSponsors({int? minAge, int? maxAge, int? gender}) async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/v2/user_data/sponsors');
     return response;
