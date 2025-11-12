@@ -15,8 +15,10 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
     if (_map.isNotEmpty) return;
     final bundle = assetBundle ?? rootBundle;
     final jsonString = await bundle.loadString(jsonPath);
+    if (jsonString.isEmpty) return;
     final json = jsonDecode(jsonString);
-    _map.addEntries((json['mock_endpoints'] as List).map((e) => MapEntry<String, dynamic>(e['path'], e['return'])));
+    final list = json['mock_endpoints'] as List;
+    _map.addEntries(list.map((e) => MapEntry(e['path'], e['return'])));
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
-import 'package:tawakkalna_sdk_flutter/src/interfaces/twk_api_v2.dart';
+import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2.dart';
 
 class TwkApiV2DemoJsonImpl implements TwkApiV2 {
   final String jsonPath;
@@ -15,9 +14,10 @@ class TwkApiV2DemoJsonImpl implements TwkApiV2 {
     if (_map.isNotEmpty) return;
     final bundle = assetBundle ?? rootBundle;
     final jsonString = await bundle.loadString(jsonPath);
-    if (jsonString.isNotEmpty) return;
-    final json = jsonDecode(jsonString)['mock_endpoints'] as List;
-    _map.addEntries(json.map((e) => MapEntry(e['path'], e['return'])));
+    if (jsonString.isEmpty) return;
+    final json = jsonDecode(jsonString);
+    final list = json['mock_endpoints'] as List;
+    _map.addEntries(list.map((e) => MapEntry(e['path'], e['return'])));
   }
 
   @override
