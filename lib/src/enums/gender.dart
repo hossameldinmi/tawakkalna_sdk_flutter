@@ -2,7 +2,7 @@
 
 import 'package:tawakkalna_sdk_flutter/src/core/base_enum.dart';
 
-/// TODO:(TWK-team) know the actual user types and their values
+/// TODO:(TWK-team) know the actual gender types and their values
 class Gender extends BaseEnum<int, Gender> {
   const Gender._(super.value);
   static const male = Gender._(1);

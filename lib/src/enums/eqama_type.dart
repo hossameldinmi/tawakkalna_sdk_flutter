@@ -1,5 +1,6 @@
 import 'package:tawakkalna_sdk_flutter/src/core/base_enum.dart';
 
+/// TODO:(TWK-team) know the actual iqama types and their values
 class IqamaType extends BaseEnum<({int id, String key}), IqamaType> {
   const IqamaType._(super.value) : super();
   static const resident = IqamaType._((id: 0, key: 'resident'));

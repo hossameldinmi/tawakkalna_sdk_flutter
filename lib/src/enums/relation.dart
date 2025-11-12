@@ -1,5 +1,6 @@
 import 'package:tawakkalna_sdk_flutter/src/core/base_enum.dart';
 
+/// TODO:(TWK-team) know the actual relations and their values
 class Relation extends BaseEnum<String, Relation> {
   final List<String> matchingValues;
 

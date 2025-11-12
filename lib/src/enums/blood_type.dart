@@ -1,3 +1,4 @@
+/// TODO:(TWK-team) know the actual blood types and their values
 enum BloodType {
   type_0(0),
   type_1(1),
