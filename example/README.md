@@ -4,13 +4,32 @@ Demonstrates how to use the tawakkalna_sdk_flutter plugin.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This example app showcases all available methods from both V1 and V2 APIs of the Tawakkalna SDK.
 
-A few resources to get you started if this is your first Flutter project:
+### Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **V2 API Methods:**
+  - Generate Token
+  - Get User Full Name
+  - Get User Nationality
+  - Get Family Members (with optional filters)
+  - Get Sponsors
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **V1 API Methods:**
+  - User ID, Type, Gender
+  - Birth Date, Mobile Number, Email
+  - Location, Nationality (ISO)
+  - Marital Status, Health Status
+  - Blood Type, Degree Type, Occupation
+  - Vehicles, Violations (Paid/Unpaid)
+  - Passports, Documents
+  - Device Information
+  - And more...
+
+### Usage
+
+1. Run the app
+2. Press "Load All Data" button
+3. Expand any card to see detailed information
+
+The app uses the demo/mock implementation by default, so you can test without actual Tawakkalna integration.
