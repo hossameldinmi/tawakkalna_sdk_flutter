@@ -1,6 +1,5 @@
 import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/relation.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
 
 class Sponsor {

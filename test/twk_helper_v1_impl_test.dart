@@ -1,9 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
-import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1_demo_json_impl.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/user_type.dart';
 import 'package:tawakkalna_sdk_flutter/twk.dart';
 
 void main() {

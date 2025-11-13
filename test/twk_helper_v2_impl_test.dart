@@ -1,10 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_demo_json_impl.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/nationality.dart';
-import 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
-import 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
-import 'package:tawakkalna_sdk_flutter/src/models/nationality_entity.dart';
-import 'package:tawakkalna_sdk_flutter/src/models/sponsor.dart';
 import 'package:tawakkalna_sdk_flutter/twk.dart';
 
 void main() {
