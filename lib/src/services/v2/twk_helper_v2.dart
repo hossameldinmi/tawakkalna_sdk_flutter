@@ -1,7 +1,7 @@
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
-import 'package:tawakkalna_sdk_flutter/src/models/nationality.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/nationality_entity.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/sponsor.dart';
 
 /// Tawakkalna SDK Helper for V2 API
@@ -39,5 +39,5 @@ abstract class TwkHelperV2 {
 
   /// Get user's nationality name - V2 version
   /// Corresponds to: window.TWK.V2.getUserNationality()
-  Future<Nationality?> getUserNationality();
+  Future<NationalityEnity?> getUserNationality();
 }

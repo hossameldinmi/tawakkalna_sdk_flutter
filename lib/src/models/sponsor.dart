@@ -1,6 +1,7 @@
 import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/relation.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
 
 class Sponsor {
   final int nationalId;
@@ -9,7 +10,7 @@ class Sponsor {
   final String nameAr;
   final String nameEn;
   final Gender gender;
-  final SponsorDetails details;
+  final UserDetails details;
 
   Sponsor({
     required this.nationalId,
@@ -28,30 +29,6 @@ class Sponsor {
         nameAr: json['name_ar'] as String,
         nameEn: json['name_en'] as String,
         gender: Gender.fromValue(json['gender'] as int)!,
-        details: SponsorDetails.fromJson(json['details'] as Map<String, dynamic>),
-      );
-}
-
-class SponsorDetails {
-  final String nationality;
-  final Relation relation;
-  final String passportNumber;
-  final DateTime dateOfBirth;
-  final String birthCity;
-
-  SponsorDetails({
-    required this.nationality,
-    required this.relation,
-    required this.passportNumber,
-    required this.dateOfBirth,
-    required this.birthCity,
-  });
-
-  factory SponsorDetails.fromJson(Map<String, dynamic> json) => SponsorDetails(
-        nationality: json['nationality'] as String,
-        relation: Relation.fromString(json['relation'] as String),
-        passportNumber: json['passport_number'] as String,
-        dateOfBirth: JsonUtil.parseDateTime(json['date_of_birth'])!,
-        birthCity: json['birth_city'] as String,
+        details: UserDetails.fromJson(json['details'] as Map<String, dynamic>),
       );
 }

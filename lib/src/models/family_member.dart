@@ -1,3 +1,6 @@
+import 'package:tawakkalna_sdk_flutter/src/enums/relation.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
+
 class FamilyMember {
   final int nationalId;
   final String idExpiryDateHijri;
@@ -5,11 +8,7 @@ class FamilyMember {
   final String nameAr;
   final String nameEn;
   final int gender;
-  final String nationality;
-  final String relation;
-  final String passportNumber;
-  final String dateOfBirth;
-  final String birthCity;
+  final UserDetails details;
 
   FamilyMember({
     required this.nationalId,
@@ -18,11 +17,7 @@ class FamilyMember {
     required this.nameAr,
     required this.nameEn,
     required this.gender,
-    required this.nationality,
-    required this.relation,
-    required this.passportNumber,
-    required this.dateOfBirth,
-    required this.birthCity,
+    required this.details,
   });
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
@@ -32,30 +27,8 @@ class FamilyMember {
         nameAr: json['name_ar'],
         nameEn: json['name_en'],
         gender: json['gender'],
-        nationality: json['details']['nationality'],
-        relation: json['details']['relation'],
-        passportNumber: json['details']['passport_number'],
-        dateOfBirth: json['details']['date_of_birth'],
-        birthCity: json['details']['birth_city'],
+        details: UserDetails.fromJson(json['details'] as Map<String, dynamic>),
       );
 
-  bool isRelationShip(List<String> relations) {
-    return relations.any((relation) => this.relation.toLowerCase().contains(relation.toLowerCase()));
-  }
-
-  String print() {
-    return '''
-    nameAr: $nameAr
-    nameEn: $nameEn
-    gender: $gender
-    nationality: $nationality
-    relation: $relation
-    passportNumber: $passportNumber
-    dateOfBirth: $dateOfBirth
-    birthCity: $birthCity
-    nationalId: $nationalId
-    idExpiryDateHijri: $idExpiryDateHijri
-    idExpiryDateGregorian: $idExpiryDateGregorian
-    ''';
-  }
+  bool isRelationShip(List<Relation> relations) => relations.any((r) => relations.contains(r));
 }

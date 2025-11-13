@@ -209,18 +209,8 @@ class TwkHelperV1Impl implements TwkHelperV1 {
   Future<int> getUserId() => _api.getUserId().then((r) => r['user_id'] as int);
 
   @override
-  Future<DateTime?> getUserIdExpiryDate() => _api.getUserIdExpiryDate().then(
-        (r) {
-          if (r['id_expiry_date'] != null) {
-            final dateString = r['id_expiry_date'].toString();
-            final parts = dateString.split('/');
-            if (parts.length == 3) {
-              return DateTime(int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2]));
-            }
-          }
-          return null;
-        },
-      );
+  Future<DateTime?> getUserIdExpiryDate() =>
+      _api.getUserIdExpiryDate().then((r) => JsonUtil.parseDateTime(r['id_expiry_date_gregorian']));
 
   @override
   Future<IqamaType> getUserIqamaType() => _api.getUserIqamaType().then((r) => IqamaType.fromValue(r['id_type'])!);

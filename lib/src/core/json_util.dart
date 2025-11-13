@@ -14,9 +14,16 @@ class JsonUtil {
     try {
       dateTime = DateTime.parse(dateString);
     } catch (_) {
+      bool reversed = false;
       final parts = dateString.split('/');
+      if (int.parse(parts[0]) < 1900) {
+        reversed = true;
+      }
       if (parts.length == 3) {
-        dateTime = DateTime(int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2]));
+        final year = int.parse(reversed ? parts[2] : parts[0]);
+        final month = int.parse(parts[1]);
+        final day = int.parse(reversed ? parts[0] : parts[2]);
+        dateTime = DateTime(year, month, day);
       }
     }
     return dateTime;

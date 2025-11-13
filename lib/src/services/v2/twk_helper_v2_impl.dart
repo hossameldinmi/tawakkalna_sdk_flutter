@@ -2,7 +2,7 @@ import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
-import 'package:tawakkalna_sdk_flutter/src/models/nationality.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/nationality_entity.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/sponsor.dart';
 import 'package:tawakkalna_sdk_flutter/src/services/v2/twk_helper_v2.dart';
 
@@ -29,7 +29,8 @@ class TwkHelperV2Impl implements TwkHelperV2 {
   Future<FullName> getUserFullName() => _api.getUserFullName().then((json) => FullName.fromJson(json));
 
   @override
-  Future<Nationality?> getUserNationality() => _api.getUserNationality().then((json) => Nationality.fromJson(json));
+  Future<NationalityEnity?> getUserNationality() =>
+      _api.getUserNationality().then((json) => NationalityEnity.fromJson(json));
 
   @override
   Future<List<Sponsor>> getUserSponsors({int? minAge, int? maxAge, Gender? gender}) => _api
