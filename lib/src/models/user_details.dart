@@ -1,14 +1,15 @@
+import 'package:equatable/equatable.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/relation.dart';
 
-class UserDetails {
+class UserDetails extends Equatable {
   final String nationality;
   final Relation relation;
   final String passportNumber;
   final DateTime dateOfBirth;
   final String birthCity;
 
-  UserDetails({
+  const UserDetails({
     required this.nationality,
     required this.relation,
     required this.passportNumber,
@@ -23,4 +24,13 @@ class UserDetails {
         dateOfBirth: JsonUtil.parseDateTime(json['date_of_birth'])!,
         birthCity: json['birth_city'] as String,
       );
+
+  @override
+  List<Object?> get props => [
+        nationality,
+        relation,
+        passportNumber,
+        dateOfBirth,
+        birthCity,
+      ];
 }

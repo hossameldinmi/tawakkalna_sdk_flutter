@@ -1,8 +1,10 @@
-class FullName {
+import 'package:equatable/equatable.dart';
+
+class FullName extends Equatable {
   final String ar;
   final String en;
 
-  FullName({
+  const FullName({
     required this.ar,
     required this.en,
   });
@@ -11,4 +13,7 @@ class FullName {
         ar: json['full_name_ar'] as String,
         en: json['full_name_en'] as String,
       );
+
+  @override
+  List<Object?> get props => [ar, en];
 }

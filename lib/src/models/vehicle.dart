@@ -1,4 +1,6 @@
-class Vehicle {
+import 'package:equatable/equatable.dart';
+
+class Vehicle extends Equatable {
   final String plateNumber;
   final String registrationType;
   final String majorColor;
@@ -12,7 +14,7 @@ class Vehicle {
   final String registrationExpiryDate;
   final String manufacturer;
 
-  Vehicle({
+  const Vehicle({
     required this.plateNumber,
     required this.registrationType,
     required this.majorColor,
@@ -43,4 +45,20 @@ class Vehicle {
       manufacturer: json['manufacturer'] as String,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        plateNumber,
+        registrationType,
+        majorColor,
+        model,
+        status,
+        modelYear,
+        identificationNumber,
+        serialNumber,
+        loadCapacity,
+        weight,
+        registrationExpiryDate,
+        manufacturer,
+      ];
 }

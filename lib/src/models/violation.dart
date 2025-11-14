@@ -1,4 +1,6 @@
-class Violation {
+import 'package:equatable/equatable.dart';
+
+class Violation extends Equatable {
   final String manufacturer;
   final String plateNumber;
   final String streetSpeed;
@@ -12,7 +14,7 @@ class Violation {
   final String violationStatus;
   final String violationType;
 
-  Violation({
+  const Violation({
     required this.manufacturer,
     required this.plateNumber,
     required this.streetSpeed,
@@ -43,4 +45,20 @@ class Violation {
       violationType: json['violation_type'] as String,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        manufacturer,
+        plateNumber,
+        streetSpeed,
+        totalFineAmount,
+        vehicleModel,
+        vehicleSpeed,
+        vehicleType,
+        violationCity,
+        violationDateTime,
+        violationNumber,
+        violationStatus,
+        violationType,
+      ];
 }

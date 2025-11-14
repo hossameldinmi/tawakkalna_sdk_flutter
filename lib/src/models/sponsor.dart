@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
 
-class Sponsor {
+class Sponsor extends Equatable {
   final int nationalId;
   final String idExpiryDateHijri;
   final DateTime idExpiryDateGregorian;
@@ -11,7 +12,7 @@ class Sponsor {
   final Gender gender;
   final UserDetails details;
 
-  Sponsor({
+  const Sponsor({
     required this.nationalId,
     required this.idExpiryDateHijri,
     required this.idExpiryDateGregorian,
@@ -30,4 +31,15 @@ class Sponsor {
         gender: Gender.fromValue(json['gender'] as int)!,
         details: UserDetails.fromJson(json['details'] as Map<String, dynamic>),
       );
+
+  @override
+  List<Object?> get props => [
+        nationalId,
+        idExpiryDateHijri,
+        idExpiryDateGregorian,
+        nameAr,
+        nameEn,
+        gender,
+        details,
+      ];
 }

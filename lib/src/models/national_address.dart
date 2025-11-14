@@ -1,9 +1,11 @@
-class NationalAddress {
+import 'package:equatable/equatable.dart';
+
+class NationalAddress extends Equatable {
   final Details details;
   final Summary summary;
   final bool isPrimaryAddress;
 
-  NationalAddress({
+  const NationalAddress({
     required this.details,
     required this.summary,
     required this.isPrimaryAddress,
@@ -14,9 +16,12 @@ class NationalAddress {
         summary: Summary.fromJson(json['summary']),
         isPrimaryAddress: json['is_primary_address'],
       );
+
+  @override
+  List<Object?> get props => [details, summary, isPrimaryAddress];
 }
 
-class Details {
+class Details extends Equatable {
   final String additionalNo;
   final String buildingNo;
   final String city;
@@ -26,7 +31,7 @@ class Details {
   final String streetName;
   final String zipCode;
 
-  Details({
+  const Details({
     required this.additionalNo,
     required this.buildingNo,
     required this.city,
@@ -47,9 +52,20 @@ class Details {
         streetName: json['street_name'],
         zipCode: json['zip_code'],
       );
+  @override
+  List<Object?> get props => [
+        additionalNo,
+        buildingNo,
+        city,
+        districtName,
+        sectionType,
+        shortAddress,
+        streetName,
+        zipCode,
+      ];
 }
 
-class Summary {
+class Summary extends Equatable {
   final String addressCounter;
   final String sectionType;
   final String addressEn;
@@ -57,7 +73,7 @@ class Summary {
   final double latitude;
   final double longitude;
 
-  Summary({
+  const Summary({
     required this.addressCounter,
     required this.sectionType,
     required this.addressEn,
@@ -73,4 +89,14 @@ class Summary {
         latitude: json['latitude'],
         longitude: json['longitude'],
       );
+
+  @override
+  List<Object?> get props => [
+        addressCounter,
+        sectionType,
+        addressEn,
+        addressAr,
+        latitude,
+        longitude,
+      ];
 }

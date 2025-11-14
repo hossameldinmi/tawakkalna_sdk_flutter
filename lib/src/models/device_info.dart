@@ -1,4 +1,6 @@
-class DeviceInfo {
+import 'package:equatable/equatable.dart';
+
+class DeviceInfo extends Equatable {
   final int apprearance;
   final String language;
   final String device;
@@ -18,4 +20,7 @@ class DeviceInfo {
       device.toLowerCase().contains('iphone') ||
       device.toLowerCase().contains('ipad') ||
       device.toLowerCase().contains('mac');
+
+  @override
+  List<Object?> get props => [apprearance, language, device];
 }

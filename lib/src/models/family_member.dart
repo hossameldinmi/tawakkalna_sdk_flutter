@@ -1,16 +1,16 @@
-import 'package:tawakkalna_sdk_flutter/src/enums/relation.dart';
-import 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
+import 'package:equatable/equatable.dart';
+import 'package:tawakkalna_sdk_flutter/twk.dart';
 
-class FamilyMember {
+class FamilyMember extends Equatable {
   final int nationalId;
   final String idExpiryDateHijri;
-  final String idExpiryDateGregorian;
+  final DateTime idExpiryDateGregorian;
   final String nameAr;
   final String nameEn;
-  final int gender;
+  final Gender gender;
   final UserDetails details;
 
-  FamilyMember({
+  const FamilyMember({
     required this.nationalId,
     required this.idExpiryDateHijri,
     required this.idExpiryDateGregorian,
@@ -23,12 +23,23 @@ class FamilyMember {
   factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
         nationalId: json['national_id'],
         idExpiryDateHijri: json['id_expiry_date_hijri'],
-        idExpiryDateGregorian: json['id_expiry_date_gregorian'],
+        idExpiryDateGregorian: JsonUtil.parseDateTime(json['id_expiry_date_gregorian'])!,
         nameAr: json['name_ar'],
         nameEn: json['name_en'],
-        gender: json['gender'],
+        gender: Gender.fromValue(json['gender'])!,
         details: UserDetails.fromJson(json['details'] as Map<String, dynamic>),
       );
 
-  bool isRelationShip(List<Relation> relations) => relations.any((r) => relations.contains(r));
+  bool isRelationMatches(List<Relation> relations) => relations.any((r) => relations.contains(r));
+
+  @override
+  List<Object?> get props => [
+        nationalId,
+        idExpiryDateGregorian,
+        idExpiryDateHijri,
+        nameAr,
+        nameEn,
+        gender,
+        details,
+      ];
 }

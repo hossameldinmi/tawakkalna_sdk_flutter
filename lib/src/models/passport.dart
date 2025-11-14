@@ -1,4 +1,6 @@
-class Passport {
+import 'package:equatable/equatable.dart';
+
+class Passport extends Equatable {
   final String nameAr;
   final String nameEn;
   final int nationalId;
@@ -19,7 +21,7 @@ class Passport {
   final int passportTypeCode;
   final String passportTypeEn;
 
-  Passport({
+  const Passport({
     required this.nameAr,
     required this.nameEn,
     required this.nationalId,
@@ -62,13 +64,36 @@ class Passport {
         passportTypeCode: json['passport_type_code'] as int,
         passportTypeEn: json['passport_type_en'] as String,
       );
+
+  @override
+  List<Object?> get props => [
+        nameAr,
+        nameEn,
+        nationalId,
+        birthDate,
+        expiryDate,
+        genderAr,
+        genderCode,
+        genderEn,
+        issueCountryAr,
+        issueCountryCode,
+        issueCountryEn,
+        issueDate,
+        nationalityAr,
+        nationalityCode,
+        nationalityEn,
+        passportNumber,
+        passportTypeAr,
+        passportTypeCode,
+        passportTypeEn,
+      ];
 }
 
-class PassportResponse {
+class PassportResponse extends Equatable {
   final List<Passport> userPassports;
   final List<Passport> familyMembersPassports;
 
-  PassportResponse({
+  const PassportResponse({
     required this.userPassports,
     required this.familyMembersPassports,
   });
@@ -80,4 +105,7 @@ class PassportResponse {
             .map((e) => Passport.fromJson(e as Map<String, dynamic>))
             .toList(),
       );
+
+  @override
+  List<Object?> get props => [userPassports, familyMembersPassports];
 }
