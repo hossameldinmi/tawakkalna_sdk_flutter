@@ -1,18 +1,33 @@
-import 'package:tawakkalna_sdk_flutter/src/core/base_enum.dart';
+/// URL type enum for different URL schemes
+enum UrlType {
+  /// HTTP/HTTPS URL
+  http(1),
 
-class UrlType extends BaseEnum<int, UrlType> {
-  const UrlType._(super.value) : super();
-  static const http = UrlType._(1);
-  static const tel = UrlType._(2);
-  static const mailTo = UrlType._(3);
-  static const deepLink = UrlType._(4);
-  static const sms = UrlType._(5);
+  /// Telephone number (tel:)
+  tel(2),
 
-  static List<UrlType> get values => [
-        http,
-        tel,
-        mailTo,
-        deepLink,
-        sms,
-      ];
+  /// Email address (mailto:)
+  mailTo(3),
+
+  /// Deep link URL
+  deepLink(4),
+
+  /// SMS message (sms:)
+  sms(5);
+
+  /// The integer value associated with this URL type
+  final int value;
+
+  const UrlType(this.value);
+
+  /// Creates a UrlType from an integer value
+  /// Returns null if the value doesn't match any URL type
+  static UrlType? fromValue(int? value) {
+    if (value == null) return null;
+    try {
+      return UrlType.values.firstWhere((e) => e.value == value);
+    } catch (_) {
+      return null;
+    }
+  }
 }

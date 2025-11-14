@@ -213,7 +213,7 @@ class TwkHelperV1Impl implements TwkHelperV1 {
       _api.getUserIdExpiryDate().then((r) => JsonUtil.parseDateTime(r['id_expiry_date_gregorian']));
 
   @override
-  Future<IqamaType> getUserIqamaType() => _api.getUserIqamaType().then((r) => IqamaType.fromValue(r['id_type'])!);
+  Future<IqamaType> getUserIqamaType() => _api.getUserIqamaType().then((r) => IqamaType.fromId(r['id_type'])!);
 
   @override
   Future<Location?> getUserLocation() {

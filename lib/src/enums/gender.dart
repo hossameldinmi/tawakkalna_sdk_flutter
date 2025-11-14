@@ -1,18 +1,28 @@
-// ignore_for_file: constant_identifier_names
-
-import 'package:tawakkalna_sdk_flutter/src/core/base_enum.dart';
-
+/// Gender enum representing user gender types
 /// TODO:(TWK-team) know the actual gender types and their values
-class Gender extends BaseEnum<int, Gender> {
-  const Gender._(super.value);
-  static const male = Gender._(1);
-  static const female = Gender._(2);
-  static const not_specified = Gender._(3);
+enum Gender {
+  /// Male gender
+  male(1),
 
-  static List<Gender> get values => [male, female, not_specified];
+  /// Female gender
+  female(2),
 
+  /// Not specified or prefer not to say
+  notSpecified(3);
+
+  /// The integer value associated with this gender
+  final int value;
+
+  const Gender(this.value);
+
+  /// Creates a Gender from an integer value
+  /// Returns null if the value doesn't match any gender
   static Gender? fromValue(int? value) {
     if (value == null) return null;
-    return values.firstWhere((element) => element.value == value, orElse: () => Gender._(value));
+    try {
+      return Gender.values.firstWhere((e) => e.value == value);
+    } catch (_) {
+      return null;
+    }
   }
 }
