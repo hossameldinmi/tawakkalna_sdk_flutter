@@ -5,7 +5,9 @@ import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/health_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/log_type.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/marital_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/url_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/user_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/device_info.dart';
@@ -203,7 +205,8 @@ class TwkHelperV1Impl implements TwkHelperV1 {
   Future<Gender?> getUserGender() => _api.getUserGender().then((r) => Gender.fromValue(r['gender']));
 
   @override
-  Future<String?> getUserHealthStatus() => _api.getUserHealthStatus().then((r) => r['health_status'] as String?);
+  Future<HealthStatus> getUserHealthStatus() =>
+      _api.getUserHealthStatus().then((r) => HealthStatus.fromString(r['health_status'] as String));
 
   @override
   Future<int> getUserId() => _api.getUserId().then((r) => r['user_id'] as int);
@@ -224,8 +227,8 @@ class TwkHelperV1Impl implements TwkHelperV1 {
   }
 
   @override
-  Future<String?> getUserMaritalStatus() {
-    return _api.getUserMaritalStatus().then((r) => r['marital_status'] as String?);
+  Future<MaritalStatus> getUserMaritalStatus() {
+    return _api.getUserMaritalStatus().then((r) => MaritalStatus.fromString(r['marital_status'] as String));
   }
 
   @override

@@ -4,7 +4,9 @@ import 'package:cross_file/cross_file.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/health_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/log_type.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/marital_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/url_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/user_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/device_info.dart';
@@ -67,11 +69,11 @@ abstract class TwkHelperV1 {
 
   /// Get user's marital status
   /// Corresponds to: window.TWK.getUserMaritalStatus()
-  Future<String?> getUserMaritalStatus();
+  Future<MaritalStatus> getUserMaritalStatus();
 
   /// Get user's health status
   /// Corresponds to: window.TWK.getUserHealthStatus()
-  Future<String?> getUserHealthStatus();
+  Future<HealthStatus> getUserHealthStatus();
 
   /// Get user's disability type
   /// Corresponds to: window.TWK.getUserDisabilityType()
