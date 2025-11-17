@@ -421,7 +421,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     final value = jsValue?.dartify();
     if (kDebugMode) print('getGallerySingleVideo response: $value');
     if (value == null) return null;
-    final file = value as Map<String, dynamic>;
+    final file = (value as Map).cast<String, dynamic>();
     return XFile(file['path']);
   }
 
@@ -442,7 +442,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     final value = jsValue?.dartify();
     if (kDebugMode) print('getCameraPhoto response: $value');
     if (value == null) return null;
-    final file = value as Map<String, dynamic>;
+    final file = (value as Map).cast<String, dynamic>();
     return XFile(file['path']);
   }
 
@@ -452,7 +452,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     final value = jsValue?.dartify();
     if (kDebugMode) print('getCameraVideo response: $value');
     if (value == null) return null;
-    final file = value as Map<String, dynamic>;
+    final file = (value as Map).cast<String, dynamic>();
     return XFile(file['path']);
   }
 
