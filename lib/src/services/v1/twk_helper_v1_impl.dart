@@ -124,7 +124,7 @@ class TwkHelperV1Impl implements TwkHelperV1 {
 
   @override
   Future<DeviceInfo?> getDeviceInfo() {
-    return _api.getDeviceInfo().then((r) => DeviceInfo.fromJson(r['device_info']));
+    return _api.getDeviceInfo().then((r) => DeviceInfo.fromJson(((r['device_info'] ?? {}) as Map).cast()));
   }
 
   @override
@@ -238,8 +238,8 @@ class TwkHelperV1Impl implements TwkHelperV1 {
 
   @override
   Future<List<NationalAddress>> getUserNationalAddress() {
-    return _api.getUserNationalAddress().then((r) =>
-        (r['national_addresses'] as List).map((e) => NationalAddress.fromJson(e as Map<String, dynamic>)).toList());
+    return _api.getUserNationalAddress().then(
+        (r) => (r['national_addresses'] as List).map((e) => NationalAddress.fromJson((e as Map).cast())).toList());
   }
 
   @override
@@ -261,7 +261,7 @@ class TwkHelperV1Impl implements TwkHelperV1 {
   Future<List<Violation>> getUserPaidViolations() {
     return _api
         .getUserPaidViolations()
-        .then((r) => (r['violations'] as List).map((e) => Violation.fromJson(e)).toList());
+        .then((r) => (r['violations'] as List).map((e) => Violation.fromJson((e as Map).cast())).toList());
   }
 
   @override
@@ -281,12 +281,14 @@ class TwkHelperV1Impl implements TwkHelperV1 {
   Future<List<Violation>> getUserUnPaidViolations() {
     return _api
         .getUserUnPaidViolations()
-        .then((r) => (r['violations'] as List).map((e) => Violation.fromJson(e)).toList());
+        .then((r) => (r['violations'] as List).map((e) => Violation.fromJson((e as Map).cast())).toList());
   }
 
   @override
   Future<List<Vehicle>> getUserVehicles() {
-    return _api.getUserVehicles().then((r) => (r['vehicles'] as List).map((e) => Vehicle.fromJson(e)).toList());
+    return _api
+        .getUserVehicles()
+        .then((r) => (r['vehicles'] as List).map((e) => Vehicle.fromJson((e as Map).cast())).toList());
   }
 
   @override

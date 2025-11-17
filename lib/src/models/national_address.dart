@@ -12,8 +12,8 @@ class NationalAddress extends Equatable {
   });
 
   factory NationalAddress.fromJson(Map<String, dynamic> json) => NationalAddress(
-        details: Details.fromJson(json['details']),
-        summary: Summary.fromJson(json['summary']),
+        details: Details.fromJson((json['details'] as Map).cast()),
+        summary: Summary.fromJson((json['summary'] as Map).cast()),
         isPrimaryAddress: json['is_primary_address'],
       );
 

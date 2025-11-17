@@ -5,7 +5,7 @@ class DeviceInfo extends Equatable {
   final String language;
   final String device;
 
-  DeviceInfo({required this.apprearance, required this.language, required this.device});
+  const DeviceInfo({required this.apprearance, required this.language, required this.device});
 
   static DeviceInfo? fromJson(Map<String, dynamic> json) {
     if (json.isEmpty) return null;

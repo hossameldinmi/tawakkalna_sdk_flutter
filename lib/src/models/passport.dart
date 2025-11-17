@@ -100,9 +100,9 @@ class PassportResponse extends Equatable {
 
   factory PassportResponse.fromJson(Map<String, dynamic> json) => PassportResponse(
         userPassports:
-            (json['user_passports'] as List<dynamic>).map((e) => Passport.fromJson(e as Map<String, dynamic>)).toList(),
+            (json['user_passports'] as List<dynamic>).map((e) => Passport.fromJson((e as Map).cast())).toList(),
         familyMembersPassports: (json['family_members_passports'] as List<dynamic>)
-            .map((e) => Passport.fromJson(e as Map<String, dynamic>))
+            .map((e) => Passport.fromJson((e as Map).cast()))
             .toList(),
       );
 
