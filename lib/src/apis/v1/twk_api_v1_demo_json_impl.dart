@@ -7,7 +7,8 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   final String jsonPath;
   final AssetBundle? assetBundle;
   final Map<String, dynamic> _map = {};
-  TwkApiV1DemoJsonImpl({this.jsonPath = 'assets/mock_profile1.0.2.json', this.assetBundle});
+  TwkApiV1DemoJsonImpl(
+      {this.jsonPath = 'packages/tawakkalna_sdk_flutter/assets/mock_profile1.0.2.json', this.assetBundle});
 
   dynamic _getResponseFromJson(String path) => _map[path];
 

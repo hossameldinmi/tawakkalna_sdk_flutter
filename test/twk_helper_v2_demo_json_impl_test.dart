@@ -3,8 +3,10 @@ import 'package:tawakkalna_sdk_flutter/twk.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final v2 = Twk(v2Api: TwkApiV2DemoJsonImpl()).v2;
-
+  final v2 = Twk(
+    v1Api: TwkApiV1DemoJsonImpl(),
+    v2Api: TwkApiV2DemoJsonImpl(),
+  ).v2;
   test('generateToken returns correct token', () async {
     final token = await v2.generateToken();
     expect(token,

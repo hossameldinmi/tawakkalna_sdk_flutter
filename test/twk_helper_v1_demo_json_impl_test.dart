@@ -10,7 +10,10 @@ import 'package:tawakkalna_sdk_flutter/twk.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final v1 = Twk(v1Api: TwkApiV1DemoJsonImpl()).v1;
+  final v1 = Twk(
+    v1Api: TwkApiV1DemoJsonImpl(),
+    v2Api: TwkApiV2DemoJsonImpl(),
+  ).v1;
 
   test('getUserType returns correct UserType', () async {
     final result = await v1.getUserType();

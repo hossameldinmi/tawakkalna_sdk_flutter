@@ -1,298 +1,593 @@
+// ignore_for_file: depend_on_referenced_packages, avoid_web_libraries_in_flutter
+
+@JS()
+library js_interop;
+
+import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:js_interop';
 
 import 'package:cross_file/cross_file.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
+import 'package:flutter/foundation.dart';
+import 'package:js/js_util.dart' as js_util;
+import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
+
+// Helper extension to safely cast JSAny? to Object for promiseToFuture
+extension _JSAnyHelper on JSAny? {
+  Object get asObject => this as Object;
+}
+
+// JS external declarations for all twk_v1.js methods
+@JS()
+external JSAny? getRawDataJs(JSAny? file);
+@JS()
+external JSAny? getUserIdJs();
+@JS()
+external JSAny? getUserTypeJs();
+@JS()
+external JSAny? getUserBirthDateJs();
+@JS()
+external JSAny? getUserMobileNumberJs();
+@JS()
+external JSAny? getUserGenderJs();
+@JS()
+external JSAny? getUserLocationJs();
+@JS()
+external JSAny? getUserNationalityJs();
+@JS()
+external JSAny? getUserNationalityIsoJs();
+@JS()
+external JSAny? getUserFullNameJs();
+@JS()
+external JSAny? getUserMaritalStatusJs();
+@JS()
+external JSAny? getUserHealthStatusJs();
+@JS()
+external JSAny? getUserDisabilityTypeJs();
+@JS()
+external JSAny? getUserBloodTypeJs();
+@JS()
+external JSAny? getUserNationalAddressJs();
+@JS()
+external JSAny? getUserDegreeTypeJs();
+@JS()
+external JSAny? getUserOccupationJs();
+@JS()
+external JSAny? getUserFamilyMembersJs(JSAny? minage, JSAny? maxage, JSAny? gender);
+@JS()
+external JSAny? getUserSponsorsJs(JSAny? minage, JSAny? maxage, JSAny? gender);
+@JS()
+external JSAny? getUserUnPaidViolationsJs();
+@JS()
+external JSAny? getUserPaidViolationsJs();
+@JS()
+external JSAny? getUserVehiclesJs();
+@JS()
+external JSAny? getUserProfilePhotoJs();
+@JS()
+external JSAny? getUserPassportsJs();
+@JS()
+external JSAny? getDeviceInfoJs();
+@JS()
+external JSAny? getGallerySingleJs();
+@JS()
+external JSAny? getGalleryMultiJs();
+@JS()
+external JSAny? getGallerySingleVideoJs();
+@JS()
+external JSAny? getGalleryMultiVideoJs();
+@JS()
+external JSAny? getCameraPhotoJs();
+@JS()
+external JSAny? getCameraVideoJs();
+@JS()
+external JSAny? getFileBase64Js();
+@JS()
+external JSAny? getFileIdJs();
+@JS()
+external JSAny? askUserLocationPermissionJs();
+@JS()
+external JSAny? askUserPreciseLocationPermissionJs();
+@JS()
+external JSAny? askCameraPermissionJs();
+@JS()
+external JSAny? askGalleryPermissionJs();
+@JS()
+external JSAny? askPushNotificationPermissionJs();
+@JS()
+external JSAny? authenticateBiometricJs();
+@JS()
+external JSAny? shareScreenShotJs();
+@JS()
+external JSAny? openScreenJs(JSAny? screenType, JSAny? valuesParam);
+@JS()
+external JSAny? postCardJs(JSAny? actionType, JSAny? payload);
+@JS()
+external JSAny? generateTokenJs();
+@JS()
+external JSAny? shareJs(JSAny? fileName, JSAny? content, JSAny? mimetype);
+@JS()
+external JSAny? scanCodeJs();
+@JS()
+external JSAny? openServiceJs(JSAny? serviceId, JSAny? valuesParam);
+@JS()
+external JSAny? getImageJs(JSAny? nationalId);
+@JS()
+external JSAny? setPaymentConfigurationJs(
+    JSAny? callbackSuccessUrlList, JSAny? callbackFailureUrlList, JSAny? successPageName, JSAny? failurePageName);
+@JS()
+external JSAny? generalLogJs(JSAny? eventName, JSAny? logType, JSAny? logMessage);
+@JS()
+external JSAny? apiLogJs(JSAny? url, JSAny? methodType, JSAny? requestBody, JSAny? requestHeaders,
+    JSAny? requestDateTime, JSAny? responseBody, JSAny? responseHeaders, JSAny? responseDateTime, JSAny? responseCode);
+@JS()
+external JSAny? addDocumentJs(JSAny? documentName, JSAny? documentContent, JSAny? referenceNumber, JSAny? categoryId);
+@JS()
+external JSAny? updateDocumentJs(
+    JSAny? documentName, JSAny? documentContent, JSAny? referenceNumber, JSAny? categoryId);
+@JS()
+external JSAny? deleteDocumentJs(JSAny? referenceNumber, JSAny? categoryId);
+@JS()
+external JSAny? getUserIdExpiryDateJs();
+@JS()
+external JSAny? startApiInterceptJs();
+@JS()
+external JSAny? getUserDocumentNumberJs();
+@JS()
+external JSAny? getUserBirthCityJs();
+@JS()
+external JSAny? openUrlJs(JSAny? url, JSAny? urlType);
+@JS()
+external JSAny? getUserEmailJs();
+@JS()
+external JSAny? getUserIqamaTypeJs();
+@JS()
+external JSAny? livenessCheckCameraJs(JSAny? configurations);
+@JS()
+external JSAny? livenessCheckImageFromGalleryJs(JSAny? configurations);
+@JS()
+external JSAny? livenessCheckImageFromFilesJs(JSAny? configurations);
 
 /// Tawakkalna SDK Helper for V1 API
 ///
 /// This class provides access to all V1 endpoints of the Tawakkalna SDK.
 /// Most methods correspond to the JavaScript window.TWK.* functions.
-abstract class TwkApiV1 {
-  const TwkApiV1._();
-
-  // ==================== Gallery & File Methods ====================
-
-  /// Get raw data from a file
-  /// Corresponds to: window.TWK.getRawData(file)
-  Future<Uint8List> getRawData(XFile file);
-
+class TwkApiV1TwkSdkImpl implements TwkApiV1 {
   // ==================== User Data Methods ====================
 
-  /// Get user's national ID
-  /// Corresponds to: window.TWK.getUserId()
-  Future<int> getUserId();
+  @override
+  Future<Map<String, dynamic>> getUserId() async {
+    final response = await js_util.promiseToFuture(getUserIdJs().asObject);
+    if (kDebugMode) print('getUserId response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's type (citizen, resident, visitor, etc.)
-  /// Corresponds to: window.TWK.getUserType()
-  Future<int> getUserType();
+  @override
+  Future<Map<String, dynamic>> getUserType() async {
+    final response = await js_util.promiseToFuture(getUserTypeJs().asObject);
+    if (kDebugMode) print('getUserType response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's birth date
-  /// Corresponds to: window.TWK.getUserBirthDate()
-  Future<DateTime?> getUserBirthDate();
+  @override
+  Future<Map<String, dynamic>> getUserBirthDate() async {
+    final response = await js_util.promiseToFuture(getUserBirthDateJs().asObject);
+    if (kDebugMode) print('getUserBirthDate response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's mobile number
-  /// Corresponds to: window.TWK.getUserMobileNumber()
-  Future<String?> getUserMobileNumber();
+  @override
+  Future<Map<String, dynamic>> getUserMobileNumber() async {
+    final response = await js_util.promiseToFuture(getUserMobileNumberJs().asObject);
+    if (kDebugMode) print('getUserMobileNumber response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's gender
-  /// Corresponds to: window.TWK.getUserGender()
-  Future<int?> getUserGender();
+  @override
+  Future<Map<String, dynamic>> getUserGender() async {
+    final response = await js_util.promiseToFuture(getUserGenderJs().asObject);
+    if (kDebugMode) print('getUserGender response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's location
-  /// Corresponds to: window.TWK.getUserLocation()
-  Future<Map<String, double?>> getUserLocation();
+  @override
+  Future<Map<String, dynamic>> getUserLocation() async {
+    final response = await js_util.promiseToFuture(getUserLocationJs().asObject);
+    if (kDebugMode) print('getUserLocation response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's nationality name
-  /// Corresponds to: window.TWK.getUserNationality()
-  Future<String?> getUserNationality();
+  @override
+  Future<Map<String, dynamic>> getUserNationality() async {
+    final response = await js_util.promiseToFuture(getUserNationalityJs().asObject);
+    if (kDebugMode) print('getUserNationality response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's nationality ISO code
-  /// Corresponds to: window.TWK.getUserNationalityISO()
-  Future<String?> getUserNationalityIso();
+  @override
+  Future<Map<String, dynamic>> getUserNationalityIso() async {
+    final response = await js_util.promiseToFuture(getUserNationalityIsoJs().asObject);
+    if (kDebugMode) print('getUserNationalityIso response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's full name (Arabic and English)
-  /// Corresponds to: window.TWK.getUserFullName()
-  Future<Map<String, String>> getUserFullName();
+  @override
+  Future<Map<String, String>> getUserFullName() async {
+    final response = await js_util.promiseToFuture(getUserFullNameJs().asObject);
+    if (kDebugMode) print('getUserFullName response: $response');
+    return Map<String, String>.from(json.decode(response));
+  }
 
-  /// Get user's marital status
-  /// Corresponds to: window.TWK.getUserMaritalStatus()
-  Future<String?> getUserMaritalStatus();
+  @override
+  Future<Map<String, dynamic>> getUserMaritalStatus() async {
+    final response = await js_util.promiseToFuture(getUserMaritalStatusJs().asObject);
+    if (kDebugMode) print('getUserMaritalStatus response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's health status
-  /// Corresponds to: window.TWK.getUserHealthStatus()
-  Future<String?> getUserHealthStatus();
+  @override
+  Future<Map<String, dynamic>> getUserHealthStatus() async {
+    final response = await js_util.promiseToFuture(getUserHealthStatusJs().asObject);
+    if (kDebugMode) print('getUserHealthStatus response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's disability type
-  /// Corresponds to: window.TWK.getUserDisabilityType()
-  Future<String?> getUserDisabilityType();
+  @override
+  Future<Map<String, dynamic>> getUserDisabilityType() async {
+    final response = await js_util.promiseToFuture(getUserDisabilityTypeJs().asObject);
+    if (kDebugMode) print('getUserDisabilityType response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's blood type
-  /// Corresponds to: window.TWK.getUserBloodType()
-  Future<String?> getUserBloodType();
+  @override
+  Future<Map<String, dynamic>> getUserBloodType() async {
+    final response = await js_util.promiseToFuture(getUserBloodTypeJs().asObject);
+    if (kDebugMode) print('getUserBloodType response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's national address
-  /// Corresponds to: window.TWK.getUserNationalAddress()
-  Future<List<Map<String, dynamic>>> getUserNationalAddress();
+  @override
+  Future<Map<String, dynamic>> getUserNationalAddress() async {
+    final response = await js_util.promiseToFuture(getUserNationalAddressJs().asObject);
+    if (kDebugMode) print('getUserNationalAddress response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's degree/education type
-  /// Corresponds to: window.TWK.getUserDegreeType()
-  Future<String?> getUserDegreeType();
+  @override
+  Future<Map<String, dynamic>> getUserDegreeType() async {
+    final response = await js_util.promiseToFuture(getUserDegreeTypeJs().asObject);
+    if (kDebugMode) print('getUserDegreeType response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's occupation
-  /// Corresponds to: window.TWK.getUserOccupation()
-  Future<String?> getUserOccupation();
+  @override
+  Future<Map<String, dynamic>> getUserOccupation() async {
+    final response = await js_util.promiseToFuture(getUserOccupationJs().asObject);
+    if (kDebugMode) print('getUserOccupation response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's family members with optional filters
-  /// Corresponds to: window.TWK.getUserFamilyMembers(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserFamilyMembers({
-    int? minAge,
-    int? maxAge,
-    Gender? gender,
-  });
+  @override
+  Future<Map<String, dynamic>> getUserFamilyMembers({int? minAge, int? maxAge, int? gender}) async {
+    final response =
+        await js_util.promiseToFuture(getUserFamilyMembersJs(minAge?.toJS, maxAge?.toJS, gender?.toJS).asObject);
+    if (kDebugMode) print('getUserFamilyMembers response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's sponsors with optional filters
-  /// Corresponds to: window.TWK.getUserSponsors(minage, maxage, gender)
-  Future<List<Map<String, dynamic>>> getUserSponsors({
-    int? minAge,
-    int? maxAge,
-    Gender? gender,
-  });
+  @override
+  Future<Map<String, dynamic>> getUserSponsors({int? minAge, int? maxAge, int? gender}) async {
+    final response =
+        await js_util.promiseToFuture(getUserSponsorsJs(minAge?.toJS, maxAge?.toJS, gender?.toJS).asObject);
+    if (kDebugMode) print('getUserSponsors response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's unpaid violations
-  /// Corresponds to: window.TWK.getUserUnPaidViolations()
-  Future<List<Map<String, dynamic>>> getUserUnPaidViolations();
+  @override
+  Future<Map<String, dynamic>> getUserUnPaidViolations() async {
+    final response = await js_util.promiseToFuture(getUserUnPaidViolationsJs().asObject);
+    if (kDebugMode) print('getUserUnPaidViolations response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's paid violations
-  /// Corresponds to: window.TWK.getUserPaidViolations()
-  Future<List<Map<String, dynamic>>> getUserPaidViolations();
+  @override
+  Future<Map<String, dynamic>> getUserPaidViolations() async {
+    final response = await js_util.promiseToFuture(getUserPaidViolationsJs().asObject);
+    if (kDebugMode) print('getUserPaidViolations response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's vehicles
-  /// Corresponds to: window.TWK.getUserVehicles()
-  Future<List<Map<String, dynamic>>> getUserVehicles();
+  @override
+  Future<Map<String, dynamic>> getUserVehicles() async {
+    final response = await js_util.promiseToFuture(getUserVehiclesJs().asObject);
+    if (kDebugMode) print('getUserVehicles response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's profile photo
-  /// Corresponds to: window.TWK.getUserProfilePhoto()
-  Future<String?> getUserProfilePhoto();
+  @override
+  Future<Map<String, dynamic>> getUserProfilePhoto() async {
+    final response = await js_util.promiseToFuture(getUserProfilePhotoJs().asObject);
+    if (kDebugMode) print('getUserProfilePhoto response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's passports
-  /// Corresponds to: window.TWK.getUserPassports()
-  Future<List<Map<String, dynamic>>> getUserPassports();
+  @override
+  Future<Map<String, dynamic>> getUserPassports() async {
+    final response = await js_util.promiseToFuture(getUserPassportsJs().asObject);
+    if (kDebugMode) print('getUserPassports response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's ID expiry date
-  /// Corresponds to: window.TWK.getUserIdExpiryDate()
-  Future<DateTime?> getUserIdExpiryDate();
+  @override
+  Future<Map<String, dynamic>> getUserIdExpiryDate() async {
+    final response = await js_util.promiseToFuture(getUserIdExpiryDateJs().asObject);
+    if (kDebugMode) print('getUserIdExpiryDate response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's document number
-  /// Corresponds to: window.TWK.getUserDocumentNumber()
-  Future<String?> getUserDocumentNumber();
+  @override
+  Future<Map<String, dynamic>> getUserDocumentNumber() async {
+    final response = await js_util.promiseToFuture(getUserDocumentNumberJs().asObject);
+    if (kDebugMode) print('getUserDocumentNumber response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's birth city
-  /// Corresponds to: window.TWK.getUserBirthCity()
-  Future<String?> getUserBirthCity();
+  @override
+  Future<Map<String, dynamic>> getUserBirthCity() async {
+    final response = await js_util.promiseToFuture(getUserBirthCityJs().asObject);
+    if (kDebugMode) print('getUserBirthCity response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's email
-  /// Corresponds to: window.TWK.getUserEmail()
-  Future<String?> getUserEmail();
+  @override
+  Future<Map<String, dynamic>> getUserEmail() async {
+    final response = await js_util.promiseToFuture(getUserEmailJs().asObject);
+    if (kDebugMode) print('getUserEmail response: $response');
+    return json.decode(response);
+  }
 
-  /// Get user's iqama type
-  /// Corresponds to: window.TWK.getUserIqamaType()
-  Future<String?> getUserIqamaType();
+  @override
+  Future<Map<String, dynamic>> getUserIqamaType() async {
+    final response = await js_util.promiseToFuture(getUserIqamaTypeJs().asObject);
+    if (kDebugMode) print('getUserIqamaType response: $response');
+    return json.decode(response);
+  }
 
-  /// Get image by national ID
-  /// Corresponds to: window.TWK.getImage(nationalId)
-  Future<Uint8List?> getImage(String nationalId);
+  @override
+  Future<Uint8List?> getImage(String nationalId) async {
+    final response = await js_util.promiseToFuture(getImageJs(nationalId.toJS).asObject);
+    if (kDebugMode) print('getImage response length: ${response?.length ?? 0}');
+    if (response == null) return null;
+    return Uint8List.fromList(base64Decode(response));
+  }
 
   // ==================== Device & Capabilities Methods ====================
 
-  /// Get device information and capabilities
-  /// Corresponds to: window.TWK.getDeviceInfo()
-  Future<Map<String, dynamic>> getDeviceInfo();
+  @override
+  Future<Map<String, dynamic>> getDeviceInfo() async {
+    final response = await js_util.promiseToFuture(getDeviceInfoJs().asObject);
+    if (kDebugMode) print('getDeviceInfo response: $response');
+    return json.decode(response);
+  }
 
   // ==================== Gallery Methods ====================
 
-  /// Get single image from gallery
-  /// Corresponds to: window.TWK.getGallerySingle()
-  Future<XFile?> getGallerySingle();
+  @override
+  Future<XFile?> getGallerySingle() async {
+    final result = await js_util.promiseToFuture(getGallerySingleJs().asObject);
+    if (kDebugMode) print('getGallerySingle response: $result');
+    if (result == null) return null;
+    final file = json.decode(result);
+    return XFile(file['path']);
+  }
 
-  /// Get multiple images from gallery
-  /// Corresponds to: window.TWK.getGalleryMulti()
-  Future<List<XFile>> getGalleryMulti();
+  @override
+  Future<List<XFile>> getGalleryMulti() async {
+    final result = await js_util.promiseToFuture(getGalleryMultiJs().asObject);
+    if (kDebugMode) print('getGalleryMulti response: $result');
+    final List<dynamic> files = json.decode(result);
+    return files.map((f) => XFile(f['path'])).toList();
+  }
 
-  /// Get single video from gallery
-  /// Corresponds to: window.TWK.getGallerySingleVideo()
-  Future<XFile?> getGallerySingleVideo();
+  @override
+  Future<XFile?> getGallerySingleVideo() async {
+    final result = await js_util.promiseToFuture(getGallerySingleVideoJs().asObject);
+    if (kDebugMode) print('getGallerySingleVideo response: $result');
+    if (result == null) return null;
+    final file = json.decode(result);
+    return XFile(file['path']);
+  }
 
-  /// Get multiple videos from gallery
-  /// Corresponds to: window.TWK.getGalleryMultiVideo()
-  Future<List<XFile>> getGalleryMultiVideo();
+  @override
+  Future<List<XFile>> getGalleryMultiVideo() async {
+    final result = await js_util.promiseToFuture(getGalleryMultiVideoJs().asObject);
+    if (kDebugMode) print('getGalleryMultiVideo response: $result');
+    final List<dynamic> files = json.decode(result);
+    return files.map((f) => XFile(f['path'])).toList();
+  }
 
   // ==================== Camera Methods ====================
 
-  /// Capture photo using camera
-  /// Corresponds to: window.TWK.getCameraPhoto()
-  Future<XFile?> getCameraPhoto();
+  @override
+  Future<XFile?> getCameraPhoto() async {
+    final result = await js_util.promiseToFuture(getCameraPhotoJs().asObject);
+    if (kDebugMode) print('getCameraPhoto response: $result');
+    if (result == null) return null;
+    final file = json.decode(result);
+    return XFile(file['path']);
+  }
 
-  /// Capture video using camera
-  /// Corresponds to: window.TWK.getCameraVideo()
-  Future<XFile?> getCameraVideo();
+  @override
+  Future<XFile?> getCameraVideo() async {
+    final result = await js_util.promiseToFuture(getCameraVideoJs().asObject);
+    if (kDebugMode) print('getCameraVideo response: $result');
+    if (result == null) return null;
+    final file = json.decode(result);
+    return XFile(file['path']);
+  }
 
   // ==================== File Methods ====================
 
-  /// Get file as base64 string
-  /// Corresponds to: window.TWK.getFileBase64()
-  Future<String?> getFileBase64();
+  @override
+  Future<Uint8List> getRawData(XFile file) async {
+    final result = await js_util.promiseToFuture(getRawDataJs(file.path.toJS).asObject);
+    if (kDebugMode) print('getRawData response length: ${result?.length ?? 0}');
+    return Uint8List.fromList(base64Decode(result));
+  }
 
-  /// Get file ID
-  /// Corresponds to: window.TWK.getFileId()
-  Future<String?> getFileId();
+  @override
+  Future<String?> getFileBase64() async {
+    final result = await js_util.promiseToFuture(getFileBase64Js().asObject);
+    if (kDebugMode) print('getFileBase64 response length: ${result?.length ?? 0}');
+    return result as String?;
+  }
+
+  @override
+  Future<String?> getFileId() async {
+    final result = await js_util.promiseToFuture(getFileIdJs().asObject);
+    if (kDebugMode) print('getFileId response: $result');
+    return result as String?;
+  }
 
   // ==================== Permission Methods ====================
 
-  /// Ask user for location permission
-  /// Corresponds to: window.TWK.askUserLocationPermission()
-  Future<bool> askUserLocationPermission();
+  @override
+  Future<bool> askUserLocationPermission() async {
+    final response = await js_util.promiseToFuture(askUserLocationPermissionJs().asObject);
+    if (kDebugMode) print('askUserLocationPermission response: $response');
+    return json.decode(response) as bool;
+  }
 
-  /// Ask user for precise location permission
-  /// Corresponds to: window.TWK.askUserPreciseLocationPermission()
-  Future<bool> askUserPreciseLocationPermission();
+  @override
+  Future<bool> askUserPreciseLocationPermission() async {
+    final response = await js_util.promiseToFuture(askUserPreciseLocationPermissionJs().asObject);
+    if (kDebugMode) print('askUserPreciseLocationPermission response: $response');
+    return json.decode(response) as bool;
+  }
 
-  /// Ask user for camera permission
-  /// Corresponds to: window.TWK.askCameraPermission()
-  Future<bool> askCameraPermission();
+  @override
+  Future<bool> askCameraPermission() async {
+    final response = await js_util.promiseToFuture(askCameraPermissionJs().asObject);
+    if (kDebugMode) print('askCameraPermission response: $response');
+    return json.decode(response) as bool;
+  }
 
-  /// Ask user for gallery permission
-  /// Corresponds to: window.TWK.askGalleryPermission()
-  Future<bool> askGalleryPermission();
+  @override
+  Future<bool> askGalleryPermission() async {
+    final response = await js_util.promiseToFuture(askGalleryPermissionJs().asObject);
+    if (kDebugMode) print('askGalleryPermission response: $response');
+    return json.decode(response) as bool;
+  }
 
-  /// Ask user for push notification permission
-  /// Corresponds to: window.TWK.askPushNotificationPermission()
-  Future<bool> askPushNotificationPermission();
+  @override
+  Future<bool> askPushNotificationPermission() async {
+    final response = await js_util.promiseToFuture(askPushNotificationPermissionJs().asObject);
+    if (kDebugMode) print('askPushNotificationPermission response: $response');
+    return json.decode(response) as bool;
+  }
 
   // ==================== Authentication Methods ====================
 
-  /// Authenticate using biometric
-  /// Corresponds to: window.TWK.authenticateBiometric()
-  Future<bool> authenticateBiometric();
+  @override
+  Future<Map<String, dynamic>> authenticateBiometric() async {
+    final response = await js_util.promiseToFuture(authenticateBiometricJs().asObject);
+    if (kDebugMode) print('authenticateBiometric response: $response');
+    return json.decode(response);
+  }
 
-  /// Generate authentication token
-  /// Corresponds to: window.TWK.generateToken()
-  Future<String> generateToken();
+  @override
+  Future<Map<String, dynamic>> generateToken() async {
+    final response = await js_util.promiseToFuture(generateTokenJs().asObject);
+    if (kDebugMode) print('generateToken response: $response');
+    return json.decode(response);
+  }
 
   // ==================== Share Methods ====================
 
-  /// Share screenshot
-  /// Corresponds to: window.TWK.shareScreenShot()
-  Future<void> shareScreenShot();
+  @override
+  Future<void> shareScreenShot() async {
+    final response = await js_util.promiseToFuture(shareScreenShotJs().asObject);
+    if (kDebugMode) print('shareScreenShot response: $response');
+  }
 
-  /// Share file with base64 content
-  /// Corresponds to: window.TWK.share(fileName, content, mimetype)
-  Future<void> share({
-    required String fileName,
-    required String content,
-    required String mimeType,
-  });
+  @override
+  Future<void> share({required String fileName, required String content, required String mimeType}) async {
+    final response = await js_util.promiseToFuture(shareJs(fileName.toJS, content.toJS, mimeType.toJS).asObject);
+    if (kDebugMode) print('share response: $response');
+  }
 
   // ==================== Navigation Methods ====================
 
-  /// Open screen with parameters
-  /// Corresponds to: window.TWK.openScreen(screenType, valuesParam)
-  Future<void> openScreen({
-    required String screenType,
-    Map<String, dynamic>? params,
-  });
+  @override
+  Future<void> openScreen({required String screenType, Map<String, dynamic>? params}) async {
+    final response = await js_util.promiseToFuture(openScreenJs(screenType.toJS, params?.jsify()).asObject);
+    if (kDebugMode) print('openScreen response: $response');
+  }
 
-  /// Open service by ID with parameters
-  /// Corresponds to: window.TWK.openService(serviceId, valuesParam)
-  Future<void> openService({
-    required String serviceId,
-    Map<String, dynamic>? params,
-  });
+  @override
+  Future<void> openService({required String serviceId, Map<String, dynamic>? params}) async {
+    final response = await js_util.promiseToFuture(openServiceJs(serviceId.toJS, params?.jsify()).asObject);
+    if (kDebugMode) print('openService response: $response');
+  }
 
-  /// Open URL with specified type
-  /// Corresponds to: window.TWK.openUrl(url, urlType)
-  Future<void> openUrl({
-    required String url,
-    required int urlType,
-  });
+  @override
+  Future<void> openUrl({required String url, required int urlType}) async {
+    final response = await js_util.promiseToFuture(openUrlJs(url.toJS, urlType.toJS).asObject);
+    if (kDebugMode) print('openUrl response: $response');
+  }
 
   // ==================== Card Methods ====================
 
-  /// Post card with action type and payload
-  /// Corresponds to: window.TWK.postCard(actionType, payload)
-  Future<void> postCard({
-    required String actionType,
-    required Map<String, dynamic> payload,
-  });
+  @override
+  Future<void> postCard({required String actionType, required Map<String, dynamic> payload}) async {
+    final response = await js_util.promiseToFuture(postCardJs(actionType.toJS, payload.jsify()).asObject);
+    if (kDebugMode) print('postCard response: $response');
+  }
 
   // ==================== Scanner Methods ====================
 
-  /// Scan QR/Barcode
-  /// Corresponds to: window.TWK.scanCode()
-  Future<String?> scanCode();
+  @override
+  Future<String?> scanCode() async {
+    final response = await js_util.promiseToFuture(scanCodeJs().asObject);
+    if (kDebugMode) print('scanCode response: $response');
+    return response as String?;
+  }
 
   // ==================== Payment Methods ====================
 
-  /// Set payment configuration
-  /// Corresponds to: window.TWK.setPaymentConfiguration(callbackSuccessUrlList, callbackFailureUrlList, successPageName, failurePageName)
+  @override
   Future<void> setPaymentConfiguration({
     required List<String> callbackSuccessUrlList,
     required List<String> callbackFailureUrlList,
     required String successPageName,
     required String failurePageName,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      setPaymentConfigurationJs(
+        callbackSuccessUrlList.jsify(),
+        callbackFailureUrlList.jsify(),
+        successPageName.toJS,
+        failurePageName.toJS,
+      ).asObject,
+    );
+    if (kDebugMode) print('setPaymentConfiguration response: $response');
+  }
 
   // ==================== Logging Methods ====================
 
-  /// General log with event name, log type, and message
-  /// Corresponds to: window.TWK.generalLog(eventName, logType, logMessage)
+  @override
   Future<void> generalLog({
     required String eventName,
     required int logType,
     required String logMessage,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      generalLogJs(eventName.toJS, logType.toJS, logMessage.toJS).asObject,
+    );
+    if (kDebugMode) print('generalLog response: $response');
+  }
 
-  /// API log with detailed request/response information
-  /// Corresponds to: window.TWK.apiLog(url, methodType, requestBody, requestHeaders, requestDateTime, responseBody, responseHeaders, responseDateTime, responseCode)
+  @override
   Future<void> apiLog({
     required String url,
     required int methodType,
@@ -303,56 +598,103 @@ abstract class TwkApiV1 {
     Map<String, String>? responseHeaders,
     DateTime? responseDateTime,
     required int responseCode,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      apiLogJs(
+        url.toJS,
+        methodType.toJS,
+        requestBody?.toJS,
+        requestHeaders?.jsify(),
+        requestDateTime?.toIso8601String().toJS,
+        responseBody?.toJS,
+        responseHeaders?.jsify(),
+        responseDateTime?.toIso8601String().toJS,
+        responseCode.toJS,
+      ).asObject,
+    );
+    if (kDebugMode) print('apiLog response: $response');
+  }
 
-  /// Start API interceptor to automatically log API calls
-  /// Corresponds to: window.TWK.startApiIntercept()
-  Future<void> startApiIntercept();
+  @override
+  Future<void> startApiIntercept() async {
+    final response = await js_util.promiseToFuture(startApiInterceptJs().asObject);
+    if (kDebugMode) print('startApiIntercept response: $response');
+  }
 
   // ==================== Document Methods ====================
 
-  /// Add document to user's storage
-  /// Corresponds to: window.TWK.addDocument(documentName, documentContent, referenceNumber, categoryId)
+  @override
   Future<void> addDocument({
     required String documentName,
     required String documentContent,
     required String referenceNumber,
     required int categoryId,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      addDocumentJs(documentName.toJS, documentContent.toJS, referenceNumber.toJS, categoryId.toJS).asObject,
+    );
+    if (kDebugMode) print('addDocument response: $response');
+  }
 
-  /// Update existing document
-  /// Corresponds to: window.TWK.updateDocument(documentName, documentContent, referenceNumber, categoryId)
+  @override
   Future<void> updateDocument({
     required String documentName,
     required String documentContent,
     required String referenceNumber,
     required int categoryId,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      updateDocumentJs(documentName.toJS, documentContent.toJS, referenceNumber.toJS, categoryId.toJS).asObject,
+    );
+    if (kDebugMode) print('updateDocument response: $response');
+  }
 
-  /// Delete document
-  /// Corresponds to: window.TWK.deleteDocument(referenceNumber, categoryId)
+  @override
   Future<void> deleteDocument({
     required String referenceNumber,
     required int categoryId,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      deleteDocumentJs(referenceNumber.toJS, categoryId.toJS).asObject,
+    );
+    if (kDebugMode) print('deleteDocument response: $response');
+  }
 
   // ==================== Liveness Check Methods ====================
 
-  /// Liveness check using camera with configurations
-  /// Corresponds to: window.TWK.livenessCheckCamera(configurations)
+  @override
   Future<Map<String, dynamic>?> livenessCheckCamera({
     List<Map<String, dynamic>>? configurations,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      livenessCheckCameraJs(configurations?.jsify()).asObject,
+    );
+    if (kDebugMode) print('livenessCheckCamera response: $response');
+    if (response == null) return null;
+    return json.decode(response);
+  }
 
-  /// Liveness check from gallery image with configurations
-  /// Corresponds to: window.TWK.livenessCheckImageFromGallery(configurations)
+  @override
   Future<Map<String, dynamic>?> livenessCheckImageFromGallery({
     List<Map<String, dynamic>>? configurations,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      livenessCheckImageFromGalleryJs(configurations?.jsify()).asObject,
+    );
+    if (kDebugMode) print('livenessCheckImageFromGallery response: $response');
+    if (response == null) return null;
+    return json.decode(response);
+  }
 
-  /// Liveness check from file image with configurations
-  /// Corresponds to: window.TWK.livenessCheckImageFromFiles(configurations)
+  @override
   Future<Map<String, dynamic>?> livenessCheckImageFromFiles({
     List<Map<String, dynamic>>? configurations,
-  });
+  }) async {
+    final response = await js_util.promiseToFuture(
+      livenessCheckImageFromFilesJs(configurations?.jsify()).asObject,
+    );
+    if (kDebugMode) print('livenessCheckImageFromFiles response: $response');
+    if (response == null) return null;
+    return json.decode(response);
+  }
 }
