@@ -37,7 +37,7 @@ class TawakkalnaDemo extends StatefulWidget {
 }
 
 class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
-  final _twk = Twk(v1Api: TwkApiV1DemoJsonImpl(), v2Api: TwkApiV2DemoJsonImpl());
+  final _twk = Twk();
   final Map<String, dynamic> _results = {};
   final Set<String> _loadingMethods = {};
 

@@ -29,7 +29,7 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
       required String referenceNumber,
       required int categoryId}) async {
     // TODO: implement addDocument
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.addDocument is not implemented yet.');
   }
 
   @override
@@ -44,37 +44,37 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
       DateTime? responseDateTime,
       required int responseCode}) {
     // TODO: implement apiLog
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.apiLog is not implemented yet.');
   }
 
   @override
   Future<bool> askCameraPermission() {
     // TODO: implement askCameraPermission
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.askCameraPermission is not implemented yet.');
   }
 
   @override
   Future<bool> askGalleryPermission() {
     // TODO: implement askGalleryPermission
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.askGalleryPermission is not implemented yet.');
   }
 
   @override
   Future<bool> askPushNotificationPermission() {
     // TODO: implement askPushNotificationPermission
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.askPushNotificationPermission is not implemented yet.');
   }
 
   @override
   Future<bool> askUserLocationPermission() {
     // TODO: implement askUserLocationPermission
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.askUserLocationPermission is not implemented yet.');
   }
 
   @override
   Future<bool> askUserPreciseLocationPermission() {
     // TODO: implement askUserPreciseLocationPermission
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.askUserPreciseLocationPermission is not implemented yet.');
   }
 
   @override
@@ -87,13 +87,13 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   @override
   Future<void> deleteDocument({required String referenceNumber, required int categoryId}) {
     // TODO: implement deleteDocument
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.deleteDocument is not implemented yet.');
   }
 
   @override
   Future<void> generalLog({required String eventName, required int logType, required String logMessage}) {
     // TODO: implement generalLog
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.generalLog is not implemented yet.');
   }
 
   @override
@@ -106,67 +106,67 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   @override
   Future<XFile?> getCameraPhoto() {
     // TODO: implement getCameraPhoto
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getCameraPhoto is not implemented yet.');
   }
 
   @override
   Future<XFile?> getCameraVideo() {
     // TODO: implement getCameraVideo
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getCameraVideo is not implemented yet.');
   }
 
   @override
   Future<Map<String, dynamic>> getDeviceInfo() {
     // TODO: implement getDeviceInfo
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getDeviceInfo is not implemented yet.');
   }
 
   @override
   Future<String?> getFileBase64() {
     // TODO: implement getFileBase64
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getFileBase64 is not implemented yet.');
   }
 
   @override
   Future<String?> getFileId() {
     // TODO: implement getFileId
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getFileId is not implemented yet.');
   }
 
   @override
   Future<List<XFile>> getGalleryMulti() {
     // TODO: implement getGalleryMulti
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getGalleryMulti is not implemented yet.');
   }
 
   @override
   Future<List<XFile>> getGalleryMultiVideo() {
     // TODO: implement getGalleryMultiVideo
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getGalleryMultiVideo is not implemented yet.');
   }
 
   @override
   Future<XFile?> getGallerySingle() {
     // TODO: implement getGallerySingle
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getGallerySingle is not implemented yet.');
   }
 
   @override
   Future<XFile?> getGallerySingleVideo() {
     // TODO: implement getGallerySingleVideo
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getGallerySingleVideo is not implemented yet.');
   }
 
   @override
   Future<Uint8List?> getImage(String nationalId) {
     // TODO: implement getImage
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getImage is not implemented yet.');
   }
 
   @override
   Future<Uint8List> getRawData(XFile file) {
     // TODO: implement getRawData
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getRawData is not implemented yet.');
   }
 
   @override
@@ -334,7 +334,7 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   @override
   Future<Map<String, dynamic>> getUserProfilePhoto() {
     // TODO: implement getUserProfilePhoto
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.getUserProfilePhoto is not implemented yet.');
   }
 
   @override
@@ -368,49 +368,49 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   @override
   Future<Map<String, dynamic>?> livenessCheckCamera({List<Map<String, dynamic>>? configurations}) {
     // TODO: implement livenessCheckCamera
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.livenessCheckCamera is not implemented yet.');
   }
 
   @override
   Future<Map<String, dynamic>?> livenessCheckImageFromFiles({List<Map<String, dynamic>>? configurations}) {
     // TODO: implement livenessCheckImageFromFiles
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.livenessCheckImageFromFiles is not implemented yet.');
   }
 
   @override
   Future<Map<String, dynamic>?> livenessCheckImageFromGallery({List<Map<String, dynamic>>? configurations}) {
     // TODO: implement livenessCheckImageFromGallery
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.livenessCheckImageFromGallery is not implemented yet.');
   }
 
   @override
   Future<void> openScreen({required String screenType, Map<String, dynamic>? params}) {
     // TODO: implement openScreen
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.openScreen is not implemented yet.');
   }
 
   @override
   Future<void> openService({required String serviceId, Map<String, dynamic>? params}) {
     // TODO: implement openService
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.openService is not implemented yet.');
   }
 
   @override
   Future<void> openUrl({required String url, required int urlType}) {
     // TODO: implement openUrl
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.openUrl is not implemented yet.');
   }
 
   @override
   Future<void> postCard({required String actionType, required Map<String, dynamic> payload}) {
     // TODO: implement postCard
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.postCard is not implemented yet.');
   }
 
   @override
   Future<String?> scanCode() {
     // TODO: implement scanCode
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.scanCode is not implemented yet.');
   }
 
   @override
@@ -420,25 +420,25 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
       required String successPageName,
       required String failurePageName}) {
     // TODO: implement setPaymentConfiguration
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.setPaymentConfiguration is not implemented yet.');
   }
 
   @override
   Future<void> share({required String fileName, required String content, required String mimeType}) {
     // TODO: implement share
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.share is not implemented yet.');
   }
 
   @override
   Future<void> shareScreenShot() {
     // TODO: implement shareScreenShot
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.shareScreenShot is not implemented yet.');
   }
 
   @override
   Future<void> startApiIntercept() {
     // TODO: implement startApiIntercept
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.startApiIntercept is not implemented yet.');
   }
 
   @override
@@ -448,6 +448,6 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
       required String referenceNumber,
       required int categoryId}) {
     // TODO: implement updateDocument
-    throw UnimplementedError();
+    throw UnimplementedError('TwkApiV1DemoJsonImpl.updateDocument is not implemented yet.');
   }
 }
