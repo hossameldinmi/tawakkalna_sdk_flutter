@@ -8,6 +8,7 @@ export 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
 export 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
 export 'package:tawakkalna_sdk_flutter/src/models/nationality_entity.dart';
 export 'package:tawakkalna_sdk_flutter/src/models/sponsor.dart';
+export 'package:tawakkalna_sdk_flutter/src/models/twk_file.dart';
 export 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
 export 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
 export 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2.dart';

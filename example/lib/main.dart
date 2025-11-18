@@ -330,6 +330,15 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
                     ),
                   ]),
                   const SizedBox(height: 16),
+                  _buildSection('Media', Icons.devices, Colors.cyan, [
+                    _buildMethodButton(
+                      'getGallerySingle',
+                      'V1: getGallerySingle',
+                      Icons.phone_android,
+                      () => _twk.getGallerySingle(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
                   _buildSection('V1 Device Info', Icons.devices, Colors.cyan, [
                     _buildMethodButton(
                       'Device Info',
@@ -485,6 +494,11 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
         'null',
         style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
       );
+    }
+
+    // Handle TwkFile (for images)
+    if (value is TwkFile) {
+      return _buildTwkFileWidget(value);
     }
 
     // Handle errors specially
@@ -722,6 +736,111 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTwkFileWidget(TwkFile file) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // File info
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.cyan[50],
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.cyan[200]!),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.image, color: Colors.cyan[700], size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    'File Details',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan[700], fontSize: 14),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  // Image preview thumbnail
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.memory(
+                        file.binary,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey[100],
+                            child: const Icon(Icons.broken_image, size: 24, color: Colors.grey),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // File info text
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Name: ${file.fileName}', style: const TextStyle(fontSize: 13)),
+                        Text('Type: ${file.mimeType}', style: const TextStyle(fontSize: 13)),
+                        Text('Size: ${file.data.length} characters', style: const TextStyle(fontSize: 13)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        // Image display
+        Container(
+          width: double.infinity,
+          height: 250,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.memory(
+              file.binary,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  color: Colors.grey[100],
+                  child: const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.broken_image, size: 48, color: Colors.grey),
+                        SizedBox(height: 8),
+                        Text('Failed to load image'),
+                        SizedBox(height: 4),
+                        Text('Check if file is a valid image', style: TextStyle(fontSize: 12)),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

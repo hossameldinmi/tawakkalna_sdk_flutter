@@ -5,10 +5,10 @@ library js_interop;
 
 import 'dart:convert';
 import 'dart:js_interop';
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/logger.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/twk_file.dart';
 
 typedef JsonType = JSObject?;
 
@@ -491,18 +491,24 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   // ==================== Gallery Methods ====================
 
   @override
-  Future<XFile?> getGallerySingle() async {
+  Future<Map<String, dynamic>?> getGallerySingle() async {
     final jsValue = await getGallerySingleJs().toDart;
     _logger.debug('getGallerySingle - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
     _logger.debug('getGallerySingle - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
-    final file = value as Map;
-    return XFile(file['path']);
+    final result = (value as Map)['result'];
+    _logger.debug('getGallerySingle - result: $result', source: 'TwkApiV1');
+    final firstElement = (result as List).firstOrNull;
+    _logger.debug('getGallerySingle - firstElement: $firstElement', source: 'TwkApiV1');
+    if (firstElement == null) return null;
+    final file = (firstElement as Map).cast<String, dynamic>();
+    _logger.debug('getGallerySingle - file: $file', source: 'TwkApiV1');
+    return file;
   }
 
   @override
-  Future<List<XFile>> getGalleryMulti() async {
+  Future<List<Map<String, dynamic>>> getGalleryMulti() async {
     final jsValue = await getGalleryMultiJs().toDart;
     _logger.debug('getGalleryMulti - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
@@ -510,22 +516,22 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     final value = (dartValue as Map)['result'];
     _logger.debug('getGalleryMulti - value: $value', source: 'TwkApiV1');
     final List<dynamic> files = value as List<dynamic>;
-    return files.map((f) => XFile((f as Map)['path'])).toList();
+    return files.map((f) => (f as Map).cast<String, dynamic>()).toList();
   }
 
   @override
-  Future<XFile?> getGallerySingleVideo() async {
+  Future<Map<String, dynamic>?> getGallerySingleVideo() async {
     final jsValue = await getGallerySingleVideoJs().toDart;
     _logger.debug('getGallerySingleVideo - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
     _logger.debug('getGallerySingleVideo - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final file = (value as Map).cast<String, dynamic>();
-    return XFile(file['path']);
+    return file;
   }
 
   @override
-  Future<List<XFile>> getGalleryMultiVideo() async {
+  Future<List<Map<String, dynamic>>> getGalleryMultiVideo() async {
     final jsValue = await getGalleryMultiVideoJs().toDart;
     _logger.debug('getGalleryMultiVideo - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
@@ -533,38 +539,38 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     final value = (dartValue as Map)['result'];
     _logger.debug('getGalleryMultiVideo - value: $value', source: 'TwkApiV1');
     final List<dynamic> files = value as List<dynamic>;
-    return files.map((f) => XFile((f as Map)['path'])).toList();
+    return files.map((f) => (f as Map).cast<String, dynamic>()).toList();
   }
 
   // ==================== Camera Methods ====================
 
   @override
-  Future<XFile?> getCameraPhoto() async {
+  Future<Map<String, dynamic>?> getCameraPhoto() async {
     final jsValue = await getCameraPhotoJs().toDart;
     _logger.debug('getCameraPhoto - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
     _logger.debug('getCameraPhoto - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final file = (value as Map).cast<String, dynamic>();
-    return XFile(file['path']);
+    return file;
   }
 
   @override
-  Future<XFile?> getCameraVideo() async {
+  Future<Map<String, dynamic>?> getCameraVideo() async {
     final jsValue = await getCameraVideoJs().toDart;
     _logger.debug('getCameraVideo - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
     _logger.debug('getCameraVideo - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final file = (value as Map).cast<String, dynamic>();
-    return XFile(file['path']);
+    return file;
   }
 
   // ==================== File Methods ====================
 
   @override
-  Future<Uint8List> getRawData(XFile file) async {
-    final jsValue = await getRawDataJs(file.path.toJS).toDart;
+  Future<Uint8List> getRawData(TwkFile file) async {
+    final jsValue = await getRawDataJs(file.data.toJS).toDart;
     _logger.debug('getRawData - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
     _logger.debug('getRawData - dartValue: $dartValue', source: 'TwkApiV1');

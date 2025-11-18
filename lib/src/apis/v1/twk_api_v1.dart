@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:cross_file/cross_file.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/twk_file.dart';
 
 /// Tawakkalna SDK Helper for V1 API
 ///
@@ -12,7 +12,7 @@ abstract class TwkApiV1 {
 
   /// Get raw data from a file
   /// Corresponds to: window.TWK.getRawData(file)
-  Future<Uint8List> getRawData(XFile file);
+  Future<Uint8List> getRawData(TwkFile file);
 
   // ==================== User Data Methods ====================
 
@@ -150,29 +150,29 @@ abstract class TwkApiV1 {
 
   /// Get single image from gallery
   /// Corresponds to: window.TWK.getGallerySingle()
-  Future<XFile?> getGallerySingle();
+  Future<Map<String, dynamic>?> getGallerySingle();
 
   /// Get multiple images from gallery
   /// Corresponds to: window.TWK.getGalleryMulti()
-  Future<List<XFile>> getGalleryMulti();
+  Future<List<Map<String, dynamic>>> getGalleryMulti();
 
   /// Get single video from gallery
   /// Corresponds to: window.TWK.getGallerySingleVideo()
-  Future<XFile?> getGallerySingleVideo();
+  Future<Map<String, dynamic>?> getGallerySingleVideo();
 
   /// Get multiple videos from gallery
   /// Corresponds to: window.TWK.getGalleryMultiVideo()
-  Future<List<XFile>> getGalleryMultiVideo();
+  Future<List<Map<String, dynamic>>> getGalleryMultiVideo();
 
   // ==================== Camera Methods ====================
 
   /// Capture photo using camera
   /// Corresponds to: window.TWK.getCameraPhoto()
-  Future<XFile?> getCameraPhoto();
+  Future<Map<String, dynamic>?> getCameraPhoto();
 
   /// Capture video using camera
   /// Corresponds to: window.TWK.getCameraVideo()
-  Future<XFile?> getCameraVideo();
+  Future<Map<String, dynamic>?> getCameraVideo();
 
   // ==================== File Methods ====================
 

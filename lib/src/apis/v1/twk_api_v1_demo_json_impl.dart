@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/twk_file.dart';
 
 class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   final String jsonPath;
@@ -104,13 +104,13 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<XFile?> getCameraPhoto() {
+  Future<Map<String, dynamic>?> getCameraPhoto() {
     // TODO: implement getCameraPhoto
     throw UnimplementedError('TwkApiV1DemoJsonImpl.getCameraPhoto is not implemented yet.');
   }
 
   @override
-  Future<XFile?> getCameraVideo() {
+  Future<Map<String, dynamic>?> getCameraVideo() {
     // TODO: implement getCameraVideo
     throw UnimplementedError('TwkApiV1DemoJsonImpl.getCameraVideo is not implemented yet.');
   }
@@ -134,25 +134,26 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<List<XFile>> getGalleryMulti() {
+  Future<List<Map<String, dynamic>>> getGalleryMulti() {
     // TODO: implement getGalleryMulti
     throw UnimplementedError('TwkApiV1DemoJsonImpl.getGalleryMulti is not implemented yet.');
   }
 
   @override
-  Future<List<XFile>> getGalleryMultiVideo() {
+  Future<List<Map<String, dynamic>>> getGalleryMultiVideo() {
     // TODO: implement getGalleryMultiVideo
     throw UnimplementedError('TwkApiV1DemoJsonImpl.getGalleryMultiVideo is not implemented yet.');
   }
 
   @override
-  Future<XFile?> getGallerySingle() {
-    // TODO: implement getGallerySingle
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.getGallerySingle is not implemented yet.');
+  Future<Map<String, dynamic>> getGallerySingle() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/gallery/image/single');
+    return response;
   }
 
   @override
-  Future<XFile?> getGallerySingleVideo() {
+  Future<Map<String, dynamic>> getGallerySingleVideo() {
     // TODO: implement getGallerySingleVideo
     throw UnimplementedError('TwkApiV1DemoJsonImpl.getGallerySingleVideo is not implemented yet.');
   }
@@ -164,7 +165,7 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<Uint8List> getRawData(XFile file) {
+  Future<Uint8List> getRawData(TwkFile file) {
     // TODO: implement getRawData
     throw UnimplementedError('TwkApiV1DemoJsonImpl.getRawData is not implemented yet.');
   }

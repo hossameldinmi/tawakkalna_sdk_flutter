@@ -13,7 +13,6 @@ import 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/nationality_entity.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/sponsor.dart';
-import 'package:cross_file/cross_file.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/logger.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
@@ -27,6 +26,7 @@ import 'package:tawakkalna_sdk_flutter/src/models/device_info.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/location.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/national_address.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/passport.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/twk_file.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/vehicle.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/violation.dart';
 
@@ -117,12 +117,16 @@ class Twk {
     );
   }
 
-  Future<XFile?> getCameraPhoto() {
-    return _apiV1.getCameraPhoto();
+  Future<TwkFile?> getCameraPhoto() {
+    return _apiV1.getCameraPhoto().then(
+          (r) => r != null ? TwkFile.fromJson(r) : null,
+        );
   }
 
-  Future<XFile?> getCameraVideo() {
-    return _apiV1.getCameraVideo();
+  Future<TwkFile?> getCameraVideo() {
+    return _apiV1.getCameraVideo().then(
+          (r) => r != null ? TwkFile.fromJson(r) : null,
+        );
   }
 
   Future<DeviceInfo?> getDeviceInfo() {
@@ -137,27 +141,31 @@ class Twk {
     return _apiV1.getFileId();
   }
 
-  Future<List<XFile>> getGalleryMulti() {
-    return _apiV1.getGalleryMulti();
+  Future<List<TwkFile>> getGalleryMulti() {
+    return _apiV1.getGalleryMulti().then((r) => Future.wait(r.map((e) => TwkFile.fromJson(e))));
   }
 
-  Future<List<XFile>> getGalleryMultiVideo() {
-    return _apiV1.getGalleryMultiVideo();
+  Future<List<TwkFile>> getGalleryMultiVideo() {
+    return _apiV1.getGalleryMultiVideo().then((r) => Future.wait(r.map((e) => TwkFile.fromJson(e))));
   }
 
-  Future<XFile?> getGallerySingle() {
-    return _apiV1.getGallerySingle();
+  Future<TwkFile?> getGallerySingle() {
+    return _apiV1.getGallerySingle().then(
+          (r) => r != null ? TwkFile.fromJson(r) : null,
+        );
   }
 
-  Future<XFile?> getGallerySingleVideo() {
-    return _apiV1.getGallerySingleVideo();
+  Future<TwkFile?> getGallerySingleVideo() {
+    return _apiV1.getGallerySingleVideo().then(
+          (r) => r != null ? TwkFile.fromJson((r['result'] as Map).cast()) : null,
+        );
   }
 
   Future<Uint8List?> getImage(String nationalId) {
     return _apiV1.getImage(nationalId);
   }
 
-  Future<Uint8List> getRawData(XFile file) {
+  Future<Uint8List> getRawData(TwkFile file) {
     return _apiV1.getRawData(file);
   }
 

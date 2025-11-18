@@ -8,7 +8,6 @@ environment:
   flutter: ">=3.3.0"
 
 dependencies:
-  cross_file: ^0.3.5
   equatable: ^2.0.7
   flutter:
     sdk: flutter
