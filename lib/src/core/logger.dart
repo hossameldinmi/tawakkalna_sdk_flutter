@@ -78,6 +78,20 @@ class TwkLogger {
   /// Stream controller for log updates
   final _logStreamController = <void Function(LogEntry)>[];
 
+  /// Whether logging is enabled (default: true)
+  bool _enabled = true;
+
+  /// Get whether logging is enabled
+  bool get isEnabled => _enabled;
+
+  /// Enable or disable logging
+  void setEnabled(bool enabled) {
+    _enabled = enabled;
+    if (!enabled) {
+      clear(); // Clear logs when disabling to free memory
+    }
+  }
+
   /// Get all logs
   List<LogEntry> get logs => _logs.toList();
 
@@ -110,6 +124,9 @@ class TwkLogger {
     String? source,
     dynamic data,
   }) {
+    // Skip logging if disabled
+    if (!_enabled) return;
+
     final entry = LogEntry(
       timestamp: DateTime.now(),
       level: level,

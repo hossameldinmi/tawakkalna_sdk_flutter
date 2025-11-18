@@ -31,3 +31,4 @@ coverage/lcov.info
 
 # FVM Version Cache
 .fvm/
+example/pubspec.lock

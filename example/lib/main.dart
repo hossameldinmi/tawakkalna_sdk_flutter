@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:tawakkalna_sdk_flutter/twk.dart';
 
 void main() {
+  EquatableConfig.stringify = true;
   // Initialize logger
   final logger = TwkLogger();
   logger.info('Application started', source: 'main');

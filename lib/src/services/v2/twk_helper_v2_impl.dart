@@ -22,7 +22,7 @@ class TwkHelperV2Impl implements TwkHelperV2 {
           gender: gender?.value,
         )
         .then((r) => r['family_members'] as List)
-        .then((list) => list.map((e) => FamilyMember.fromJson(e)).toList());
+        .then((list) => list.map((e) => FamilyMember.fromJson((e as Map).cast())).toList());
   }
 
   @override
@@ -41,6 +41,6 @@ class TwkHelperV2Impl implements TwkHelperV2 {
           )
           .then((r) => r['sponsors'] as List)
           .then((list) {
-        return list.map((e) => Sponsor.fromJson(e)).toList();
+        return list.map((e) => Sponsor.fromJson((e as Map).cast())).toList();
       });
 }

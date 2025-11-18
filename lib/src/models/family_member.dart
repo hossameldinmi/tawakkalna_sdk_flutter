@@ -27,7 +27,7 @@ class FamilyMember extends Equatable {
         nameAr: json['name_ar'],
         nameEn: json['name_en'],
         gender: Gender.fromValue(json['gender'])!,
-        details: UserDetails.fromJson(json['details'] as Map<String, dynamic>),
+        details: UserDetails.fromJson((json['details'] as Map).cast()),
       );
 
   bool isRelationMatches(List<Relation> relations) => relations.any((r) => relations.contains(r));

@@ -29,7 +29,7 @@ class Sponsor extends Equatable {
         nameAr: json['name_ar'] as String,
         nameEn: json['name_en'] as String,
         gender: Gender.fromValue(json['gender'] as int)!,
-        details: UserDetails.fromJson(json['details'] as Map<String, dynamic>),
+        details: UserDetails.fromJson((json['details'] as Map).cast()),
       );
 
   @override
