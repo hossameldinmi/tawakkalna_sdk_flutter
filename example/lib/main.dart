@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:tawakkalna_sdk_flutter/twk.dart';
@@ -42,7 +44,7 @@ class TawakkalnaDemo extends StatefulWidget {
 }
 
 class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
-  final _twk = Twk();
+  final _twk = TwkHelper();
   final _logger = TwkLogger();
   final Map<String, dynamic> _results = {};
   final Set<String> _loadingMethods = {};

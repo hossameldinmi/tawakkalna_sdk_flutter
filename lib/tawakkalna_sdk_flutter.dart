@@ -16,4 +16,4 @@ export 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 export 'package:tawakkalna_sdk_flutter/src/core/logger.dart';
 export 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1_demo_json_impl.dart';
 export 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_demo_json_impl.dart';
-export 'package:tawakkalna_sdk_flutter/src/twk_imp.dart';
+export 'package:tawakkalna_sdk_flutter/src/twk_helper.dart';

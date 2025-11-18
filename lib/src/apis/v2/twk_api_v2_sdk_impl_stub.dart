@@ -1,4 +1,4 @@
-import 'package:tawakkalna_sdk_flutter/twk.dart';
+import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_demo_json_impl.dart';
 
 /// Tawakkalna SDK Helper for V2 API
 ///

@@ -24,6 +24,7 @@ class UserDetails extends Equatable {
         dateOfBirth: JsonUtil.parseDateTime(json['date_of_birth'])!,
         birthCity: json['birth_city'] as String,
       );
+  bool isRelationMatches(List<Relation> relations) => relations.contains(relation);
 
   @override
   List<Object?> get props => [

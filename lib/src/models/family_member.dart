@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:tawakkalna_sdk_flutter/twk.dart';
+import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
 
 class FamilyMember extends Equatable {
   final int nationalId;
@@ -29,8 +31,6 @@ class FamilyMember extends Equatable {
         gender: Gender.fromValue(json['gender'])!,
         details: UserDetails.fromJson((json['details'] as Map).cast()),
       );
-
-  bool isRelationMatches(List<Relation> relations) => relations.any((r) => relations.contains(r));
 
   @override
   List<Object?> get props => [

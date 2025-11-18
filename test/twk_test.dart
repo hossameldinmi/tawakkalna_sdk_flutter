@@ -6,11 +6,11 @@ import 'package:tawakkalna_sdk_flutter/src/models/national_address.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/passport.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/vehicle.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/violation.dart';
-import 'package:tawakkalna_sdk_flutter/twk.dart';
+import 'package:tawakkalna_sdk_flutter/tawakkalna_sdk_flutter.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final twk = Twk(
+  final twk = TwkHelper(
     v1Api: TwkApiV1DemoJsonImpl(),
     v2Api: TwkApiV2DemoJsonImpl(),
   );

@@ -30,11 +30,11 @@ import 'package:tawakkalna_sdk_flutter/src/models/twk_file.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/vehicle.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/violation.dart';
 
-class Twk {
+class TwkHelper {
   final TwkApiV1 _apiV1;
   final TwkApiV2 _apiV2;
 
-  Twk({TwkApiV1? v1Api, TwkApiV2? v2Api})
+  TwkHelper({TwkApiV1? v1Api, TwkApiV2? v2Api})
       : _apiV1 = v1Api ?? (!kIsWeb && kDebugMode ? TwkApiV1DemoJsonImpl() : TwkApiV1SdkImpl()),
         _apiV2 = v2Api ?? (!kIsWeb && kDebugMode ? TwkApiV2DemoJsonImpl() : TwkApiV2SdkImpl());
 
