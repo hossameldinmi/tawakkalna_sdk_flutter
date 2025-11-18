@@ -1,11 +1,23 @@
-import 'dart:typed_data';
-import 'package:cross_file/cross_file.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
+import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1_demo_json_impl.dart';
+import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1_sdk_impl_stub.dart'
+    if (dart.library.js_interop) 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1_sdk_impl.dart';
+
+import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2.dart';
+import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_demo_json_impl.dart';
+import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_sdk_impl_stub.dart'
+    if (dart.library.js_interop) 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_sdk_impl.dart';
+import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/nationality_entity.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/sponsor.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/logger.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
-import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/health_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/log_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/marital_status.dart';
@@ -17,21 +29,24 @@ import 'package:tawakkalna_sdk_flutter/src/models/national_address.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/passport.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/vehicle.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/violation.dart';
-import 'package:tawakkalna_sdk_flutter/src/services/v1/twk_helper_v1.dart';
 
-class TwkHelperV1Impl implements TwkHelperV1 {
+class Twk {
+  final TwkApiV1 _apiV1;
+  final TwkApiV2 _apiV2;
+
+  Twk({TwkApiV1? v1Api, TwkApiV2? v2Api})
+      : _apiV1 = v1Api ?? (!kIsWeb && kDebugMode ? TwkApiV1DemoJsonImpl() : TwkApiV1SdkImpl()),
+        _apiV2 = v2Api ?? (!kIsWeb && kDebugMode ? TwkApiV2DemoJsonImpl() : TwkApiV2SdkImpl());
+
   final _logger = TwkLogger();
-  final TwkApiV1 _api;
-  TwkHelperV1Impl(this._api);
 
-  @override
   Future<void> addDocument({
     required String documentName,
     required String documentContent,
     required String referenceNumber,
     required int categoryId,
   }) {
-    return _api.addDocument(
+    return _apiV1.addDocument(
       documentName: documentName,
       documentContent: documentContent,
       referenceNumber: referenceNumber,
@@ -39,7 +54,6 @@ class TwkHelperV1Impl implements TwkHelperV1 {
     );
   }
 
-  @override
   Future<void> apiLog({
     required String url,
     required int methodType,
@@ -51,7 +65,7 @@ class TwkHelperV1Impl implements TwkHelperV1 {
     DateTime? responseDateTime,
     required int responseCode,
   }) {
-    return _api.apiLog(
+    return _apiV1.apiLog(
       url: url,
       methodType: methodType,
       responseCode: responseCode,
@@ -64,288 +78,226 @@ class TwkHelperV1Impl implements TwkHelperV1 {
     );
   }
 
-  @override
   Future<bool> askCameraPermission() {
-    return _api.askCameraPermission();
+    return _apiV1.askCameraPermission();
   }
 
-  @override
   Future<bool> askGalleryPermission() {
-    return _api.askGalleryPermission();
+    return _apiV1.askGalleryPermission();
   }
 
-  @override
   Future<bool> askPushNotificationPermission() {
-    return _api.askPushNotificationPermission();
+    return _apiV1.askPushNotificationPermission();
   }
 
-  @override
   Future<bool> askUserLocationPermission() {
-    return _api.askUserLocationPermission();
+    return _apiV1.askUserLocationPermission();
   }
 
-  @override
   Future<bool> askUserPreciseLocationPermission() {
-    return _api.askUserPreciseLocationPermission();
+    return _apiV1.askUserPreciseLocationPermission();
   }
 
-  @override
   Future<bool> authenticateBiometric() {
-    return _api.authenticateBiometric().then((r) => r['authenticated'] as bool);
+    return _apiV1.authenticateBiometric().then((r) => r['authenticated'] as bool);
   }
 
-  @override
   Future<void> deleteDocument({required String referenceNumber, required int categoryId}) {
-    return _api.deleteDocument(
+    return _apiV1.deleteDocument(
       referenceNumber: referenceNumber,
       categoryId: categoryId,
     );
   }
 
-  @override
   Future<void> generalLog({required String eventName, required LogType logType, required String logMessage}) {
-    return _api.generalLog(
+    return _apiV1.generalLog(
       eventName: eventName,
       logType: logType.value,
       logMessage: logMessage,
     );
   }
 
-  @override
-  Future<String> generateToken() => _api.generateToken().then((r) => r['token'] as String);
-
-  @override
   Future<XFile?> getCameraPhoto() {
-    return _api.getCameraPhoto();
+    return _apiV1.getCameraPhoto();
   }
 
-  @override
   Future<XFile?> getCameraVideo() {
-    return _api.getCameraVideo();
+    return _apiV1.getCameraVideo();
   }
 
-  @override
   Future<DeviceInfo?> getDeviceInfo() {
-    return _api.getDeviceInfo().then((r) => DeviceInfo.fromJson(((r['device_info'] ?? {}) as Map).cast()));
+    return _apiV1.getDeviceInfo().then((r) => DeviceInfo.fromJson(((r['device_info'] ?? {}) as Map).cast()));
   }
 
-  @override
   Future<String?> getFileBase64() {
-    return _api.getFileBase64();
+    return _apiV1.getFileBase64();
   }
 
-  @override
   Future<String?> getFileId() {
-    return _api.getFileId();
+    return _apiV1.getFileId();
   }
 
-  @override
   Future<List<XFile>> getGalleryMulti() {
-    return _api.getGalleryMulti();
+    return _apiV1.getGalleryMulti();
   }
 
-  @override
   Future<List<XFile>> getGalleryMultiVideo() {
-    return _api.getGalleryMultiVideo();
+    return _apiV1.getGalleryMultiVideo();
   }
 
-  @override
   Future<XFile?> getGallerySingle() {
-    return _api.getGallerySingle();
+    return _apiV1.getGallerySingle();
   }
 
-  @override
   Future<XFile?> getGallerySingleVideo() {
-    return _api.getGallerySingleVideo();
+    return _apiV1.getGallerySingleVideo();
   }
 
-  @override
   Future<Uint8List?> getImage(String nationalId) {
-    return _api.getImage(nationalId);
+    return _apiV1.getImage(nationalId);
   }
 
-  @override
   Future<Uint8List> getRawData(XFile file) {
-    return _api.getRawData(file);
+    return _apiV1.getRawData(file);
   }
 
-  @override
-  Future<String?> getUserBirthCity() => _api.getUserBirthCity().then((r) => r['birth_city'] as String?);
+  Future<String?> getUserBirthCity() => _apiV1.getUserBirthCity().then((r) => r['birth_city'] as String?);
 
-  @override
-  Future<DateTime?> getUserBirthDate() => _api.getUserBirthDate().then((r) => JsonUtil.parseDateTime(r['birth_date']));
+  Future<DateTime?> getUserBirthDate() =>
+      _apiV1.getUserBirthDate().then((r) => JsonUtil.parseDateTime(r['birth_date']));
 
-  @override
   Future<BloodType?> getUserBloodType() {
-    return _api.getUserBloodType().then((r) => BloodType.fromCode(r['blood_type']));
+    return _apiV1.getUserBloodType().then((r) => BloodType.fromCode(r['blood_type']));
   }
 
-  @override
   Future<String?> getUserDegreeType() {
-    return _api.getUserDegreeType().then((r) => r['degree_type'] as String?);
+    return _apiV1.getUserDegreeType().then((r) => r['degree_type'] as String?);
   }
 
-  @override
   Future<String?> getUserDisabilityType() {
-    return _api.getUserDisabilityType().then((r) => r['disability_type'] as String?);
+    return _apiV1.getUserDisabilityType().then((r) => r['disability_type'] as String?);
   }
 
-  @override
   Future<String?> getUserDocumentNumber() {
-    return _api.getUserDocumentNumber().then((r) => r['document_number'] as String?);
+    return _apiV1.getUserDocumentNumber().then((r) => r['document_number'] as String?);
   }
 
-  @override
   Future<String?> getUserEmail() {
-    return _api.getUserEmail().then((r) => r['email'] as String?);
+    return _apiV1.getUserEmail().then((r) => r['email'] as String?);
   }
 
-  @override
-  Future<String> getUserFullName() => _api.getUserFullName().then((r) => r['full_name'] as String);
+  Future<Gender?> getUserGender() => _apiV1.getUserGender().then((r) => Gender.fromValue(r['gender']));
 
-  @override
-  Future<Gender?> getUserGender() => _api.getUserGender().then((r) => Gender.fromValue(r['gender']));
-
-  @override
   Future<HealthStatus> getUserHealthStatus() =>
-      _api.getUserHealthStatus().then((r) => HealthStatus.fromString(r['health_status'] as String));
+      _apiV1.getUserHealthStatus().then((r) => HealthStatus.fromString(r['health_status'] as String));
 
-  @override
   Future<int> getUserId() {
     _logger.debug('Fetching user ID from API');
-    return _api.getUserId().then((r) => r['user_id'] as int);
+    return _apiV1.getUserId().then((r) => r['user_id'] as int);
   }
 
-  @override
   Future<DateTime?> getUserIdExpiryDate() =>
-      _api.getUserIdExpiryDate().then((r) => JsonUtil.parseDateTime(r['id_expiry_date_gregorian']));
+      _apiV1.getUserIdExpiryDate().then((r) => JsonUtil.parseDateTime(r['id_expiry_date_gregorian']));
 
-  @override
-  Future<IqamaType> getUserIqamaType() => _api.getUserIqamaType().then((r) => IqamaType.fromId(r['id_type'])!);
+  Future<IqamaType> getUserIqamaType() => _apiV1.getUserIqamaType().then((r) => IqamaType.fromId(r['id_type'])!);
 
-  @override
   Future<Location?> getUserLocation() {
-    return _api
+    return _apiV1
         .getUserLocation()
         .then((r) => r['location'])
         .then((r) => r.isNotEmpty ? Location(latitude: r['latitude'] ?? 0.0, longitude: r['longitude'] ?? 0.0) : null);
   }
 
-  @override
   Future<MaritalStatus> getUserMaritalStatus() {
-    return _api.getUserMaritalStatus().then((r) => MaritalStatus.fromString(r['marital_status'] as String));
+    return _apiV1.getUserMaritalStatus().then((r) => MaritalStatus.fromString(r['marital_status'] as String));
   }
 
-  @override
   Future<String?> getUserMobileNumber() {
-    return _api.getUserMobileNumber().then((r) => r['mobile_number'] as String?);
+    return _apiV1.getUserMobileNumber().then((r) => r['mobile_number'] as String?);
   }
 
-  @override
   Future<List<NationalAddress>> getUserNationalAddress() {
-    return _api.getUserNationalAddress().then(
+    return _apiV1.getUserNationalAddress().then(
         (r) => (r['national_addresses'] as List).map((e) => NationalAddress.fromJson((e as Map).cast())).toList());
   }
 
-  @override
-  Future<String?> getUserNationality() {
-    return _api.getUserNationality().then((r) => r['nationality_name'] as String?);
-  }
-
-  @override
   Future<String?> getUserNationalityIso() {
-    return _api.getUserNationalityIso().then((r) => r['nationality_iso'] as String?);
+    return _apiV1.getUserNationalityIso().then((r) => r['nationality_iso'] as String?);
   }
 
-  @override
   Future<String?> getUserOccupation() {
-    return _api.getUserOccupation().then((r) => r['occupation'] as String?);
+    return _apiV1.getUserOccupation().then((r) => r['occupation'] as String?);
   }
 
-  @override
   Future<List<Violation>> getUserPaidViolations() {
-    return _api
+    return _apiV1
         .getUserPaidViolations()
         .then((r) => (r['violations'] as List).map((e) => Violation.fromJson((e as Map).cast())).toList());
   }
 
-  @override
-  Future<PassportResponse> getUserPassports() => _api.getUserPassports().then((r) => PassportResponse.fromJson(r));
+  Future<PassportResponse> getUserPassports() => _apiV1.getUserPassports().then((r) => PassportResponse.fromJson(r));
 
-  @override
   Future<String?> getUserProfilePhoto() {
-    return _api.getUserProfilePhoto().then((r) => r['profile_photo'] as String?);
+    return _apiV1.getUserProfilePhoto().then((r) => r['profile_photo'] as String?);
   }
 
-  @override
   Future<UserType> getUserType() {
-    return _api.getUserType().then((r) => UserType.values[r['user_type'] as int]);
+    return _apiV1.getUserType().then((r) => UserType.values[r['user_type'] as int]);
   }
 
-  @override
   Future<List<Violation>> getUserUnPaidViolations() {
-    return _api
+    return _apiV1
         .getUserUnPaidViolations()
         .then((r) => (r['violations'] as List).map((e) => Violation.fromJson((e as Map).cast())).toList());
   }
 
-  @override
   Future<List<Vehicle>> getUserVehicles() {
-    return _api
+    return _apiV1
         .getUserVehicles()
         .then((r) => (r['vehicles'] as List).map((e) => Vehicle.fromJson((e as Map).cast())).toList());
   }
 
-  @override
   Future<Map<String, dynamic>?> livenessCheckCamera({List<Map<String, dynamic>>? configurations}) {
-    return _api.livenessCheckCamera(configurations: configurations);
+    return _apiV1.livenessCheckCamera(configurations: configurations);
   }
 
-  @override
   Future<Map<String, dynamic>?> livenessCheckImageFromFiles({List<Map<String, dynamic>>? configurations}) {
-    return _api.livenessCheckImageFromFiles(configurations: configurations);
+    return _apiV1.livenessCheckImageFromFiles(configurations: configurations);
   }
 
-  @override
   Future<Map<String, dynamic>?> livenessCheckImageFromGallery({List<Map<String, dynamic>>? configurations}) {
-    return _api.livenessCheckImageFromGallery(configurations: configurations);
+    return _apiV1.livenessCheckImageFromGallery(configurations: configurations);
   }
 
-  @override
   Future<void> openScreen({required String screenType, Map<String, dynamic>? params}) {
-    return _api.openScreen(screenType: screenType, params: params);
+    return _apiV1.openScreen(screenType: screenType, params: params);
   }
 
-  @override
   Future<void> openService({required String serviceId, Map<String, dynamic>? params}) {
-    return _api.openService(serviceId: serviceId, params: params);
+    return _apiV1.openService(serviceId: serviceId, params: params);
   }
 
-  @override
   Future<void> openUrl({required String url, required UrlType urlType}) {
-    return _api.openUrl(
+    return _apiV1.openUrl(
       url: url,
       urlType: urlType.value,
     );
   }
 
-  @override
   Future<void> postCard({required String actionType, required Map<String, dynamic> payload}) {
-    return _api.postCard(actionType: actionType, payload: payload);
+    return _apiV1.postCard(actionType: actionType, payload: payload);
   }
 
-  @override
   Future<String?> scanCode() {
-    return _api.scanCode();
+    return _apiV1.scanCode();
   }
 
-  @override
   Future<void> setPaymentConfiguration(
       {required List<String> callbackSuccessUrlList,
       required List<String> callbackFailureUrlList,
       required String successPageName,
       required String failurePageName}) {
-    return _api.setPaymentConfiguration(
+    return _apiV1.setPaymentConfiguration(
       callbackSuccessUrlList: callbackSuccessUrlList,
       callbackFailureUrlList: callbackFailureUrlList,
       successPageName: successPageName,
@@ -353,32 +305,57 @@ class TwkHelperV1Impl implements TwkHelperV1 {
     );
   }
 
-  @override
   Future<void> share({required String fileName, required String content, required String mimeType}) {
-    return _api.share(fileName: fileName, content: content, mimeType: mimeType);
+    return _apiV1.share(fileName: fileName, content: content, mimeType: mimeType);
   }
 
-  @override
   Future<void> shareScreenShot() {
-    return _api.shareScreenShot();
+    return _apiV1.shareScreenShot();
   }
 
-  @override
   Future<void> startApiIntercept() {
-    return _api.startApiIntercept();
+    return _apiV1.startApiIntercept();
   }
 
-  @override
   Future<void> updateDocument(
       {required String documentName,
       required String documentContent,
       required String referenceNumber,
       required int categoryId}) {
-    return _api.updateDocument(
+    return _apiV1.updateDocument(
       documentName: documentName,
       documentContent: documentContent,
       referenceNumber: referenceNumber,
       categoryId: categoryId,
     );
   }
+
+  Future<String> generateToken() => _apiV2.generateToken().then((r) => r['token']);
+
+  Future<List<FamilyMember>> getUserFamilyMembers({int? minAge, int? maxAge, Gender? gender}) {
+    return _apiV2
+        .getUserFamilyMembers(
+          minAge: minAge,
+          maxAge: maxAge,
+          gender: gender?.value,
+        )
+        .then((r) => r['family_members'] as List)
+        .then((list) => list.map((e) => FamilyMember.fromJson((e as Map).cast())).toList());
+  }
+
+  Future<FullName> getUserFullName() => _apiV2.getUserFullName().then((json) => FullName.fromJson(json));
+
+  Future<NationalityEnity?> getUserNationality() =>
+      _apiV2.getUserNationality().then((json) => NationalityEnity.fromJson(json));
+
+  Future<List<Sponsor>> getUserSponsors({int? minAge, int? maxAge, Gender? gender}) => _apiV2
+          .getUserSponsors(
+            minAge: minAge,
+            maxAge: maxAge,
+            gender: gender?.value,
+          )
+          .then((r) => r['sponsors'] as List)
+          .then((list) {
+        return list.map((e) => Sponsor.fromJson((e as Map).cast())).toList();
+      });
 }
