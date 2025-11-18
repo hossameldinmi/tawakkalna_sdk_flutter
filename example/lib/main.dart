@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tawakkalna_sdk_flutter/twk.dart';
 
 void main() {
+  // Initialize logger
+  final logger = TwkLogger();
+  logger.info('Application started', source: 'main');
   runApp(const MyApp());
 }
 
@@ -38,20 +41,45 @@ class TawakkalnaDemo extends StatefulWidget {
 
 class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
   final _twk = Twk();
+  final _logger = TwkLogger();
   final Map<String, dynamic> _results = {};
   final Set<String> _loadingMethods = {};
+  bool _showLogs = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _logger.addListener(_onNewLog);
+    _logger.info('Demo screen initialized', source: 'TawakkalnaDemo');
+  }
+
+  @override
+  void dispose() {
+    _logger.removeListener(_onNewLog);
+    super.dispose();
+  }
+
+  void _onNewLog(LogEntry log) {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   Future<void> _callMethod(String key, Future<dynamic> Function() apiCall) async {
     setState(() {
       _loadingMethods.add(key);
     });
 
+    _logger.debug('Calling API method: $key', source: 'API Call');
+
     try {
       final result = await apiCall();
+      _logger.info('API call succeeded: $key', source: 'API Call', data: result);
       setState(() {
         _results[key] = result;
       });
     } catch (e, stackTrace) {
+      _logger.error('API call failed: $key', source: 'API Call', data: e.toString());
       setState(() {
         _results[key] = ApiError(method: key, error: e.toString(), stackTrace: stackTrace.toString());
       });
@@ -66,17 +94,42 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
   Widget build(BuildContext context) {
     final errorCount = _results.values.whereType<ApiError>().length;
     final successCount = _results.length - errorCount;
+    final logStats = _logger.getStatistics();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tawakkalna SDK Demo'),
         elevation: 2,
         actions: [
+          IconButton(
+            icon: Icon(_showLogs ? Icons.article : Icons.article_outlined),
+            tooltip: _showLogs ? 'Hide Logs' : 'Show Logs',
+            onPressed: () {
+              setState(() {
+                _showLogs = !_showLogs;
+              });
+              _logger.debug('Toggled logs view: $_showLogs', source: 'UI');
+            },
+          ),
+          if (_showLogs && _logger.logs.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.cleaning_services),
+              tooltip: 'Clear Logs',
+              onPressed: () {
+                setState(() {
+                  _logger.clear();
+                });
+                _logger.info('Logs cleared', source: 'UI');
+              },
+            ),
           if (_results.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.delete_sweep),
               tooltip: 'Clear All Results',
-              onPressed: () => setState(() => _results.clear()),
+              onPressed: () {
+                setState(() => _results.clear());
+                _logger.info('Results cleared', source: 'UI');
+              },
             ),
         ],
       ),
@@ -108,6 +161,31 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
                           _buildCompactStat('Total', _results.length.toString(), Colors.blue, Icons.list),
                           _buildCompactStat('Success', successCount.toString(), Colors.green, Icons.check_circle),
                           _buildCompactStat('Errors', errorCount.toString(), Colors.red, Icons.error),
+                        ],
+                      ),
+                    ),
+                  ],
+                  if (_showLogs) ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.blue[300]!),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildCompactStat('Total', logStats['total'].toString(), Colors.blue, Icons.list_alt),
+                              _buildCompactStat('Debug', logStats['debug'].toString(), Colors.grey, Icons.bug_report),
+                              _buildCompactStat('Info', logStats['info'].toString(), Colors.teal, Icons.info),
+                              _buildCompactStat('Warn', logStats['warning'].toString(), Colors.orange, Icons.warning),
+                              _buildCompactStat('Error', logStats['error'].toString(), Colors.red, Icons.error),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -277,10 +355,12 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
               ),
             ),
           ),
-          // Right side with results
+          // Right side with results or logs
           Expanded(
             flex: 3,
-            child: _results.isEmpty
+            child: _showLogs
+                ? _buildLogsView()
+                : _results.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -534,5 +614,127 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
 
     // For simple values, just return the string
     return str;
+  }
+
+  Widget _buildLogsView() {
+    final logs = _logger.logs;
+
+    if (logs.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.article_outlined, size: 64, color: Colors.grey[400]),
+            const SizedBox(height: 16),
+            Text(
+              'No logs yet',
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Logs will appear here as you interact with the SDK',
+              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: logs.length,
+      reverse: true, // Show newest logs at the top
+      itemBuilder: (context, index) {
+        final log = logs[logs.length - 1 - index];
+        return _buildLogEntry(log);
+      },
+    );
+  }
+
+  Widget _buildLogEntry(LogEntry log) {
+    Color levelColor;
+    Color backgroundColor;
+
+    switch (log.level) {
+      case LogLevel.debug:
+        levelColor = Colors.grey[700]!;
+        backgroundColor = Colors.grey[50]!;
+        break;
+      case LogLevel.info:
+        levelColor = Colors.teal[700]!;
+        backgroundColor = Colors.teal[50]!;
+        break;
+      case LogLevel.warning:
+        levelColor = Colors.orange[700]!;
+        backgroundColor = Colors.orange[50]!;
+        break;
+      case LogLevel.error:
+        levelColor = Colors.red[700]!;
+        backgroundColor = Colors.red[50]!;
+        break;
+    }
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      color: backgroundColor,
+      elevation: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(log.levelIcon, style: const TextStyle(fontSize: 16)),
+                const SizedBox(width: 8),
+                Text(
+                  log.levelName,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: levelColor),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  log.timeString,
+                  style: TextStyle(fontFamily: 'monospace', fontSize: 11, color: Colors.grey[600]),
+                ),
+                if (log.source != null) ...[
+                  const SizedBox(width: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: levelColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: levelColor.withOpacity(0.3)),
+                    ),
+                    child: Text(
+                      log.source!,
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: levelColor),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 8),
+            SelectableText(log.message, style: const TextStyle(fontSize: 13, height: 1.4)),
+            if (log.data != null) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: Colors.black.withOpacity(0.1)),
+                ),
+                child: SelectableText(
+                  log.data.toString(),
+                  style: const TextStyle(fontFamily: 'monospace', fontSize: 11, color: Colors.black87),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }

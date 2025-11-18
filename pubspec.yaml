@@ -37,9 +37,6 @@ flutter:
     # -------------------
   # To add assets to your plugin package, add an assets section, like this:
   assets:
-    - packages/tawakkalna_sdk_flutter/assets/web/twk_v1.js
-    - packages/tawakkalna_sdk_flutter/assets/web/twk_v1_fake.js
-    - packages/tawakkalna_sdk_flutter/assets/web/twk_v2.js
-    - packages/tawakkalna_sdk_flutter/assets/web/twk_v2_fake.js
     - packages/tawakkalna_sdk_flutter/assets/web/twkhelper.js
+    - packages/tawakkalna_sdk_flutter/assets/web/twkhelper_mock.js
     - assets/mock_profile1.0.2.json

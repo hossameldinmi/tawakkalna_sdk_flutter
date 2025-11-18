@@ -29,6 +29,7 @@ export 'package:tawakkalna_sdk_flutter/src/services/v2/twk_helper_v2.dart';
 export 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
 export 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2.dart';
 export 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
+export 'package:tawakkalna_sdk_flutter/src/core/logger.dart';
 export 'package:tawakkalna_sdk_flutter/src/services/v1/twk_helper_v1_impl.dart';
 export 'package:tawakkalna_sdk_flutter/src/services/v2/twk_helper_v2_impl.dart';
 export 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1_demo_json_impl.dart';

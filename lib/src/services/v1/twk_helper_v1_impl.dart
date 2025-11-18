@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:cross_file/cross_file.dart';
 import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
 import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
+import 'package:tawakkalna_sdk_flutter/src/core/logger.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/blood_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/eqama_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
@@ -19,6 +20,7 @@ import 'package:tawakkalna_sdk_flutter/src/models/violation.dart';
 import 'package:tawakkalna_sdk_flutter/src/services/v1/twk_helper_v1.dart';
 
 class TwkHelperV1Impl implements TwkHelperV1 {
+  final _logger = TwkLogger();
   final TwkApiV1 _api;
   TwkHelperV1Impl(this._api);
 
@@ -209,7 +211,10 @@ class TwkHelperV1Impl implements TwkHelperV1 {
       _api.getUserHealthStatus().then((r) => HealthStatus.fromString(r['health_status'] as String));
 
   @override
-  Future<int> getUserId() => _api.getUserId().then((r) => r['user_id'] as int);
+  Future<int> getUserId() {
+    _logger.debug('Fetching user ID from API');
+    return _api.getUserId().then((r) => r['user_id'] as int);
+  }
 
   @override
   Future<DateTime?> getUserIdExpiryDate() =>

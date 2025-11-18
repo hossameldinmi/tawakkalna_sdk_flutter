@@ -8,139 +8,140 @@ import 'dart:js_interop';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tawakkalna_sdk_flutter/src/apis/v1/twk_api_v1.dart';
+import 'package:tawakkalna_sdk_flutter/src/core/logger.dart';
 
 typedef JsonType = JSObject?;
 
 // JS external declarations for all twk_v1.js methods
-@JS()
+@JS('window.TWK.getRawData')
 external JSPromise<JsonType> getRawDataJs(JSAny? file);
-@JS()
+@JS('window.TWK.getUserId')
 external JSPromise<JsonType> getUserIdJs();
-@JS()
+@JS('window.TWK.getUserType')
 external JSPromise<JsonType> getUserTypeJs();
-@JS()
+@JS('window.TWK.getUserBirthDate')
 external JSPromise<JsonType> getUserBirthDateJs();
-@JS()
+@JS('window.TWK.getUserMobileNumber')
 external JSPromise<JsonType> getUserMobileNumberJs();
-@JS()
+@JS('window.TWK.getUserGender')
 external JSPromise<JsonType> getUserGenderJs();
-@JS()
+@JS('window.TWK.getUserLocation')
 external JSPromise<JsonType> getUserLocationJs();
-@JS()
+@JS('window.TWK.getUserNationality')
 external JSPromise<JsonType> getUserNationalityJs();
-@JS()
+@JS('window.TWK.getUserNationalityISO')
 external JSPromise<JsonType> getUserNationalityIsoJs();
-@JS()
+@JS('window.TWK.getUserFullName')
 external JSPromise<JsonType> getUserFullNameJs();
-@JS()
+@JS('window.TWK.getUserMaritalStatus')
 external JSPromise<JsonType> getUserMaritalStatusJs();
-@JS()
+@JS('window.TWK.getUserHealthStatus')
 external JSPromise<JsonType> getUserHealthStatusJs();
-@JS()
+@JS('window.TWK.getUserDisabilityType')
 external JSPromise<JsonType> getUserDisabilityTypeJs();
-@JS()
+@JS('window.TWK.getUserBloodType')
 external JSPromise<JsonType> getUserBloodTypeJs();
-@JS()
+@JS('window.TWK.getUserNationalAddress')
 external JSPromise<JsonType> getUserNationalAddressJs();
-@JS()
+@JS('window.TWK.getUserDegreeType')
 external JSPromise<JsonType> getUserDegreeTypeJs();
-@JS()
+@JS('window.TWK.getUserOccupation')
 external JSPromise<JsonType> getUserOccupationJs();
-@JS()
+@JS('window.TWK.getUserFamilyMembers')
 external JSPromise<JsonType> getUserFamilyMembersJs(JSAny? minage, JSAny? maxage, JSAny? gender);
-@JS()
+@JS('window.TWK.getUserSponsors')
 external JSPromise<JsonType> getUserSponsorsJs(JSAny? minage, JSAny? maxage, JSAny? gender);
-@JS()
+@JS('window.TWK.getUserUnPaidViolations')
 external JSPromise<JsonType> getUserUnPaidViolationsJs();
-@JS()
+@JS('window.TWK.getUserPaidViolations')
 external JSPromise<JsonType> getUserPaidViolationsJs();
-@JS()
+@JS('window.TWK.getUserVehicles')
 external JSPromise<JsonType> getUserVehiclesJs();
-@JS()
+@JS('window.TWK.getUserProfilePhoto')
 external JSPromise<JsonType> getUserProfilePhotoJs();
-@JS()
+@JS('window.TWK.getUserPassports')
 external JSPromise<JsonType> getUserPassportsJs();
-@JS()
+@JS('window.TWK.getDeviceInfo')
 external JSPromise<JsonType> getDeviceInfoJs();
-@JS()
+@JS('window.TWK.getGallerySingle')
 external JSPromise<JsonType> getGallerySingleJs();
-@JS()
+@JS('window.TWK.getGalleryMulti')
 external JSPromise<JsonType> getGalleryMultiJs();
-@JS()
+@JS('window.TWK.getGallerySingleVideo')
 external JSPromise<JsonType> getGallerySingleVideoJs();
-@JS()
+@JS('window.TWK.getGalleryMultiVideo')
 external JSPromise<JsonType> getGalleryMultiVideoJs();
-@JS()
+@JS('window.TWK.getCameraPhoto')
 external JSPromise<JsonType> getCameraPhotoJs();
-@JS()
+@JS('window.TWK.getCameraVideo')
 external JSPromise<JsonType> getCameraVideoJs();
-@JS()
+@JS('window.TWK.getFileBase64')
 external JSPromise<JsonType> getFileBase64Js();
-@JS()
+@JS('window.TWK.getFileId')
 external JSPromise<JsonType> getFileIdJs();
-@JS()
+@JS('window.TWK.askUserLocationPermission')
 external JSPromise<JsonType> askUserLocationPermissionJs();
-@JS()
+@JS('window.TWK.askUserPreciseLocationPermission')
 external JSPromise<JsonType> askUserPreciseLocationPermissionJs();
-@JS()
+@JS('window.TWK.askCameraPermission')
 external JSPromise<JsonType> askCameraPermissionJs();
-@JS()
+@JS('window.TWK.askGalleryPermission')
 external JSPromise<JsonType> askGalleryPermissionJs();
-@JS()
+@JS('window.TWK.askPushNotificationPermission')
 external JSPromise<JsonType> askPushNotificationPermissionJs();
-@JS()
+@JS('window.TWK.authenticateBiometric')
 external JSPromise<JsonType> authenticateBiometricJs();
-@JS()
+@JS('window.TWK.shareScreenShot')
 external JSPromise<JsonType> shareScreenShotJs();
-@JS()
+@JS('window.TWK.openScreen')
 external JSPromise<JsonType> openScreenJs(JSAny? screenType, JSAny? valuesParam);
-@JS()
+@JS('window.TWK.postCard')
 external JSPromise<JsonType> postCardJs(JSAny? actionType, JSAny? payload);
-@JS()
+@JS('window.TWK.generateToken')
 external JSPromise<JsonType> generateTokenJs();
-@JS()
+@JS('window.TWK.share')
 external JSPromise<JsonType> shareJs(JSAny? fileName, JSAny? content, JSAny? mimetype);
-@JS()
+@JS('window.TWK.scanCode')
 external JSPromise<JsonType> scanCodeJs();
-@JS()
+@JS('window.TWK.openService')
 external JSPromise<JsonType> openServiceJs(JSAny? serviceId, JSAny? valuesParam);
-@JS()
+@JS('window.TWK.getImage')
 external JSPromise<JsonType> getImageJs(JSAny? nationalId);
-@JS()
+@JS('window.TWK.setPaymentConfiguration')
 external JSPromise<JsonType> setPaymentConfigurationJs(
     JSAny? callbackSuccessUrlList, JSAny? callbackFailureUrlList, JSAny? successPageName, JSAny? failurePageName);
-@JS()
+@JS('window.TWK.generalLog')
 external JSPromise<JsonType> generalLogJs(JSAny? eventName, JSAny? logType, JSAny? logMessage);
-@JS()
+@JS('window.TWK.apiLog')
 external JSPromise<JsonType> apiLogJs(JSAny? url, JSAny? methodType, JSAny? requestBody, JSAny? requestHeaders,
     JSAny? requestDateTime, JSAny? responseBody, JSAny? responseHeaders, JSAny? responseDateTime, JSAny? responseCode);
-@JS()
+@JS('window.TWK.addDocument')
 external JSPromise<JsonType> addDocumentJs(
     JSAny? documentName, JSAny? documentContent, JSAny? referenceNumber, JSAny? categoryId);
-@JS()
+@JS('window.TWK.updateDocument')
 external JSPromise<JsonType> updateDocumentJs(
     JSAny? documentName, JSAny? documentContent, JSAny? referenceNumber, JSAny? categoryId);
-@JS()
+@JS('window.TWK.deleteDocument')
 external JSPromise<JsonType> deleteDocumentJs(JSAny? referenceNumber, JSAny? categoryId);
-@JS()
+@JS('window.TWK.getUserIdExpiryDate')
 external JSPromise<JsonType> getUserIdExpiryDateJs();
-@JS()
+@JS('window.TWK.startApiIntercept')
 external JSPromise<JsonType> startApiInterceptJs();
-@JS()
+@JS('window.TWK.getUserDocumentNumber')
 external JSPromise<JsonType> getUserDocumentNumberJs();
-@JS()
+@JS('window.TWK.getUserBirthCity')
 external JSPromise<JsonType> getUserBirthCityJs();
-@JS()
-external JSPromise<JsonType> openUrlJs(JSAny? url, JSAny? urlType);
-@JS()
+@JS('window.TWK.openUrl')
+external JSPromise<JsonType> openUrlJs(JSString url, JSNumber? urlType);
+@JS('window.TWK.getUserEmail')
 external JSPromise<JsonType> getUserEmailJs();
-@JS()
+@JS('window.TWK.getUserIqamaType')
 external JSPromise<JsonType> getUserIqamaTypeJs();
-@JS()
+@JS('window.TWK.livenessCheckCamera')
 external JSPromise<JsonType> livenessCheckCameraJs(JSAny? configurations);
-@JS()
+@JS('window.TWK.livenessCheckImageFromGallery')
 external JSPromise<JsonType> livenessCheckImageFromGalleryJs(JSAny? configurations);
-@JS()
+@JS('window.TWK.livenessCheckImageFromFiles')
 external JSPromise<JsonType> livenessCheckImageFromFilesJs(JSAny? configurations);
 
 /// Tawakkalna SDK Helper for V1 API
@@ -148,237 +149,327 @@ external JSPromise<JsonType> livenessCheckImageFromFilesJs(JSAny? configurations
 /// This class provides access to all V1 endpoints of the Tawakkalna SDK.
 /// Most methods correspond to the JavaScript window.TWK.* functions.
 class TwkApiV1SdkImpl implements TwkApiV1 {
+  final _logger = TwkLogger();
+
   // ==================== User Data Methods ====================
 
   @override
   Future<Map<String, dynamic>> getUserId() async {
-    final jsValue = await getUserIdJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserId response: $value');
+    _logger.debug('sdk implementation - getUserId called');
+    final func = getUserIdJs();
+    _logger.debug('getUserId - func: $func', source: 'TwkApiV1');
+    final jsValue = await func.toDart;
+    _logger.debug('getUserId - jsValue: ${jsValue ?? 'NULLVALUE'}', source: 'TwkApiV1');
+    final dartValue = jsValue?.dartify();
+    _logger.debug('getUserId - dartValue: ${dartValue ?? 'NULLVALUE'}', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserId - value: ${value ?? 'NULLVALUE'}', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserType() async {
     final jsValue = await getUserTypeJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserType response: $value');
+    _logger.debug('getUserType - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserType - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserType - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserBirthDate() async {
     final jsValue = await getUserBirthDateJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserBirthDate response: $value');
+    _logger.debug('getUserBirthDate - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserBirthDate - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserBirthDate - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserMobileNumber() async {
     final jsValue = await getUserMobileNumberJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserMobileNumber response: $value');
+    _logger.debug('getUserMobileNumber - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserMobileNumber - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserMobileNumber - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserGender() async {
     final jsValue = await getUserGenderJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserGender response: $value');
+    _logger.debug('getUserGender - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserGender - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserGender - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserLocation() async {
     final jsValue = await getUserLocationJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserLocation response: $value');
+    _logger.debug('getUserLocation - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserLocation - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserLocation - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserNationality() async {
     final jsValue = await getUserNationalityJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserNationality response: $value');
+    _logger.debug('getUserNationality - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserNationality - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserNationality - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserNationalityIso() async {
     final jsValue = await getUserNationalityIsoJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserNationalityIso response: $value');
+    _logger.debug('getUserNationalityIso - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserNationalityIso - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserNationalityIso - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, String>> getUserFullName() async {
     final jsValue = await getUserFullNameJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserFullName response: $value');
+    _logger.debug('getUserFullName - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserFullName - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserFullName - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserMaritalStatus() async {
     final jsValue = await getUserMaritalStatusJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserMaritalStatus response: $value');
+    _logger.debug('getUserMaritalStatus - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserMaritalStatus - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserMaritalStatus - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserHealthStatus() async {
     final jsValue = await getUserHealthStatusJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserHealthStatus response: $value');
+    _logger.debug('getUserHealthStatus - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserHealthStatus - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserHealthStatus - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserDisabilityType() async {
     final jsValue = await getUserDisabilityTypeJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserDisabilityType response: $value');
+    _logger.debug('getUserDisabilityType - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserDisabilityType - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserDisabilityType - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserBloodType() async {
     final jsValue = await getUserBloodTypeJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserBloodType response: $value');
+    _logger.debug('getUserBloodType - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserBloodType - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserBloodType - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserNationalAddress() async {
     final jsValue = await getUserNationalAddressJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserNationalAddress response: $value');
+    _logger.debug('getUserNationalAddress - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserNationalAddress - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserNationalAddress - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserDegreeType() async {
     final jsValue = await getUserDegreeTypeJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserDegreeType response: $value');
+    _logger.debug('getUserDegreeType - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserDegreeType - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserDegreeType - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserOccupation() async {
     final jsValue = await getUserOccupationJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserOccupation response: $value');
+    _logger.debug('getUserOccupation - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserOccupation - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserOccupation - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserFamilyMembers({int? minAge, int? maxAge, int? gender}) async {
     final jsValue = await getUserFamilyMembersJs(minAge?.toJS, maxAge?.toJS, gender?.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserFamilyMembers response: $value');
+    _logger.debug('getUserFamilyMembers - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserFamilyMembers - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserFamilyMembers - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserSponsors({int? minAge, int? maxAge, int? gender}) async {
     final jsValue = await getUserSponsorsJs(minAge?.toJS, maxAge?.toJS, gender?.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserSponsors response: $value');
+    _logger.debug('getUserSponsors - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserSponsors - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserSponsors - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserUnPaidViolations() async {
     final jsValue = await getUserUnPaidViolationsJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserUnPaidViolations response: $value');
+    _logger.debug('getUserUnPaidViolations - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserUnPaidViolations - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserUnPaidViolations - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserPaidViolations() async {
     final jsValue = await getUserPaidViolationsJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserPaidViolations response: $value');
+    _logger.debug('getUserPaidViolations - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserPaidViolations - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserPaidViolations - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserVehicles() async {
     final jsValue = await getUserVehiclesJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserVehicles response: $value');
+    _logger.debug('getUserVehicles - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserVehicles - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserVehicles - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserProfilePhoto() async {
     final jsValue = await getUserProfilePhotoJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserProfilePhoto response: $value');
+    _logger.debug('getUserProfilePhoto - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserProfilePhoto - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserProfilePhoto - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserPassports() async {
     final jsValue = await getUserPassportsJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserPassports response: $value');
+    _logger.debug('getUserPassports - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserPassports - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserPassports - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserIdExpiryDate() async {
     final jsValue = await getUserIdExpiryDateJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserIdExpiryDate response: $value');
+    _logger.debug('getUserIdExpiryDate - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserIdExpiryDate - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserIdExpiryDate - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserDocumentNumber() async {
     final jsValue = await getUserDocumentNumberJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserDocumentNumber response: $value');
+    _logger.debug('getUserDocumentNumber - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserDocumentNumber - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserDocumentNumber - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserBirthCity() async {
     final jsValue = await getUserBirthCityJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserBirthCity response: $value');
+    _logger.debug('getUserBirthCity - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserBirthCity - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserBirthCity - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserEmail() async {
     final jsValue = await getUserEmailJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserEmail response: $value');
+    _logger.debug('getUserEmail - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserEmail - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserEmail - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> getUserIqamaType() async {
     final jsValue = await getUserIqamaTypeJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getUserIqamaType response: $value');
+    _logger.debug('getUserIqamaType - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getUserIqamaType - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getUserIqamaType - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Uint8List?> getImage(String nationalId) async {
     final jsValue = await getImageJs(nationalId.toJS).toDart;
+    _logger.debug('getImage - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
-    if (kDebugMode) print('getImage response: $value');
+    _logger.debug('getImage - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final string = value as String;
     return Uint8List.fromList(base64Decode(string));
@@ -389,8 +480,11 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<Map<String, dynamic>> getDeviceInfo() async {
     final jsValue = await getDeviceInfoJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getDeviceInfo response: $value');
+    _logger.debug('getDeviceInfo - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getDeviceInfo - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getDeviceInfo - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
@@ -399,8 +493,9 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<XFile?> getGallerySingle() async {
     final jsValue = await getGallerySingleJs().toDart;
+    _logger.debug('getGallerySingle - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
-    if (kDebugMode) print('getGallerySingle response: $value');
+    _logger.debug('getGallerySingle - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final file = value as Map;
     return XFile(file['path']);
@@ -409,8 +504,11 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<List<XFile>> getGalleryMulti() async {
     final jsValue = await getGalleryMultiJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getGalleryMulti response: $value');
+    _logger.debug('getGalleryMulti - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getGalleryMulti - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getGalleryMulti - value: $value', source: 'TwkApiV1');
     final List<dynamic> files = value as List<dynamic>;
     return files.map((f) => XFile((f as Map)['path'])).toList();
   }
@@ -418,8 +516,9 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<XFile?> getGallerySingleVideo() async {
     final jsValue = await getGallerySingleVideoJs().toDart;
+    _logger.debug('getGallerySingleVideo - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
-    if (kDebugMode) print('getGallerySingleVideo response: $value');
+    _logger.debug('getGallerySingleVideo - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final file = (value as Map).cast<String, dynamic>();
     return XFile(file['path']);
@@ -428,8 +527,11 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<List<XFile>> getGalleryMultiVideo() async {
     final jsValue = await getGalleryMultiVideoJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getGalleryMultiVideo response: $value');
+    _logger.debug('getGalleryMultiVideo - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getGalleryMultiVideo - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getGalleryMultiVideo - value: $value', source: 'TwkApiV1');
     final List<dynamic> files = value as List<dynamic>;
     return files.map((f) => XFile((f as Map)['path'])).toList();
   }
@@ -439,8 +541,9 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<XFile?> getCameraPhoto() async {
     final jsValue = await getCameraPhotoJs().toDart;
+    _logger.debug('getCameraPhoto - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
-    if (kDebugMode) print('getCameraPhoto response: $value');
+    _logger.debug('getCameraPhoto - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final file = (value as Map).cast<String, dynamic>();
     return XFile(file['path']);
@@ -449,8 +552,9 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<XFile?> getCameraVideo() async {
     final jsValue = await getCameraVideoJs().toDart;
+    _logger.debug('getCameraVideo - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
-    if (kDebugMode) print('getCameraVideo response: $value');
+    _logger.debug('getCameraVideo - value: $value', source: 'TwkApiV1');
     if (value == null) return null;
     final file = (value as Map).cast<String, dynamic>();
     return XFile(file['path']);
@@ -461,8 +565,11 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<Uint8List> getRawData(XFile file) async {
     final jsValue = await getRawDataJs(file.path.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('getRawData response: $value');
+    _logger.debug('getRawData - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('getRawData - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('getRawData - value: $value', source: 'TwkApiV1');
     final string = value as String;
     return Uint8List.fromList(base64Decode(string));
   }
@@ -470,16 +577,18 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<String?> getFileBase64() async {
     final jsValue = await getFileBase64Js().toDart;
+    _logger.debug('getFileBase64 - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
-    if (kDebugMode) print('getFileBase64 response: $value');
+    _logger.debug('getFileBase64 - value: $value', source: 'TwkApiV1');
     return value as String?;
   }
 
   @override
   Future<String?> getFileId() async {
     final jsValue = await getFileIdJs().toDart;
+    _logger.debug('getFileId - jsValue: $jsValue', source: 'TwkApiV1');
     final value = jsValue?.dartify();
-    if (kDebugMode) print('getFileId response: $value');
+    _logger.debug('getFileId - value: $value', source: 'TwkApiV1');
     return value as String?;
   }
 
@@ -488,40 +597,55 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<bool> askUserLocationPermission() async {
     final jsValue = await askUserLocationPermissionJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('askUserLocationPermission response: $value');
+    _logger.debug('askUserLocationPermission - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('askUserLocationPermission - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('askUserLocationPermission - value: $value', source: 'TwkApiV1');
     return value as bool;
   }
 
   @override
   Future<bool> askUserPreciseLocationPermission() async {
     final jsValue = await askUserPreciseLocationPermissionJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('askUserPreciseLocationPermission response: $value');
+    _logger.debug('askUserPreciseLocationPermission - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('askUserPreciseLocationPermission - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('askUserPreciseLocationPermission - value: $value', source: 'TwkApiV1');
     return value as bool;
   }
 
   @override
   Future<bool> askCameraPermission() async {
     final jsValue = await askCameraPermissionJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('askCameraPermission response: $value');
+    _logger.debug('askCameraPermission - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('askCameraPermission - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('askCameraPermission - value: $value', source: 'TwkApiV1');
     return value as bool;
   }
 
   @override
   Future<bool> askGalleryPermission() async {
     final jsValue = await askGalleryPermissionJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('askGalleryPermission response: $value');
+    _logger.debug('askGalleryPermission - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('askGalleryPermission - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('askGalleryPermission - value: $value', source: 'TwkApiV1');
     return value as bool;
   }
 
   @override
   Future<bool> askPushNotificationPermission() async {
     final jsValue = await askPushNotificationPermissionJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('askPushNotificationPermission response: $value');
+    _logger.debug('askPushNotificationPermission - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('askPushNotificationPermission - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('askPushNotificationPermission - value: $value', source: 'TwkApiV1');
     return value as bool;
   }
 
@@ -530,16 +654,22 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   @override
   Future<Map<String, dynamic>> authenticateBiometric() async {
     final jsValue = await authenticateBiometricJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('authenticateBiometric response: $value');
+    _logger.debug('authenticateBiometric - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('authenticateBiometric - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('authenticateBiometric - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
   @override
   Future<Map<String, dynamic>> generateToken() async {
     final jsValue = await generateTokenJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('generateToken response: $value');
+    _logger.debug('generateToken - jsValue: $jsValue', source: 'TwkApiV1');
+    final dartValue = jsValue.dartify();
+    _logger.debug('generateToken - dartValue: $dartValue', source: 'TwkApiV1');
+    final value = (dartValue as Map)['result'];
+    _logger.debug('generateToken - value: $value', source: 'TwkApiV1');
     return (value as Map).cast();
   }
 
@@ -547,48 +677,36 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
 
   @override
   Future<void> shareScreenShot() async {
-    final jsValue = await shareScreenShotJs().toDart;
-    final value = jsValue?.dartify();
-    if (kDebugMode) print('shareScreenShot response: $value');
+    await shareScreenShotJs().toDart;
   }
 
   @override
   Future<void> share({required String fileName, required String content, required String mimeType}) async {
-    final jsValue = await shareJs(fileName.toJS, content.toJS, mimeType.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('share response: $value');
+    await shareJs(fileName.toJS, content.toJS, mimeType.toJS).toDart;
   }
 
   // ==================== Navigation Methods ====================
 
   @override
   Future<void> openScreen({required String screenType, Map<String, dynamic>? params}) async {
-    final jsValue = await openScreenJs(screenType.toJS, params?.jsify()).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('openScreen response: $value');
+    await openScreenJs(screenType.toJS, params?.jsify()).toDart;
   }
 
   @override
   Future<void> openService({required String serviceId, Map<String, dynamic>? params}) async {
-    final jsValue = await openServiceJs(serviceId.toJS, params?.jsify()).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('openService response: $value');
+    await openServiceJs(serviceId.toJS, params?.jsify()).toDart;
   }
 
   @override
   Future<void> openUrl({required String url, required int urlType}) async {
-    final jsValue = await openUrlJs(url.toJS, urlType.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('openUrl response: $value');
+    await openUrlJs(url.toJS, urlType.toJS).toDart;
   }
 
   // ==================== Card Methods ====================
 
   @override
   Future<void> postCard({required String actionType, required Map<String, dynamic> payload}) async {
-    final jsValue = await postCardJs(actionType.toJS, payload.jsify()).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('postCard response: $value');
+    await postCardJs(actionType.toJS, payload.jsify()).toDart;
   }
 
   // ==================== Scanner Methods ====================
@@ -597,7 +715,6 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   Future<String?> scanCode() async {
     final jsValue = await scanCodeJs().toDart;
     final value = jsValue?.dartify();
-    if (kDebugMode) print('scanCode response: $value');
     return value as String?;
   }
 
@@ -610,14 +727,12 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     required String successPageName,
     required String failurePageName,
   }) async {
-    final jsValue = await setPaymentConfigurationJs(
+    await setPaymentConfigurationJs(
       callbackSuccessUrlList.jsify(),
       callbackFailureUrlList.jsify(),
       successPageName.toJS,
       failurePageName.toJS,
     ).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('setPaymentConfiguration response: $value');
   }
 
   // ==================== Logging Methods ====================
@@ -628,9 +743,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     required int logType,
     required String logMessage,
   }) async {
-    final jsValue = await generalLogJs(eventName.toJS, logType.toJS, logMessage.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('generalLog response: $value');
+    await generalLogJs(eventName.toJS, logType.toJS, logMessage.toJS).toDart;
   }
 
   @override
@@ -645,7 +758,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     DateTime? responseDateTime,
     required int responseCode,
   }) async {
-    final jsValue = await apiLogJs(
+    await apiLogJs(
       url.toJS,
       methodType.toJS,
       requestBody?.toJS,
@@ -656,15 +769,11 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
       responseDateTime?.toIso8601String().toJS,
       responseCode.toJS,
     ).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('apiLog response: $value');
   }
 
   @override
   Future<void> startApiIntercept() async {
-    final jsValue = await startApiInterceptJs().toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('startApiIntercept response: $value');
+    await startApiInterceptJs().toDart;
   }
 
   // ==================== Document Methods ====================
@@ -676,10 +785,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     required String referenceNumber,
     required int categoryId,
   }) async {
-    final jsValue =
-        await addDocumentJs(documentName.toJS, documentContent.toJS, referenceNumber.toJS, categoryId.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('addDocument response: $value');
+    await addDocumentJs(documentName.toJS, documentContent.toJS, referenceNumber.toJS, categoryId.toJS).toDart;
   }
 
   @override
@@ -689,10 +795,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     required String referenceNumber,
     required int categoryId,
   }) async {
-    final jsValue =
-        await updateDocumentJs(documentName.toJS, documentContent.toJS, referenceNumber.toJS, categoryId.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('updateDocument response: $value');
+    await updateDocumentJs(documentName.toJS, documentContent.toJS, referenceNumber.toJS, categoryId.toJS).toDart;
   }
 
   @override
@@ -700,9 +803,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     required String referenceNumber,
     required int categoryId,
   }) async {
-    final jsValue = await deleteDocumentJs(referenceNumber.toJS, categoryId.toJS).toDart;
-    final value = jsValue.dartify();
-    if (kDebugMode) print('deleteDocument response: $value');
+    await deleteDocumentJs(referenceNumber.toJS, categoryId.toJS).toDart;
   }
 
   // ==================== Liveness Check Methods ====================
@@ -713,7 +814,6 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   }) async {
     final jsValue = await livenessCheckCameraJs(configurations?.jsify()).toDart;
     final value = jsValue?.dartify();
-    if (kDebugMode) print('livenessCheckCamera response: $value');
     if (value == null) return null;
     return (value as Map).cast();
   }
@@ -724,7 +824,6 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   }) async {
     final jsValue = await livenessCheckImageFromGalleryJs(configurations?.jsify()).toDart;
     final value = jsValue?.dartify();
-    if (kDebugMode) print('livenessCheckImageFromGallery response: $value');
     if (value == null) return null;
     return (value as Map).cast();
   }
@@ -735,7 +834,6 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   }) async {
     final jsValue = await livenessCheckImageFromFilesJs(configurations?.jsify()).toDart;
     final value = jsValue?.dartify();
-    if (kDebugMode) print('livenessCheckImageFromFiles response: $value');
     if (value == null) return null;
     return (value as Map).cast();
   }
