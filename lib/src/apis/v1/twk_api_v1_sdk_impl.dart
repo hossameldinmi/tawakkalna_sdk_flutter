@@ -515,6 +515,7 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
     _logger.debug('getGalleryMulti - dartValue: $dartValue', source: 'TwkApiV1');
     final value = (dartValue as Map)['result'];
     _logger.debug('getGalleryMulti - value: $value', source: 'TwkApiV1');
+    if (value == null) return [];
     final List<dynamic> files = value as List<dynamic>;
     return files.map((f) => (f as Map).cast<String, dynamic>()).toList();
   }

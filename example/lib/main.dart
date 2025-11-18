@@ -314,6 +314,22 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
                     _buildMethodButton('Occupation', 'V1: Occupation', Icons.work, () => _twk.getUserOccupation()),
                   ]),
                   const SizedBox(height: 16),
+                  _buildSection('V1 Family & Relationships', Icons.family_restroom, Colors.pink, [
+                    _buildMethodButton(
+                      'Family Members',
+                      'V1: Family Members',
+                      Icons.family_restroom,
+                      () => _twk.getUserFamilyMembers(),
+                    ),
+                    _buildMethodButton(
+                      'Family (18-30)',
+                      'V1: Family (Filtered)',
+                      Icons.filter_list,
+                      () => _twk.getUserFamilyMembers(minAge: 18, maxAge: 30),
+                    ),
+                    _buildMethodButton('Sponsors', 'V1: Sponsors', Icons.business, () => _twk.getUserSponsors()),
+                  ]),
+                  const SizedBox(height: 16),
                   _buildSection('V1 Vehicles & Violations', Icons.directions_car, Colors.brown, [
                     _buildMethodButton('Vehicles', 'V1: Vehicles', Icons.car_rental, () => _twk.getUserVehicles()),
                     _buildMethodButton(
@@ -330,13 +346,93 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
                     ),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('Media', Icons.devices, Colors.cyan, [
+                  _buildSection('V1 Gallery', Icons.photo_library, Colors.purple, [
                     _buildMethodButton(
-                      'getGallerySingle',
-                      'V1: getGallerySingle',
-                      Icons.phone_android,
+                      'Single Image',
+                      'V1: Gallery Single',
+                      Icons.photo,
                       () => _twk.getGallerySingle(),
                     ),
+                    _buildMethodButton(
+                      'Multiple Images',
+                      'V1: Gallery Multi',
+                      Icons.photo_library,
+                      () => _twk.getGalleryMulti(),
+                    ),
+                    _buildMethodButton(
+                      'Single Video',
+                      'V1: Gallery Single Video',
+                      Icons.videocam,
+                      () => _twk.getGallerySingleVideo(),
+                    ),
+                    _buildMethodButton(
+                      'Multiple Videos',
+                      'V1: Gallery Multi Video',
+                      Icons.video_library,
+                      () => _twk.getGalleryMultiVideo(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('V1 Camera', Icons.camera_alt, Colors.deepPurple, [
+                    _buildMethodButton('Take Photo', 'V1: Camera Photo', Icons.camera, () => _twk.getCameraPhoto()),
+                    _buildMethodButton('Record Video', 'V1: Camera Video', Icons.videocam, () => _twk.getCameraVideo()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('V1 Files', Icons.file_present, Colors.amber, [
+                    _buildMethodButton(
+                      'Get File Base64',
+                      'V1: File Base64',
+                      Icons.file_copy,
+                      () => _twk.getFileBase64(),
+                    ),
+                    _buildMethodButton('Get File ID', 'V1: File ID', Icons.fingerprint, () => _twk.getFileId()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('V1 Permissions', Icons.security, Colors.deepOrange, [
+                    _buildMethodButton(
+                      'Location Permission',
+                      'V1: Location Permission',
+                      Icons.location_on,
+                      () => _twk.askUserLocationPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Precise Location',
+                      'V1: Precise Location',
+                      Icons.my_location,
+                      () => _twk.askUserPreciseLocationPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Camera Permission',
+                      'V1: Camera Permission',
+                      Icons.camera,
+                      () => _twk.askCameraPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Gallery Permission',
+                      'V1: Gallery Permission',
+                      Icons.photo_library,
+                      () => _twk.askGalleryPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Notification Permission',
+                      'V1: Push Notification',
+                      Icons.notifications,
+                      () => _twk.askPushNotificationPermission(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('V1 Authentication', Icons.fingerprint, Colors.green, [
+                    _buildMethodButton(
+                      'Biometric Auth',
+                      'V1: Biometric',
+                      Icons.fingerprint,
+                      () => _twk.authenticateBiometric(),
+                    ),
+                    _buildMethodButton('Generate Token', 'V1: Token', Icons.vpn_key, () => _twk.generateToken()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('V1 Scanner', Icons.qr_code_scanner, Colors.blueGrey, [
+                    _buildMethodButton('Scan Code', 'V1: Scan Code', Icons.qr_code_scanner, () => _twk.scanCode()),
                   ]),
                   const SizedBox(height: 16),
                   _buildSection('V1 Device Info', Icons.devices, Colors.cyan, [
@@ -496,11 +592,6 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
       );
     }
 
-    // Handle TwkFile (for images)
-    if (value is TwkFile) {
-      return _buildTwkFileWidget(value);
-    }
-
     // Handle errors specially
     if (value is ApiError) {
       return Column(
@@ -563,6 +654,23 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
       );
     }
 
+    // Handle TwkFile (for images)
+    if (value is TwkFile) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('image', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [value].map<Widget>((e) {
+              return _buildImageThumbnail(e, 1);
+            }).toList(),
+          ),
+        ],
+      );
+    }
     if (value is List) {
       if (value.isEmpty) {
         return const Text(
@@ -570,6 +678,28 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
           style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
         );
       }
+      // Check if list contains TwkFile objects (images)
+      if (value.isNotEmpty && value.first is TwkFile) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${value.length} ${value.length == 1 ? 'image' : 'images'}',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: value.asMap().entries.map<Widget>((entry) {
+                final file = entry.value as TwkFile;
+                return _buildImageThumbnail(file, entry.key + 1);
+              }).toList(),
+            ),
+          ],
+        );
+      }
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: value.asMap().entries.map((entry) {
@@ -590,6 +720,8 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
                     style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.teal),
                   ),
                   const SizedBox(height: 8),
+
+                  // Check if individual item is TwkFile
                   Text(_formatValue(entry.value), style: const TextStyle(fontFamily: 'monospace')),
                 ],
               ),
@@ -739,108 +871,66 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
     );
   }
 
-  Widget _buildTwkFileWidget(TwkFile file) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // File info
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.cyan[50],
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.cyan[200]!),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.image, color: Colors.cyan[700], size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    'File Details',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan[700], fontSize: 14),
-                  ),
-                ],
+  Widget _buildImageThumbnail(TwkFile file, int index) {
+    return Container(
+      width: 150,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey[300]!),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+            child: Container(
+              width: 150,
+              height: 150,
+              color: Colors.grey[100],
+              child: Image.memory(
+                file.binary,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[200],
+                    child: const Center(child: Icon(Icons.broken_image, size: 48, color: Colors.grey)),
+                  );
+                },
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  // Image preview thumbnail
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Image.memory(
-                        file.binary,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: Colors.grey[100],
-                            child: const Icon(Icons.broken_image, size: 24, color: Colors.grey),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  // File info text
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Name: ${file.fileName}', style: const TextStyle(fontSize: 13)),
-                        Text('Type: ${file.mimeType}', style: const TextStyle(fontSize: 13)),
-                        Text('Size: ${file.data.length} characters', style: const TextStyle(fontSize: 13)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 12),
-        // Image display
-        Container(
-          width: double.infinity,
-          height: 250,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.memory(
-              file.binary,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey[100],
-                  child: const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.broken_image, size: 48, color: Colors.grey),
-                        SizedBox(height: 8),
-                        Text('Failed to load image'),
-                        SizedBox(height: 4),
-                        Text('Check if file is a valid image', style: TextStyle(fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                );
-              },
             ),
           ),
-        ),
-      ],
+          // Info
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Image $index',
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  file.fileName,
+                  style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  file.mimeType,
+                  style: TextStyle(fontSize: 10, color: Colors.grey[500]),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
