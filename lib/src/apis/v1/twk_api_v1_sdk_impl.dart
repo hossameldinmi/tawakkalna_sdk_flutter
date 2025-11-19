@@ -12,7 +12,7 @@ import 'package:tawakkalna_sdk_flutter/src/models/twk_file.dart';
 
 typedef JsonType = JSObject?;
 
-// JS external declarations for all twk_v1.js methods
+// JS external declarations for all window.TWK methods in twkhelper.js file
 @JS('window.TWK.getRawData')
 external JSPromise<JsonType> getRawDataJs(JSAny? file);
 @JS('window.TWK.getUserId')
@@ -602,58 +602,58 @@ class TwkApiV1SdkImpl implements TwkApiV1 {
   // ==================== Permission Methods ====================
 
   @override
-  Future<bool> askUserLocationPermission() async {
+  Future<Map<String, dynamic>> askUserLocationPermission() async {
     final jsValue = await askUserLocationPermissionJs().toDart;
     _logger.debug('askUserLocationPermission - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
     _logger.debug('askUserLocationPermission - dartValue: $dartValue', source: 'TwkApiV1');
     final value = (dartValue as Map)['result'];
     _logger.debug('askUserLocationPermission - value: $value', source: 'TwkApiV1');
-    return value as bool;
+    return (value as Map).cast();
   }
 
   @override
-  Future<bool> askUserPreciseLocationPermission() async {
+  Future<Map<String, dynamic>> askUserPreciseLocationPermission() async {
     final jsValue = await askUserPreciseLocationPermissionJs().toDart;
     _logger.debug('askUserPreciseLocationPermission - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
     _logger.debug('askUserPreciseLocationPermission - dartValue: $dartValue', source: 'TwkApiV1');
     final value = (dartValue as Map)['result'];
     _logger.debug('askUserPreciseLocationPermission - value: $value', source: 'TwkApiV1');
-    return value as bool;
+    return (value as Map).cast();
   }
 
   @override
-  Future<bool> askCameraPermission() async {
+  Future<Map<String, dynamic>> askCameraPermission() async {
     final jsValue = await askCameraPermissionJs().toDart;
     _logger.debug('askCameraPermission - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
     _logger.debug('askCameraPermission - dartValue: $dartValue', source: 'TwkApiV1');
     final value = (dartValue as Map)['result'];
     _logger.debug('askCameraPermission - value: $value', source: 'TwkApiV1');
-    return value as bool;
+    return (value as Map).cast();
   }
 
   @override
-  Future<bool> askGalleryPermission() async {
+  Future<Map<String, dynamic>> askGalleryPermission() async {
     final jsValue = await askGalleryPermissionJs().toDart;
     _logger.debug('askGalleryPermission - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
     _logger.debug('askGalleryPermission - dartValue: $dartValue', source: 'TwkApiV1');
     final value = (dartValue as Map)['result'];
     _logger.debug('askGalleryPermission - value: $value', source: 'TwkApiV1');
-    return value as bool;
+    return (value as Map).cast();
   }
 
   @override
-  Future<bool> askPushNotificationPermission() async {
+  Future<Map<String, dynamic>> askPushNotificationPermission() async {
     final jsValue = await askPushNotificationPermissionJs().toDart;
     _logger.debug('askPushNotificationPermission - jsValue: $jsValue', source: 'TwkApiV1');
     final dartValue = jsValue.dartify();
     _logger.debug('askPushNotificationPermission - dartValue: $dartValue', source: 'TwkApiV1');
     final value = (dartValue as Map)['result'];
     _logger.debug('askPushNotificationPermission - value: $value', source: 'TwkApiV1');
-    return value as bool;
+    return (value as Map).cast();
   }
 
   // ==================== Authentication Methods ====================

@@ -9,6 +9,7 @@ import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_demo_json_impl.dar
 import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_sdk_impl_stub.dart'
     if (dart.library.js_interop) 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_sdk_impl.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/disability_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/nationality_entity.dart';
@@ -139,14 +140,14 @@ class TwkHelper {
   /// Returns true if permission is granted, false otherwise.
   /// The user will see a permission dialog if not already granted.
   Future<bool> askCameraPermission() {
-    return _apiV1.askCameraPermission();
+    return _apiV1.askCameraPermission().then((v) => v['granted'] as bool);
   }
 
   /// Requests gallery/photo library access permission from the user.
   ///
   /// Returns true if permission is granted, false otherwise.
   Future<bool> askGalleryPermission() {
-    return _apiV1.askGalleryPermission();
+    return _apiV1.askGalleryPermission().then((v) => v['granted'] as bool);
   }
 
   /// Requests push notification permission from the user.
@@ -154,14 +155,15 @@ class TwkHelper {
   /// Returns true if permission is granted, false otherwise.
   /// Required for sending notifications to the user.
   Future<bool> askPushNotificationPermission() {
-    return _apiV1.askPushNotificationPermission();
+    return _apiV1.askPushNotificationPermission().then((v) => v['granted'] as bool);
+    ;
   }
 
   /// Requests user location permission (approximate).
   ///
   /// Returns true if permission is granted, false otherwise.
   Future<bool> askUserLocationPermission() {
-    return _apiV1.askUserLocationPermission();
+    return _apiV1.askUserLocationPermission().then((v) => v['granted'] as bool);
   }
 
   /// Requests precise location permission from the user.
@@ -169,7 +171,7 @@ class TwkHelper {
   /// Returns true if permission is granted, false otherwise.
   /// Provides more accurate GPS coordinates than approximate location.
   Future<bool> askUserPreciseLocationPermission() {
-    return _apiV1.askUserPreciseLocationPermission();
+    return _apiV1.askUserPreciseLocationPermission().then((v) => v['granted'] as bool);
   }
 
   /// Authenticates the user using biometric authentication (fingerprint/Face ID).
@@ -339,8 +341,8 @@ class TwkHelper {
   /// Retrieves the user's disability type if applicable.
   ///
   /// Returns the disability type as a string, or null if not applicable.
-  Future<String?> getUserDisabilityType() {
-    return _apiV1.getUserDisabilityType().then((r) => r['disability_type'] as String?);
+  Future<DisabilityType?> getUserDisabilityType() {
+    return _apiV1.getUserDisabilityType().then((r) => r.isNotEmpty ? DisabilityType.fromJson(r) : null);
   }
 
   /// Retrieves the user's document number (national ID or Iqama number).

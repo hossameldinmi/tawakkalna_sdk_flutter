@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/health_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/marital_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/device_info.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/disability_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/location.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/national_address.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/passport.dart';
@@ -318,6 +319,30 @@ void main() {
             deviceModel: 'samsung - SM-A065F',
             osVersion: 35,
           ));
+    });
+    test('getUserDisabilityType returns correct value', () async {
+      final result = await twk.getUserDisabilityType();
+      expect(result, const DisabilityType(code: 1000006, status: 401));
+    });
+    test('askCameraPermission returns correct value', () async {
+      final result = await twk.askCameraPermission();
+      expect(result, true);
+    });
+    test('askGalleryPermission returns correct value', () async {
+      final result = await twk.askGalleryPermission();
+      expect(result, true);
+    });
+    test('askPushNotificationPermission returns correct value', () async {
+      final result = await twk.askPushNotificationPermission();
+      expect(result, true);
+    });
+    test('askUserLocationPermission returns correct value', () async {
+      final result = await twk.askUserLocationPermission();
+      expect(result, true);
+    });
+    test('askUserPreciseLocationPermission returns correct value', () async {
+      final result = await twk.askUserPreciseLocationPermission();
+      expect(result, true);
     });
     test('getGallerySingle returns correct value', () async {
       final result = await twk.getGallerySingle();

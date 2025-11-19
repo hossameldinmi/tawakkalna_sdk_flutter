@@ -188,23 +188,23 @@ abstract class TwkApiV1 {
 
   /// Ask user for location permission
   /// Corresponds to: window.TWK.askUserLocationPermission()
-  Future<bool> askUserLocationPermission();
+  Future<Map<String, dynamic>> askUserLocationPermission();
 
   /// Ask user for precise location permission
   /// Corresponds to: window.TWK.askUserPreciseLocationPermission()
-  Future<bool> askUserPreciseLocationPermission();
+  Future<Map<String, dynamic>> askUserPreciseLocationPermission();
 
   /// Ask user for camera permission
   /// Corresponds to: window.TWK.askCameraPermission()
-  Future<bool> askCameraPermission();
+  Future<Map<String, dynamic>> askCameraPermission();
 
   /// Ask user for gallery permission
   /// Corresponds to: window.TWK.askGalleryPermission()
-  Future<bool> askGalleryPermission();
+  Future<Map<String, dynamic>> askGalleryPermission();
 
   /// Ask user for push notification permission
   /// Corresponds to: window.TWK.askPushNotificationPermission()
-  Future<bool> askPushNotificationPermission();
+  Future<Map<String, dynamic>> askPushNotificationPermission();
 
   // ==================== Authentication Methods ====================
 

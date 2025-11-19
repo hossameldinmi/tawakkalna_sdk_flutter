@@ -48,33 +48,38 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<bool> askCameraPermission() {
-    // TODO: implement askCameraPermission
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.askCameraPermission is not implemented yet.');
+  Future<Map<String, dynamic>> askCameraPermission() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/ask_permissions/camera');
+    return response;
   }
 
   @override
-  Future<bool> askGalleryPermission() {
-    // TODO: implement askGalleryPermission
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.askGalleryPermission is not implemented yet.');
+  Future<Map<String, dynamic>> askGalleryPermission() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/ask_permissions/gallery');
+    return response;
   }
 
   @override
-  Future<bool> askPushNotificationPermission() {
-    // TODO: implement askPushNotificationPermission
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.askPushNotificationPermission is not implemented yet.');
+  Future<Map<String, dynamic>> askPushNotificationPermission() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/ask_permissions/push_notification');
+    return response;
   }
 
   @override
-  Future<bool> askUserLocationPermission() {
-    // TODO: implement askUserLocationPermission
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.askUserLocationPermission is not implemented yet.');
+  Future<Map<String, dynamic>> askUserLocationPermission() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/ask_permissions/location');
+    return response;
   }
 
   @override
-  Future<bool> askUserPreciseLocationPermission() {
-    // TODO: implement askUserPreciseLocationPermission
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.askUserPreciseLocationPermission is not implemented yet.');
+  Future<Map<String, dynamic>> askUserPreciseLocationPermission() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/ask_permissions/precise_location');
+    return response;
   }
 
   @override

@@ -473,6 +473,50 @@
       }
     },
     {
+      "path": "/user_data/disability_type",
+      "return": {
+        "code": 1000006,
+        "status": 401
+      }
+    },
+    {
+      "path": "/user_data/user_birth_city",
+      "return": {
+        "birth_city_en": "Riyadh",
+        "birth_city_ar": "الرياض"
+      }
+    },
+    {
+      "path": "/ask_permissions/location",
+      "return": {
+        "granted": true
+      }
+    },
+       {
+      "path": "/ask_permissions/precise_location",
+      "return": {
+        "granted": true
+      }
+    },
+       {
+      "path": "/ask_permissions/camera",
+      "return": {
+        "granted": true
+      }
+    },
+       {
+      "path": "/ask_permissions/gallery",
+      "return": {
+        "granted": true
+      }
+    },
+       {
+      "path": "/ask_permissions/push_notification",
+      "return": {
+        "granted": true
+      }
+    },
+    {
       "path": "/gallery/image/single",
       "return": [
         {
