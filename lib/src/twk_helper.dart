@@ -238,7 +238,7 @@ class TwkHelper {
   /// - App version
   /// - Device identifiers
   Future<DeviceInfo?> getDeviceInfo() {
-    return _apiV1.getDeviceInfo().then((r) => DeviceInfo.fromJson(((r['device_info'] ?? {}) as Map).cast()));
+    return _apiV1.getDeviceInfo().then((r) => DeviceInfo.fromJson((r as Map).cast()));
   }
 
   /// Gets a file's content as a base64-encoded string.

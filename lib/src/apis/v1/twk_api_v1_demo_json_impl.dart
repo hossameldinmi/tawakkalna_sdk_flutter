@@ -116,9 +116,10 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<Map<String, dynamic>> getDeviceInfo() {
-    // TODO: implement getDeviceInfo
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.getDeviceInfo is not implemented yet.');
+  Future<Map<String, dynamic>> getDeviceInfo() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/capabilities');
+    return response;
   }
 
   @override
@@ -134,9 +135,10 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getGalleryMulti() {
-    // TODO: implement getGalleryMulti
-    throw UnimplementedError('TwkApiV1DemoJsonImpl.getGalleryMulti is not implemented yet.');
+  Future<List<Map<String, dynamic>>> getGalleryMulti() async {
+    await _loadJsonIfNeeded();
+    final response = _getResponseFromJson('/gallery/image/multi');
+    return (response as List).cast();
   }
 
   @override
@@ -149,7 +151,7 @@ class TwkApiV1DemoJsonImpl implements TwkApiV1 {
   Future<Map<String, dynamic>> getGallerySingle() async {
     await _loadJsonIfNeeded();
     final response = _getResponseFromJson('/gallery/image/single');
-    return response;
+    return (response as List).firstOrNull ?? {};
   }
 
   @override

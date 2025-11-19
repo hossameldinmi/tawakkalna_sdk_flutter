@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 /// Information about the user's device and app settings.
 ///
@@ -17,16 +18,24 @@ import 'package:equatable/equatable.dart';
 /// ```
 class DeviceInfo extends Equatable {
   /// Appearance mode (1 = light, 2 = dark)
-  final int apprearance;
+  final ThemeMode appearance;
 
   /// App language preference (e.g., "en", "ar")
-  final String language;
+  final String appLanguage;
 
   /// Device model/name
-  final String device;
+  final String deviceModel;
+
+  /// Operating system version
+  final int osVersion;
 
   /// Creates a new DeviceInfo instance.
-  const DeviceInfo({required this.apprearance, required this.language, required this.device});
+  const DeviceInfo({
+    required this.appearance,
+    required this.appLanguage,
+    required this.deviceModel,
+    required this.osVersion,
+  });
 
   /// Creates a DeviceInfo from a JSON map.
   ///
@@ -34,9 +43,10 @@ class DeviceInfo extends Equatable {
   static DeviceInfo? fromJson(Map<String, dynamic> json) {
     if (json.isEmpty) return null;
     return DeviceInfo(
-      apprearance: int.tryParse(json['appearance']?.toString() ?? '') ?? 1,
-      language: json['app_language'],
-      device: json['device_model'],
+      appearance: (int.tryParse(json['appearance']?.toString() ?? '') ?? 1) == 1 ? ThemeMode.light : ThemeMode.dark,
+      appLanguage: json['app_language'],
+      deviceModel: json['device_model'],
+      osVersion: int.tryParse(json['os_version']?.toString() ?? '') ?? 0,
     );
   }
 
@@ -44,10 +54,10 @@ class DeviceInfo extends Equatable {
   ///
   /// Returns true if the device model contains "iphone", "ipad", or "mac".
   bool get isAppleDevice =>
-      device.toLowerCase().contains('iphone') ||
-      device.toLowerCase().contains('ipad') ||
-      device.toLowerCase().contains('mac');
+      deviceModel.toLowerCase().contains('iphone') ||
+      deviceModel.toLowerCase().contains('ipad') ||
+      deviceModel.toLowerCase().contains('mac');
 
   @override
-  List<Object?> get props => [apprearance, language, device];
+  List<Object?> get props => [appearance, appLanguage, deviceModel, osVersion];
 }
