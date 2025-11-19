@@ -3,15 +3,42 @@ import 'package:tawakkalna_sdk_flutter/src/core/json_util.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/user_details.dart';
 
+/// Represents a sponsor (kafeel) in the Saudi Arabian sponsorship system.
+///
+/// For residents and visitors in Saudi Arabia, a sponsor is required.
+/// This model contains the sponsor's personal information and details.
+///
+/// Example:
+/// ```dart
+/// final sponsors = await twk.getUserSponsors();
+/// for (var sponsor in sponsors) {
+///   print('Sponsor: ${sponsor.nameEn} (${sponsor.nameAr})');
+///   print('ID expires: ${sponsor.idExpiryDateGregorian}');
+/// }
+/// ```
 class Sponsor extends Equatable {
+  /// The sponsor's national ID number
   final int nationalId;
+
+  /// ID expiry date in Hijri calendar format
   final String idExpiryDateHijri;
+
+  /// ID expiry date in Gregorian calendar format
   final DateTime idExpiryDateGregorian;
+
+  /// Sponsor's name in Arabic
   final String nameAr;
+
+  /// Sponsor's name in English
   final String nameEn;
+
+  /// Sponsor's gender
   final Gender gender;
+
+  /// Additional details about the sponsor
   final UserDetails details;
 
+  /// Creates a new Sponsor instance.
   const Sponsor({
     required this.nationalId,
     required this.idExpiryDateHijri,

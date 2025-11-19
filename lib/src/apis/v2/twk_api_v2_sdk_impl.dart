@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_web_libraries_in_flutter
 
 @JS()
-library js_interop_v2;
+library;
 
 import 'dart:js_interop';
 import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2.dart';

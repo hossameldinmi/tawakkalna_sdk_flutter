@@ -1,19 +1,56 @@
 import 'package:equatable/equatable.dart';
 
+/// Represents a registered vehicle with all its details.
+///
+/// Contains comprehensive information about a vehicle including
+/// registration details, physical characteristics, and expiry dates.
+/// This data is typically retrieved from Saudi traffic authorities.
+///
+/// Example:
+/// ```dart
+/// final vehicles = await twk.getUserVehicles();
+/// for (var vehicle in vehicles) {
+///   print('${vehicle.manufacturer} ${vehicle.model} - ${vehicle.plateNumber}');
+/// }
+/// ```
 class Vehicle extends Equatable {
+  /// The vehicle's license plate number
   final String plateNumber;
+
+  /// The type of registration (e.g., private, commercial)
   final String registrationType;
+
+  /// The primary color of the vehicle
   final String majorColor;
+
+  /// The vehicle model name
   final String model;
+
+  /// Current registration status (e.g., active, expired)
   final String status;
+
+  /// The manufacturing year of the vehicle
   final String modelYear;
+
+  /// Vehicle Identification Number (VIN)
   final String identificationNumber;
+
+  /// The vehicle's serial number
   final String serialNumber;
+
+  /// Maximum load capacity in relevant units
   final String loadCapacity;
+
+  /// The vehicle's weight
   final String weight;
+
+  /// Date when the registration expires
   final String registrationExpiryDate;
+
+  /// The vehicle manufacturer/brand name
   final String manufacturer;
 
+  /// Creates a new Vehicle instance.
   const Vehicle({
     required this.plateNumber,
     required this.registrationType,

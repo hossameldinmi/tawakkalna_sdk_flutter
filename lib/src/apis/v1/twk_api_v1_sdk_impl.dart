@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_web_libraries_in_flutter
 
 @JS()
-library js_interop;
+library;
 
 import 'dart:convert';
 import 'dart:js_interop';

@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:tawakkalna_sdk_flutter/twk.dart';
+import 'package:tawakkalna_sdk_flutter/tawakkalna_sdk_flutter.dart';
 
 void main() {
   EquatableConfig.stringify = true;
