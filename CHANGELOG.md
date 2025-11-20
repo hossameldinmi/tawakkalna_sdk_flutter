@@ -83,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Designed for building mini apps (HTML/JS) using Flutter Web
 - All platforms support mock data for development and testing
 
+[0.0.4-alpha.4]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.3
 [0.0.3-alpha.3]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.3
 [0.0.1-alpha.2]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.2
 [0.0.1-alpha.1]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.1

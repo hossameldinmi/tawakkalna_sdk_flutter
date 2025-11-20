@@ -401,173 +401,6 @@ print('Platform: ${deviceInfo?.platform}');
 print('Version: ${deviceInfo?.version}');
 ```
 
-## 📊 Data Models & Enums
-
-The SDK provides strongly-typed Dart models for all data structures:
-
-### Core Models
-
-#### V2 Models
-- `FullName` - Bilingual name with English and Arabic
-  ```dart
-  class FullName {
-    final String en;  // English name
-    final String ar;  // Arabic name
-  }
-  ```
-
-- `Nationality` - Nationality with bilingual name and ISO code
-  ```dart
-  class Nationality {
-    final String en;
-    final String ar;
-    final String isoCode;  // e.g., "SA" for Saudi Arabia
-  }
-  ```
-
-- `FamilyMember` - Family member details
-  ```dart
-  class FamilyMember {
-    final String id;
-    final FullName name;
-    final int age;
-    final Gender gender;
-    final Relation relation;
-  }
-  ```
-
-- `Sponsor` - Sponsor information
-  ```dart
-  class Sponsor {
-    final String id;
-    final FullName name;
-    final Nationality nationality;
-  }
-  ```
-
-#### V1 Models
-
-- `Vehicle` - Vehicle registration details
-  ```dart
-  class Vehicle {
-    final String plateNumber;
-    final String brand;
-    final String model;
-    final int year;
-    final String color;
-    final String chassisNumber;
-  }
-  ```
-
-- `Violation` - Traffic violation information
-  ```dart
-  class Violation {
-    final String id;
-    final DateTime date;
-    final double amount;
-    final String description;
-    final String location;
-    final bool isPaid;
-  }
-  ```
-
-- `Passport` - Passport information
-  ```dart
-  class Passport {
-    final String number;
-    final String type;
-    final DateTime issueDate;
-    final DateTime expiryDate;
-    final String issuingCountry;
-  }
-  ```
-
-- `Location` - GPS coordinates
-  ```dart
-  class Location {
-    final double latitude;
-    final double longitude;
-    final double? altitude;
-    final double? accuracy;
-  }
-  ```
-
-- `NationalAddress` - Saudi national address
-  ```dart
-  class NationalAddress {
-    final String buildingNumber;
-    final String street;
-    final String district;
-    final String city;
-    final String region;
-    final String postalCode;
-    final String additionalNumber;
-  }
-  ```
-
-- `TwkFile` - File/media data
-  ```dart
-  class TwkFile {
-    final String fileName;
-    final String mimeType;
-    final String data;          // Base64 encoded
-    final Uint8List binary;     // Decoded binary data
-  }
-  ```
-
-- `DeviceInfo` - Device capabilities
-  ```dart
-  class DeviceInfo {
-    final String platform;      // iOS, Android, Web
-    final String version;
-    final Map<String, bool> capabilities;
-  }
-  ```
-
-### Enumerations
-
-- `Gender` - User gender
-  - `Gender.male`
-  - `Gender.female`
-
-- `UserType` - Type of user account
-  - `UserType.citizen` - Saudi citizen
-  - `UserType.resident` - Resident (Iqama holder)
-  - `UserType.visitor` - Visitor/Tourist
-  - `UserType.gccCitizen` - GCC country citizen
-
-- `BloodType` - Blood group classification
-  - `BloodType.aPositive`, `BloodType.aNegative`
-  - `BloodType.bPositive`, `BloodType.bNegative`
-  - `BloodType.abPositive`, `BloodType.abNegative`
-  - `BloodType.oPositive`, `BloodType.oNegative`
-
-- `IqamaType` - Iqama (residence permit) category
-  - `IqamaType.work` - Work permit
-  - `IqamaType.family` - Family residence
-  - `IqamaType.study` - Student visa
-  - `IqamaType.hajj` - Hajj/Umrah visa
-
-- `Relation` - Family relationship types
-  - `Relation.father`, `Relation.mother`
-  - `Relation.son`, `Relation.daughter`
-  - `Relation.brother`, `Relation.sister`
-  - `Relation.spouse`
-  - `Relation.grandfather`, `Relation.grandmother`
-
-- `MaritalStatus` - Marital status
-  - `MaritalStatus.single`
-  - `MaritalStatus.married`
-  - `MaritalStatus.divorced`
-  - `MaritalStatus.widowed`
-
-- `DegreeType` - Educational degree level
-  - `DegreeType.highSchool`
-  - `DegreeType.diploma`
-  - `DegreeType.bachelor`
-  - `DegreeType.master`
-  - `DegreeType.doctorate`
-
 ## ✅ Testing
 
 The SDK includes comprehensive unit tests for all implementations:
@@ -808,7 +641,7 @@ The JavaScript bridge provides:
 
 ### Minimum Requirements
 
-- **Dart SDK**: ≥ 3.5.4
+- **Dart SDK**: ≥ 3.0.4
 - **Flutter SDK**: ≥ 3.3.0
 - **Android**: API 21+ (Android 5.0 Lollipop)
 - **iOS**: iOS 12.0+
@@ -900,10 +733,7 @@ final males = await twk.getUserFamilyMembers(
 final twk = TwkHelper(); // Uses mock data
 
 // For production
-final twk = TwkHelper(
-  v1Api: YourProductionV1Impl(),
-  v2Api: YourProductionV2Impl(),
-);
+final twk = TwkHelper();
 ```
 
 ### Issue: "Type mismatch errors"
@@ -936,25 +766,6 @@ TwkLogger.instance.setEnabled(false);
 ## 📜 API Reference
 
 Detailed API documentation is available:
-
-### Quick Reference
-
-| Category       | V1 Methods | V2 Methods |
-| -------------- | ---------- | ---------- |
-| Personal Info  | 8          | 1          |
-| Contact        | 4          | 0          |
-| Documents      | 5          | 0          |
-| Health         | 4          | 0          |
-| Education      | 2          | 0          |
-| Family         | 3          | 2          |
-| Vehicles       | 3          | 0          |
-| Gallery/Camera | 6          | 0          |
-| Files          | 2          | 0          |
-| Permissions    | 9          | 0          |
-| Authentication | 2          | 1          |
-| Scanner        | 1          | 0          |
-| Device         | 1          | 0          |
-| **Total**      | **50+**    | **5**      |
 
 ### Complete Method List
 
