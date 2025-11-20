@@ -18,7 +18,7 @@ screenshots:
     path: assets/icon.png
 
 environment:
-  sdk: ^3.5.4
+  sdk: ^3.0.0
   flutter: ">=3.3.0"
 
 dependencies:
