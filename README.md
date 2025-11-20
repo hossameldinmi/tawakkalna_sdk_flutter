@@ -1,5 +1,7 @@
 <h1 align="center">
-  Tawakkalna SDK for Flutter
+  Tawakkalna - توكلنا
+  
+  SDK for Flutter
 </h1>
 
 <p align="center">
