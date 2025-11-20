@@ -60,9 +60,9 @@ This SDK enables Flutter developers to integrate Tawakkalna's powerful features 
 ## 📸 Screenshots
 
 <div align="center" style="overflow-x: auto; white-space: nowrap;">
-  <img src="https://github.com/hossameldinmi/tawakkalna_sdk_flutter/raw/main/doc/screenshot-1.png" height="220" width:  alt="Example App - iOS Mobile View" style="display: inline-block; vertical-align: top;">
-  <img src="https://github.com/hossameldinmi/tawakkalna_sdk_flutter/raw/main/doc/screenshot-2.png" height="220" alt="Example App - Web Landscape" style="display: inline-block; vertical-align: top;">
-  <img src="https://github.com/hossameldinmi/tawakkalna_sdk_flutter/raw/main/doc/screenshot-3.png" height="220" alt="Example App - Logger View" style="display: inline-block; vertical-align: top;">
+  <img src="https://github.com/hossameldinmi/tawakkalna_sdk_flutter/raw/main/doc/screenshot-1.png" height="350" width:  alt="Example App - iOS Mobile View" style="display: inline-block; vertical-align: top;">
+  <img src="https://github.com/hossameldinmi/tawakkalna_sdk_flutter/raw/main/doc/screenshot-2.png" height="350" alt="Example App - Web Landscape" style="display: inline-block; vertical-align: top;">
+  <img src="https://github.com/hossameldinmi/tawakkalna_sdk_flutter/raw/main/doc/screenshot-3.png" height="350" alt="Example App - Logger View" style="display: inline-block; vertical-align: top;">
 </div>
 
 ## ✨ Features
