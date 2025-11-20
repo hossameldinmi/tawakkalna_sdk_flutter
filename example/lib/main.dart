@@ -1,62 +1,886 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
+// ignore_for_file: deprecated_member_use
 
-import 'package:flutter/services.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:tawakkalna_sdk_flutter/tawakkalna_sdk_flutter.dart';
 
 void main() {
+  EquatableConfig.stringify = true;
+  // Initialize logger
+  final logger = TwkLogger();
+  logger.info('Application started', source: 'main');
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class ApiError {
+  final String method;
+  final String error;
+  final String stackTrace;
+
+  ApiError({required this.method, required this.error, required this.stackTrace});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  String toString() => 'Error in $method: $error';
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _tawakkalnaSdkFlutterPlugin = TawakkalnaSdkFlutter();
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _tawakkalnaSdkFlutterPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
+      title: 'Tawakkalna SDK Demo',
+      theme: ThemeData(primarySwatch: Colors.teal, useMaterial3: true),
+      home: const TawakkalnaDemo(),
+    );
+  }
+}
+
+class TawakkalnaDemo extends StatefulWidget {
+  const TawakkalnaDemo({super.key});
+
+  @override
+  State<TawakkalnaDemo> createState() => _TawakkalnaDemoState();
+}
+
+class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
+  final _twk = TwkHelper();
+  final _logger = TwkLogger();
+  final Map<String, dynamic> _results = {};
+  final Set<String> _loadingMethods = {};
+  bool _showLogs = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _logger.addListener(_onNewLog);
+    _logger.info('Demo screen initialized', source: 'TawakkalnaDemo');
+  }
+
+  @override
+  void dispose() {
+    _logger.removeListener(_onNewLog);
+    super.dispose();
+  }
+
+  void _onNewLog(LogEntry log) {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _callMethod(String key, Future<dynamic> Function() apiCall) async {
+    setState(() {
+      _loadingMethods.add(key);
+    });
+
+    _logger.debug('Calling API method: $key', source: 'API Call');
+
+    try {
+      final result = await apiCall();
+      _logger.info('API call succeeded: $key', source: 'API Call', data: result);
+      setState(() {
+        _results[key] = result;
+      });
+    } catch (e, stackTrace) {
+      _logger.error('API call failed: $key', source: 'API Call', data: e.toString());
+      setState(() {
+        _results[key] = ApiError(method: key, error: e.toString(), stackTrace: stackTrace.toString());
+      });
+    } finally {
+      setState(() {
+        _loadingMethods.remove(key);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final errorCount = _results.values.whereType<ApiError>().length;
+    final successCount = _results.length - errorCount;
+    final logStats = _logger.getStatistics();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tawakkalna SDK Demo'),
+        elevation: 2,
+        actions: [
+          IconButton(
+            icon: Icon(_showLogs ? Icons.article : Icons.article_outlined),
+            tooltip: _showLogs ? 'Hide Logs' : 'Show Logs',
+            onPressed: () {
+              setState(() {
+                _showLogs = !_showLogs;
+              });
+              _logger.debug('Toggled logs view: $_showLogs', source: 'UI');
+            },
+          ),
+          if (_showLogs && _logger.logs.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.cleaning_services),
+              tooltip: 'Clear Logs',
+              onPressed: () {
+                setState(() {
+                  _logger.clear();
+                });
+                _logger.info('Logs cleared', source: 'UI');
+              },
+            ),
+          if (_results.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.delete_sweep),
+              tooltip: 'Clear All Results',
+              onPressed: () {
+                setState(() => _results.clear());
+                _logger.info('Results cleared', source: 'UI');
+              },
+            ),
+        ],
+      ),
+      body: Row(
+        children: [
+          // Left sidebar with buttons
+          Expanded(
+            flex: 2,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                border: Border(right: BorderSide(color: Colors.grey[300]!)),
+              ),
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  if (_results.isNotEmpty) ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: errorCount > 0 ? Colors.orange[50] : Colors.green[50],
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: errorCount > 0 ? Colors.orange[300]! : Colors.green[300]!),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _buildCompactStat('Total', _results.length.toString(), Colors.blue, Icons.list),
+                          _buildCompactStat('Success', successCount.toString(), Colors.green, Icons.check_circle),
+                          _buildCompactStat('Errors', errorCount.toString(), Colors.red, Icons.error),
+                        ],
+                      ),
+                    ),
+                  ],
+                  if (_showLogs) ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.blue[300]!),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildCompactStat('Total', logStats['total'].toString(), Colors.blue, Icons.list_alt),
+                              _buildCompactStat('Debug', logStats['debug'].toString(), Colors.grey, Icons.bug_report),
+                              _buildCompactStat('Info', logStats['info'].toString(), Colors.teal, Icons.info),
+                              _buildCompactStat('Warn', logStats['warning'].toString(), Colors.orange, Icons.warning),
+                              _buildCompactStat('Error', logStats['error'].toString(), Colors.red, Icons.error),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  _buildSection('Authentication', Icons.fingerprint, Colors.green, [
+                    _buildMethodButton('Generate Token', 'Token', Icons.vpn_key, () => _twk.generateToken()),
+                    _buildMethodButton(
+                      'Biometric Auth',
+                      'Biometric',
+                      Icons.fingerprint,
+                      () => _twk.authenticateBiometric(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Personal Information', Icons.person_outline, Colors.blue, [
+                    _buildMethodButton('User ID', 'User ID', Icons.badge, () => _twk.getUserId()),
+                    _buildMethodButton('User Type', 'User Type', Icons.category, () => _twk.getUserType()),
+                    _buildMethodButton('Full Name', 'Full Name', Icons.person, () => _twk.getUserFullName()),
+                    _buildMethodButton('Gender', 'Gender', Icons.wc, () => _twk.getUserGender()),
+                    _buildMethodButton('Birth Date', 'Birth Date', Icons.cake, () => _twk.getUserBirthDate()),
+                    _buildMethodButton('Birth City', 'Birth City', Icons.location_city, () => _twk.getUserBirthCity()),
+                    _buildMethodButton('Nationality', 'Nationality', Icons.flag, () => _twk.getUserNationality()),
+                    _buildMethodButton(
+                      'Nationality ISO',
+                      'Nationality ISO',
+                      Icons.outlined_flag,
+                      () => _twk.getUserNationalityIso(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Contact Information', Icons.contact_page, Colors.orange, [
+                    _buildMethodButton('Mobile Number', 'Mobile Number', Icons.phone, () => _twk.getUserMobileNumber()),
+                    _buildMethodButton('Email', 'Email', Icons.email, () => _twk.getUserEmail()),
+                    _buildMethodButton('Location', 'Location', Icons.location_on, () => _twk.getUserLocation()),
+                    _buildMethodButton(
+                      'National Address',
+                      'National Address',
+                      Icons.home,
+                      () => _twk.getUserNationalAddress(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Documents', Icons.description, Colors.teal, [
+                    _buildMethodButton('Passports', 'Passports', Icons.airplane_ticket, () => _twk.getUserPassports()),
+                    _buildMethodButton(
+                      'ID Expiry Date',
+                      'ID Expiry Date',
+                      Icons.event,
+                      () => _twk.getUserIdExpiryDate(),
+                    ),
+                    _buildMethodButton(
+                      'Document Number',
+                      'Document Number',
+                      Icons.numbers,
+                      () => _twk.getUserDocumentNumber(),
+                    ),
+                    _buildMethodButton(
+                      'Iqama Type',
+                      'Iqama Type',
+                      Icons.card_membership,
+                      () => _twk.getUserIqamaType(),
+                    ),
+                    _buildMethodButton('Profile Photo', 'Profile Photo', Icons.photo, () => _twk.getUserProfilePhoto()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Health & Status', Icons.health_and_safety, Colors.red, [
+                    _buildMethodButton('Blood Type', 'Blood Type', Icons.bloodtype, () => _twk.getUserBloodType()),
+                    _buildMethodButton(
+                      'Health Status',
+                      'Health Status',
+                      Icons.medical_services,
+                      () => _twk.getUserHealthStatus(),
+                    ),
+                    _buildMethodButton(
+                      'Disability Type',
+                      'Disability Type',
+                      Icons.accessible,
+                      () => _twk.getUserDisabilityType(),
+                    ),
+                    _buildMethodButton(
+                      'Marital Status',
+                      'Marital Status',
+                      Icons.favorite,
+                      () => _twk.getUserMaritalStatus(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Education & Career', Icons.school, Colors.indigo, [
+                    _buildMethodButton('Degree Type', 'Degree Type', Icons.school, () => _twk.getUserDegreeType()),
+                    _buildMethodButton('Occupation', 'Occupation', Icons.work, () => _twk.getUserOccupation()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Family & Relationships', Icons.family_restroom, Colors.pink, [
+                    _buildMethodButton(
+                      'Family Members',
+                      'Family Members',
+                      Icons.family_restroom,
+                      () => _twk.getUserFamilyMembers(),
+                    ),
+                    _buildMethodButton(
+                      'Family (18-30)',
+                      'Family (Filtered)',
+                      Icons.filter_list,
+                      () => _twk.getUserFamilyMembers(minAge: 18, maxAge: 30),
+                    ),
+                    _buildMethodButton('Sponsors', 'Sponsors', Icons.business, () => _twk.getUserSponsors()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Vehicles & Violations', Icons.directions_car, Colors.brown, [
+                    _buildMethodButton('Vehicles', 'Vehicles', Icons.car_rental, () => _twk.getUserVehicles()),
+                    _buildMethodButton(
+                      'Unpaid Violations',
+                      'Unpaid Violations',
+                      Icons.warning,
+                      () => _twk.getUserUnPaidViolations(),
+                    ),
+                    _buildMethodButton(
+                      'Paid Violations',
+                      'Paid Violations',
+                      Icons.check_circle_outline,
+                      () => _twk.getUserPaidViolations(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Gallery', Icons.photo_library, Colors.purple, [
+                    _buildMethodButton('Single Image', 'Gallery Single', Icons.photo, () => _twk.getGallerySingle()),
+                    _buildMethodButton(
+                      'Multiple Images',
+                      'Gallery Multi',
+                      Icons.photo_library,
+                      () => _twk.getGalleryMulti(),
+                    ),
+                    _buildMethodButton(
+                      'Single Video',
+                      'Gallery Single Video',
+                      Icons.videocam,
+                      () => _twk.getGallerySingleVideo(),
+                    ),
+                    _buildMethodButton(
+                      'Multiple Videos',
+                      'Gallery Multi Video',
+                      Icons.video_library,
+                      () => _twk.getGalleryMultiVideo(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Camera', Icons.camera_alt, Colors.deepPurple, [
+                    _buildMethodButton('Take Photo', 'Camera Photo', Icons.camera, () => _twk.getCameraPhoto()),
+                    _buildMethodButton('Record Video', 'Camera Video', Icons.videocam, () => _twk.getCameraVideo()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Files', Icons.file_present, Colors.amber, [
+                    _buildMethodButton('Get File Base64', 'File Base64', Icons.file_copy, () => _twk.getFileBase64()),
+                    _buildMethodButton('Get File ID', 'File ID', Icons.fingerprint, () => _twk.getFileId()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Permissions', Icons.security, Colors.deepOrange, [
+                    _buildMethodButton(
+                      'Location Permission',
+                      'Location Permission',
+                      Icons.location_on,
+                      () => _twk.askUserLocationPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Precise Location',
+                      'Precise Location',
+                      Icons.my_location,
+                      () => _twk.askUserPreciseLocationPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Camera Permission',
+                      'Camera Permission',
+                      Icons.camera,
+                      () => _twk.askCameraPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Gallery Permission',
+                      'Gallery Permission',
+                      Icons.photo_library,
+                      () => _twk.askGalleryPermission(),
+                    ),
+                    _buildMethodButton(
+                      'Notification Permission',
+                      'Push Notification',
+                      Icons.notifications,
+                      () => _twk.askPushNotificationPermission(),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Scanner', Icons.qr_code_scanner, Colors.blueGrey, [
+                    _buildMethodButton('Scan Code', 'Scan Code', Icons.qr_code_scanner, () => _twk.scanCode()),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Device Info', Icons.devices, Colors.cyan, [
+                    _buildMethodButton('Device Info', 'Device Info', Icons.phone_android, () => _twk.getDeviceInfo()),
+                  ]),
+                ],
+              ),
+            ),
+          ),
+          // Right side with results or logs
+          Expanded(
+            flex: 3,
+            child: _showLogs
+                ? _buildLogsView()
+                : _results.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.touch_app, size: 64, color: Colors.grey[400]),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Tap any button to call an API method',
+                          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: _results.length,
+                    itemBuilder: (context, index) {
+                      final key = _results.keys.elementAt(index);
+                      final value = _results[key];
+                      return _buildResultCard(key, value);
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSection(String title, IconData icon, Color color, List<Widget> buttons) {
+    return Card(
+      elevation: 1,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final titleWidget = Text(
+            title,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: color),
+          );
+          final vertical = constraints.maxWidth < 260;
+
+          return ExpansionTile(
+            initiallyExpanded: true,
+            leading: vertical ? null : Icon(icon, color: color),
+            title: vertical ? Icon(icon, color: color) : titleWidget,
+            subtitle: vertical ? titleWidget : null,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(children: buttons),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildMethodButton(String label, String key, IconData icon, Future<dynamic> Function() apiCall) {
+    final isLoading = _loadingMethods.contains(key);
+    final hasResult = _results.containsKey(key);
+    final isError = hasResult && _results[key] is ApiError;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: ElevatedButton.icon(
+        onPressed: isLoading ? null : () => _callMethod(key, apiCall),
+        icon: isLoading
+            ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+            : Icon(hasResult ? (isError ? Icons.error : Icons.check_circle) : icon, size: 18),
+        label: Text(label, style: const TextStyle(fontSize: 13)),
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 40),
+          alignment: Alignment.centerLeft,
+          backgroundColor: hasResult ? (isError ? Colors.red[100] : Colors.green[50]) : null,
+          foregroundColor: hasResult ? (isError ? Colors.red[900] : Colors.green[900]) : null,
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+      ),
+    );
+  }
+
+  Widget _buildCompactStat(String label, String value, Color color, IconData icon) {
+    return Column(
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(height: 2),
+        Text(
+          value,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),
         ),
+        Text(label, style: TextStyle(fontSize: 10, color: Colors.grey[700])),
+      ],
+    );
+  }
+
+  Widget _buildResultCard(String title, dynamic value) {
+    final isError = value is ApiError;
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 2,
+      color: isError ? Colors.red[50] : null,
+      child: ExpansionTile(
+        leading: isError
+            ? const Icon(Icons.error, color: Colors.red)
+            : const Icon(Icons.check_circle, color: Colors.green),
+        title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isError ? Colors.red[900] : null),
+        ),
+        subtitle: Text(
+          _getPreview(value),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 12, color: isError ? Colors.red[700] : Colors.grey),
+        ),
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: isError ? Colors.red[50] : Colors.grey[50],
+              border: Border(top: BorderSide(color: isError ? Colors.red[200]! : Colors.grey[300]!)),
+            ),
+            child: _buildValueWidget(value),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getPreview(dynamic value) {
+    if (value == null) return 'null';
+    if (value is ApiError) return '❌ ${value.error.split('\n').first}';
+    if (value is List) return '${value.length} items';
+    if (value is Map) return '${value.length} fields';
+    final str = value.toString();
+    return str.length > 50 ? '${str.substring(0, 50)}...' : str;
+  }
+
+  Widget _buildValueWidget(dynamic value) {
+    if (value == null) {
+      return const Text(
+        'null',
+        style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
+      );
+    }
+
+    // Handle errors specially
+    if (value is ApiError) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.red[100],
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.red[300]!),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.error_outline, color: Colors.red[900], size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Error Details',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[900], fontSize: 14),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text('Method: ${value.method}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                const SizedBox(height: 8),
+                Text(
+                  'Error:',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[900], fontSize: 13),
+                ),
+                const SizedBox(height: 4),
+                SelectableText(
+                  value.error,
+                  style: const TextStyle(fontFamily: 'monospace', fontSize: 12, color: Colors.black87),
+                ),
+                const SizedBox(height: 12),
+                ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(
+                    'Stack Trace',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red[900], fontSize: 12),
+                  ),
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4)),
+                      child: SelectableText(
+                        value.stackTrace,
+                        style: const TextStyle(fontFamily: 'monospace', fontSize: 10, color: Colors.black54),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
+    // Handle TwkFile (for images)
+    if (value is TwkFile) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('image', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [value].map<Widget>((e) {
+              return _buildImageThumbnail(e, 1);
+            }).toList(),
+          ),
+        ],
+      );
+    }
+    if (value is List) {
+      if (value.isEmpty) {
+        return const Text(
+          '[] (Empty list)',
+          style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
+        );
+      }
+      // Check if list contains TwkFile objects (images)
+      if (value.isNotEmpty && value.first is TwkFile) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${value.length} ${value.length == 1 ? 'image' : 'images'}',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: value.asMap().entries.map<Widget>((entry) {
+                final file = entry.value as TwkFile;
+                return _buildImageThumbnail(file, entry.key + 1);
+              }).toList(),
+            ),
+          ],
+        );
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: value.asMap().entries.map((entry) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Item ${entry.key + 1}',
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.teal),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Check if individual item is TwkFile
+                  Text(_formatValue(entry.value), style: const TextStyle(fontFamily: 'monospace')),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      );
+    }
+
+    return SelectableText(_formatValue(value), style: const TextStyle(fontFamily: 'monospace', fontSize: 13));
+  }
+
+  String _formatValue(dynamic value) {
+    if (value == null) return 'null';
+
+    // Handle custom objects with toString()
+    final str = value.toString();
+
+    // If it's already formatted (contains newlines), return as is
+    if (str.contains('\n')) {
+      return str;
+    }
+
+    // For simple values, just return the string
+    return str;
+  }
+
+  Widget _buildLogsView() {
+    final logs = _logger.logs;
+
+    if (logs.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.article_outlined, size: 64, color: Colors.grey[400]),
+            const SizedBox(height: 16),
+            Text(
+              'No logs yet',
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Logs will appear here as you interact with the SDK',
+              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: logs.length,
+      reverse: true, // Show newest logs at the top
+      itemBuilder: (context, index) {
+        final log = logs[logs.length - 1 - index];
+        return _buildLogEntry(log);
+      },
+    );
+  }
+
+  Widget _buildLogEntry(LogEntry log) {
+    Color levelColor;
+    Color backgroundColor;
+
+    switch (log.level) {
+      case LogLevel.debug:
+        levelColor = Colors.grey[700]!;
+        backgroundColor = Colors.grey[50]!;
+        break;
+      case LogLevel.info:
+        levelColor = Colors.teal[700]!;
+        backgroundColor = Colors.teal[50]!;
+        break;
+      case LogLevel.warning:
+        levelColor = Colors.orange[700]!;
+        backgroundColor = Colors.orange[50]!;
+        break;
+      case LogLevel.error:
+        levelColor = Colors.red[700]!;
+        backgroundColor = Colors.red[50]!;
+        break;
+    }
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      color: backgroundColor,
+      elevation: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(log.levelIcon, style: const TextStyle(fontSize: 16)),
+                const SizedBox(width: 8),
+                Text(
+                  log.levelName,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: levelColor),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  log.timeString,
+                  style: TextStyle(fontFamily: 'monospace', fontSize: 11, color: Colors.grey[600]),
+                ),
+                if (log.source != null) ...[
+                  const SizedBox(width: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: levelColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: levelColor.withOpacity(0.3)),
+                    ),
+                    child: Text(
+                      log.source!,
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: levelColor),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 8),
+            SelectableText(log.message, style: const TextStyle(fontSize: 13, height: 1.4)),
+            if (log.data != null) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: Colors.black.withOpacity(0.1)),
+                ),
+                child: SelectableText(
+                  log.data.toString(),
+                  style: const TextStyle(fontFamily: 'monospace', fontSize: 11, color: Colors.black87),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageThumbnail(TwkFile file, int index) {
+    return Container(
+      width: 150,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey[300]!),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+            child: Container(
+              width: 150,
+              height: 150,
+              color: Colors.grey[100],
+              child: Image.memory(
+                file.binary,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[200],
+                    child: const Center(child: Icon(Icons.broken_image, size: 48, color: Colors.grey)),
+                  );
+                },
+              ),
+            ),
+          ),
+          // Info
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Image $index',
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  file.fileName,
+                  style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  file.mimeType,
+                  style: TextStyle(fontSize: 10, color: Colors.grey[500]),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

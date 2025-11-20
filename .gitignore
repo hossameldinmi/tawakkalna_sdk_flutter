@@ -27,3 +27,8 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
+coverage/lcov.info
+
+# FVM Version Cache
+.fvm/
+example/pubspec.lock
