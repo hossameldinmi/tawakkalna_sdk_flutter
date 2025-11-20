@@ -1,7 +1,21 @@
 name: tawakkalna_sdk_flutter
-description: "A new Flutter plugin project."
-version: 0.0.1
+description: Flutter SDK for Tawakkalna - Saudi Arabia's super app that unifies government services, providing seamless access to user data, documents, and services in alignment with Vision 2030.
+version: 0.0.1-alpha.1
 repository: https://github.com/hossameldinmi/tawakkalna_sdk_flutter
+
+platforms:
+  web: null
+
+topics:
+  - tawakkalna
+  - sdk
+  - saudi-arabia
+  - government-services
+  - ksa
+
+screenshots:
+  - description: The package logo.
+    path: assets/icon.png
 
 environment:
   sdk: ^3.5.4
@@ -14,7 +28,7 @@ dependencies:
   js: ^0.7.2
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
 

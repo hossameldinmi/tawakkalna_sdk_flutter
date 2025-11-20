@@ -194,256 +194,197 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
                       ),
                     ),
                   ],
-                  _buildSection('V2 API Methods', Icons.api, Colors.purple, [
-                    _buildMethodButton('Generate Token', 'V2: Token', Icons.vpn_key, () => _twk.generateToken()),
-                    _buildMethodButton('Get Full Name', 'V2: Full Name', Icons.person, () => _twk.getUserFullName()),
+                  _buildSection('Authentication', Icons.fingerprint, Colors.green, [
+                    _buildMethodButton('Generate Token', 'Token', Icons.vpn_key, () => _twk.generateToken()),
                     _buildMethodButton(
-                      'Get Nationality',
-                      'V2: Nationality',
-                      Icons.flag,
-                      () => _twk.getUserNationality(),
+                      'Biometric Auth',
+                      'Biometric',
+                      Icons.fingerprint,
+                      () => _twk.authenticateBiometric(),
                     ),
-                    _buildMethodButton(
-                      'Get Family Members',
-                      'V2: Family Members',
-                      Icons.family_restroom,
-                      () => _twk.getUserFamilyMembers(),
-                    ),
-                    _buildMethodButton(
-                      'Get Family (18-30)',
-                      'V2: Family (Filtered)',
-                      Icons.filter_list,
-                      () => _twk.getUserFamilyMembers(minAge: 18, maxAge: 30),
-                    ),
-                    _buildMethodButton('Get Sponsors', 'V2: Sponsors', Icons.business, () => _twk.getUserSponsors()),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Personal Info', Icons.person_outline, Colors.blue, [
-                    _buildMethodButton('User ID', 'V1: User ID', Icons.badge, () => _twk.getUserId()),
-                    _buildMethodButton('User Type', 'V1: User Type', Icons.category, () => _twk.getUserType()),
-                    _buildMethodButton('Full Name', 'V1: Full Name', Icons.person, () => _twk.getUserFullName()),
-                    _buildMethodButton('Gender', 'V1: Gender', Icons.wc, () => _twk.getUserGender()),
-                    _buildMethodButton('Birth Date', 'V1: Birth Date', Icons.cake, () => _twk.getUserBirthDate()),
-                    _buildMethodButton(
-                      'Birth City',
-                      'V1: Birth City',
-                      Icons.location_city,
-                      () => _twk.getUserBirthCity(),
-                    ),
-                    _buildMethodButton('Nationality', 'V1: Nationality', Icons.flag, () => _twk.getUserNationality()),
+                  _buildSection('Personal Information', Icons.person_outline, Colors.blue, [
+                    _buildMethodButton('User ID', 'User ID', Icons.badge, () => _twk.getUserId()),
+                    _buildMethodButton('User Type', 'User Type', Icons.category, () => _twk.getUserType()),
+                    _buildMethodButton('Full Name', 'Full Name', Icons.person, () => _twk.getUserFullName()),
+                    _buildMethodButton('Gender', 'Gender', Icons.wc, () => _twk.getUserGender()),
+                    _buildMethodButton('Birth Date', 'Birth Date', Icons.cake, () => _twk.getUserBirthDate()),
+                    _buildMethodButton('Birth City', 'Birth City', Icons.location_city, () => _twk.getUserBirthCity()),
+                    _buildMethodButton('Nationality', 'Nationality', Icons.flag, () => _twk.getUserNationality()),
                     _buildMethodButton(
                       'Nationality ISO',
-                      'V1: Nationality ISO',
+                      'Nationality ISO',
                       Icons.outlined_flag,
                       () => _twk.getUserNationalityIso(),
                     ),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Contact Info', Icons.contact_page, Colors.orange, [
-                    _buildMethodButton(
-                      'Mobile Number',
-                      'V1: Mobile Number',
-                      Icons.phone,
-                      () => _twk.getUserMobileNumber(),
-                    ),
-                    _buildMethodButton('Email', 'V1: Email', Icons.email, () => _twk.getUserEmail()),
-                    _buildMethodButton('Location', 'V1: Location', Icons.location_on, () => _twk.getUserLocation()),
+                  _buildSection('Contact Information', Icons.contact_page, Colors.orange, [
+                    _buildMethodButton('Mobile Number', 'Mobile Number', Icons.phone, () => _twk.getUserMobileNumber()),
+                    _buildMethodButton('Email', 'Email', Icons.email, () => _twk.getUserEmail()),
+                    _buildMethodButton('Location', 'Location', Icons.location_on, () => _twk.getUserLocation()),
                     _buildMethodButton(
                       'National Address',
-                      'V1: National Address',
+                      'National Address',
                       Icons.home,
                       () => _twk.getUserNationalAddress(),
                     ),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Documents', Icons.description, Colors.teal, [
-                    _buildMethodButton(
-                      'Passports',
-                      'V1: Passports',
-                      Icons.airplane_ticket,
-                      () => _twk.getUserPassports(),
-                    ),
+                  _buildSection('Documents', Icons.description, Colors.teal, [
+                    _buildMethodButton('Passports', 'Passports', Icons.airplane_ticket, () => _twk.getUserPassports()),
                     _buildMethodButton(
                       'ID Expiry Date',
-                      'V1: ID Expiry Date',
+                      'ID Expiry Date',
                       Icons.event,
                       () => _twk.getUserIdExpiryDate(),
                     ),
                     _buildMethodButton(
                       'Document Number',
-                      'V1: Document Number',
+                      'Document Number',
                       Icons.numbers,
                       () => _twk.getUserDocumentNumber(),
                     ),
                     _buildMethodButton(
                       'Iqama Type',
-                      'V1: Iqama Type',
+                      'Iqama Type',
                       Icons.card_membership,
                       () => _twk.getUserIqamaType(),
                     ),
-                    _buildMethodButton(
-                      'Profile Photo',
-                      'V1: Profile Photo',
-                      Icons.photo,
-                      () => _twk.getUserProfilePhoto(),
-                    ),
+                    _buildMethodButton('Profile Photo', 'Profile Photo', Icons.photo, () => _twk.getUserProfilePhoto()),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Health & Status', Icons.health_and_safety, Colors.red, [
-                    _buildMethodButton('Blood Type', 'V1: Blood Type', Icons.bloodtype, () => _twk.getUserBloodType()),
+                  _buildSection('Health & Status', Icons.health_and_safety, Colors.red, [
+                    _buildMethodButton('Blood Type', 'Blood Type', Icons.bloodtype, () => _twk.getUserBloodType()),
                     _buildMethodButton(
                       'Health Status',
-                      'V1: Health Status',
+                      'Health Status',
                       Icons.medical_services,
                       () => _twk.getUserHealthStatus(),
                     ),
                     _buildMethodButton(
                       'Disability Type',
-                      'V1: Disability Type',
+                      'Disability Type',
                       Icons.accessible,
                       () => _twk.getUserDisabilityType(),
                     ),
                     _buildMethodButton(
                       'Marital Status',
-                      'V1: Marital Status',
+                      'Marital Status',
                       Icons.favorite,
                       () => _twk.getUserMaritalStatus(),
                     ),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Education & Career', Icons.school, Colors.indigo, [
-                    _buildMethodButton('Degree Type', 'V1: Degree Type', Icons.school, () => _twk.getUserDegreeType()),
-                    _buildMethodButton('Occupation', 'V1: Occupation', Icons.work, () => _twk.getUserOccupation()),
+                  _buildSection('Education & Career', Icons.school, Colors.indigo, [
+                    _buildMethodButton('Degree Type', 'Degree Type', Icons.school, () => _twk.getUserDegreeType()),
+                    _buildMethodButton('Occupation', 'Occupation', Icons.work, () => _twk.getUserOccupation()),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Family & Relationships', Icons.family_restroom, Colors.pink, [
+                  _buildSection('Family & Relationships', Icons.family_restroom, Colors.pink, [
                     _buildMethodButton(
                       'Family Members',
-                      'V1: Family Members',
+                      'Family Members',
                       Icons.family_restroom,
                       () => _twk.getUserFamilyMembers(),
                     ),
                     _buildMethodButton(
                       'Family (18-30)',
-                      'V1: Family (Filtered)',
+                      'Family (Filtered)',
                       Icons.filter_list,
                       () => _twk.getUserFamilyMembers(minAge: 18, maxAge: 30),
                     ),
-                    _buildMethodButton('Sponsors', 'V1: Sponsors', Icons.business, () => _twk.getUserSponsors()),
+                    _buildMethodButton('Sponsors', 'Sponsors', Icons.business, () => _twk.getUserSponsors()),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Vehicles & Violations', Icons.directions_car, Colors.brown, [
-                    _buildMethodButton('Vehicles', 'V1: Vehicles', Icons.car_rental, () => _twk.getUserVehicles()),
+                  _buildSection('Vehicles & Violations', Icons.directions_car, Colors.brown, [
+                    _buildMethodButton('Vehicles', 'Vehicles', Icons.car_rental, () => _twk.getUserVehicles()),
                     _buildMethodButton(
                       'Unpaid Violations',
-                      'V1: Unpaid Violations',
+                      'Unpaid Violations',
                       Icons.warning,
                       () => _twk.getUserUnPaidViolations(),
                     ),
                     _buildMethodButton(
                       'Paid Violations',
-                      'V1: Paid Violations',
+                      'Paid Violations',
                       Icons.check_circle_outline,
                       () => _twk.getUserPaidViolations(),
                     ),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Gallery', Icons.photo_library, Colors.purple, [
-                    _buildMethodButton(
-                      'Single Image',
-                      'V1: Gallery Single',
-                      Icons.photo,
-                      () => _twk.getGallerySingle(),
-                    ),
+                  _buildSection('Gallery', Icons.photo_library, Colors.purple, [
+                    _buildMethodButton('Single Image', 'Gallery Single', Icons.photo, () => _twk.getGallerySingle()),
                     _buildMethodButton(
                       'Multiple Images',
-                      'V1: Gallery Multi',
+                      'Gallery Multi',
                       Icons.photo_library,
                       () => _twk.getGalleryMulti(),
                     ),
                     _buildMethodButton(
                       'Single Video',
-                      'V1: Gallery Single Video',
+                      'Gallery Single Video',
                       Icons.videocam,
                       () => _twk.getGallerySingleVideo(),
                     ),
                     _buildMethodButton(
                       'Multiple Videos',
-                      'V1: Gallery Multi Video',
+                      'Gallery Multi Video',
                       Icons.video_library,
                       () => _twk.getGalleryMultiVideo(),
                     ),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Camera', Icons.camera_alt, Colors.deepPurple, [
-                    _buildMethodButton('Take Photo', 'V1: Camera Photo', Icons.camera, () => _twk.getCameraPhoto()),
-                    _buildMethodButton('Record Video', 'V1: Camera Video', Icons.videocam, () => _twk.getCameraVideo()),
+                  _buildSection('Camera', Icons.camera_alt, Colors.deepPurple, [
+                    _buildMethodButton('Take Photo', 'Camera Photo', Icons.camera, () => _twk.getCameraPhoto()),
+                    _buildMethodButton('Record Video', 'Camera Video', Icons.videocam, () => _twk.getCameraVideo()),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Files', Icons.file_present, Colors.amber, [
-                    _buildMethodButton(
-                      'Get File Base64',
-                      'V1: File Base64',
-                      Icons.file_copy,
-                      () => _twk.getFileBase64(),
-                    ),
-                    _buildMethodButton('Get File ID', 'V1: File ID', Icons.fingerprint, () => _twk.getFileId()),
+                  _buildSection('Files', Icons.file_present, Colors.amber, [
+                    _buildMethodButton('Get File Base64', 'File Base64', Icons.file_copy, () => _twk.getFileBase64()),
+                    _buildMethodButton('Get File ID', 'File ID', Icons.fingerprint, () => _twk.getFileId()),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Permissions', Icons.security, Colors.deepOrange, [
+                  _buildSection('Permissions', Icons.security, Colors.deepOrange, [
                     _buildMethodButton(
                       'Location Permission',
-                      'V1: Location Permission',
+                      'Location Permission',
                       Icons.location_on,
                       () => _twk.askUserLocationPermission(),
                     ),
                     _buildMethodButton(
                       'Precise Location',
-                      'V1: Precise Location',
+                      'Precise Location',
                       Icons.my_location,
                       () => _twk.askUserPreciseLocationPermission(),
                     ),
                     _buildMethodButton(
                       'Camera Permission',
-                      'V1: Camera Permission',
+                      'Camera Permission',
                       Icons.camera,
                       () => _twk.askCameraPermission(),
                     ),
                     _buildMethodButton(
                       'Gallery Permission',
-                      'V1: Gallery Permission',
+                      'Gallery Permission',
                       Icons.photo_library,
                       () => _twk.askGalleryPermission(),
                     ),
                     _buildMethodButton(
                       'Notification Permission',
-                      'V1: Push Notification',
+                      'Push Notification',
                       Icons.notifications,
                       () => _twk.askPushNotificationPermission(),
                     ),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Authentication', Icons.fingerprint, Colors.green, [
-                    _buildMethodButton(
-                      'Biometric Auth',
-                      'V1: Biometric',
-                      Icons.fingerprint,
-                      () => _twk.authenticateBiometric(),
-                    ),
-                    _buildMethodButton('Generate Token', 'V1: Token', Icons.vpn_key, () => _twk.generateToken()),
+                  _buildSection('Scanner', Icons.qr_code_scanner, Colors.blueGrey, [
+                    _buildMethodButton('Scan Code', 'Scan Code', Icons.qr_code_scanner, () => _twk.scanCode()),
                   ]),
                   const SizedBox(height: 16),
-                  _buildSection('V1 Scanner', Icons.qr_code_scanner, Colors.blueGrey, [
-                    _buildMethodButton('Scan Code', 'V1: Scan Code', Icons.qr_code_scanner, () => _twk.scanCode()),
-                  ]),
-                  const SizedBox(height: 16),
-                  _buildSection('V1 Device Info', Icons.devices, Colors.cyan, [
-                    _buildMethodButton(
-                      'Device Info',
-                      'V1: Device Info',
-                      Icons.phone_android,
-                      () => _twk.getDeviceInfo(),
-                    ),
+                  _buildSection('Device Info', Icons.devices, Colors.cyan, [
+                    _buildMethodButton('Device Info', 'Device Info', Icons.phone_android, () => _twk.getDeviceInfo()),
                   ]),
                 ],
               ),
@@ -487,19 +428,27 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
   Widget _buildSection(String title, IconData icon, Color color, List<Widget> buttons) {
     return Card(
       elevation: 1,
-      child: ExpansionTile(
-        initiallyExpanded: true,
-        leading: Icon(icon, color: color),
-        title: Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: color),
-        ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(children: buttons),
-          ),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final titleWidget = Text(
+            title,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: color),
+          );
+          final vertical = constraints.maxWidth < 260;
+
+          return ExpansionTile(
+            initiallyExpanded: true,
+            leading: vertical ? null : Icon(icon, color: color),
+            title: vertical ? Icon(icon, color: color) : titleWidget,
+            subtitle: vertical ? titleWidget : null,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(children: buttons),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
