@@ -9,6 +9,7 @@ import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_demo_json_impl.dar
 import 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_sdk_impl_stub.dart'
     if (dart.library.js_interop) 'package:tawakkalna_sdk_flutter/src/apis/v2/twk_api_v2_sdk_impl.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/gender.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/birth_city.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/disability_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/family_member.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/full_name.dart';
@@ -156,7 +157,6 @@ class TwkHelper {
   /// Required for sending notifications to the user.
   Future<bool> askPushNotificationPermission() {
     return _apiV1.askPushNotificationPermission().then((v) => v['granted'] as bool);
-    ;
   }
 
   /// Requests user location permission (approximate).
@@ -179,7 +179,7 @@ class TwkHelper {
   /// Returns true if authentication succeeds, false otherwise.
   /// The device must support biometric authentication.
   Future<bool> authenticateBiometric() {
-    return _apiV1.authenticateBiometric().then((r) => r['authenticated'] as bool);
+    return _apiV1.authenticateBiometric().then((r) => r['authorized'] as bool);
   }
 
   /// Deletes a document from the user's Tawakkalna document repository.
@@ -316,7 +316,7 @@ class TwkHelper {
   /// Retrieves the user's birth city.
   ///
   /// Returns the city name as a string, or null if not available.
-  Future<String?> getUserBirthCity() => _apiV1.getUserBirthCity().then((r) => r['birth_city'] as String?);
+  Future<BirthCity?> getUserBirthCity() => _apiV1.getUserBirthCity().then((r) => BirthCity.fromJson(r));
 
   /// Retrieves the user's birth date.
   ///
