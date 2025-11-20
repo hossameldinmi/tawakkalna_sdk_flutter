@@ -24,6 +24,7 @@ class TwkFile extends Equatable {
   /// MIME type (e.g., "image/jpeg", "video/mp4", "application/pdf")
   final String mimeType;
 
+  /// TODO:(TWK-team): as per as support team, data here is not Base64-encoded
   /// Base64-encoded file data (without data URI prefix)
   final String data;
 
