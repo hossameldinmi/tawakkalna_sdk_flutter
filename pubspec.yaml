@@ -1,6 +1,6 @@
 name: tawakkalna_sdk_flutter
 description: Flutter SDK for Tawakkalna - Saudi Arabia's super app. Access government services, user data, and documents seamlessly in alignment with Vision 2030.
-version: 0.0.3-alpha.3
+version: 0.0.4-alpha.4
 repository: https://github.com/hossameldinmi/tawakkalna_sdk_flutter
 
 platforms:
@@ -22,6 +22,7 @@ screenshots:
     path: doc/screenshot-2.png
   - description: (Web)(Mock-Data) Example app showing logs.
     path: doc/screenshot-3.png
+    
 environment:
   sdk: ^3.0.0
   flutter: ">=3.3.0"

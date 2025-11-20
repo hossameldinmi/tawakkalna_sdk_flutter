@@ -96,7 +96,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  tawakkalna_sdk_flutter: ^0.0.3-alpha.3
+  tawakkalna_sdk_flutter: ^0.0.4-alpha.4
 ```
 
 Then run:
