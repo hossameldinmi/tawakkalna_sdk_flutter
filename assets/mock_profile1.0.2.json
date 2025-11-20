@@ -476,7 +476,7 @@
       "path": "/user_data/disability_type",
       "return": {
         "code": 1000006,
-        "status": 401
+        "status": "401"
       }
     },
     {

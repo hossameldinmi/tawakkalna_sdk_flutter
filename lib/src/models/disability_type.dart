@@ -12,11 +12,11 @@ import 'package:equatable/equatable.dart';
 ///   status: 401,
 /// ```
 class DisabilityType extends Equatable {
-  /// The full name in Arabic
+  /// The disability type code
   final int code;
 
-  /// The full name in English
-  final int status;
+  /// The disability status
+  final String status;
 
   /// Creates a new DisabilityType instance.
   ///
@@ -31,7 +31,7 @@ class DisabilityType extends Equatable {
   /// Expects the JSON to have 'code' and 'status' keys.
   factory DisabilityType.fromJson(Map<String, dynamic> json) => DisabilityType(
         code: json['code'] as int,
-        status: json['status'] as int,
+        status: json['status'] as String,
       );
 
   @override

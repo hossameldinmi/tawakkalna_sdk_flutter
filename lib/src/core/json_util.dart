@@ -24,6 +24,7 @@ class JsonUtil {
   /// Supports multiple date formats:
   /// - ISO 8601 format (yyyy-MM-dd)
   /// - Date with slashes (dd/MM/yyyy or yyyy/MM/dd)
+  /// - Date with dashes (dd-MM-yyyy or yyyy-MM-dd)
   ///
   /// The method automatically detects the format and parses accordingly.
   ///
@@ -37,22 +38,35 @@ class JsonUtil {
     if (dateString == null || dateString.isEmpty) {
       return null;
     }
-    late DateTime? dateTime;
-    try {
-      dateTime = DateTime.parse(dateString);
-    } catch (_) {
-      bool reversed = false;
-      final parts = dateString.split('/');
-      if (int.parse(parts[0]) < 1900) {
-        reversed = true;
-      }
-      if (parts.length == 3) {
-        final year = int.parse(reversed ? parts[2] : parts[0]);
-        final month = int.parse(parts[1]);
-        final day = int.parse(reversed ? parts[0] : parts[2]);
-        dateTime = DateTime(year, month, day);
-      }
+
+    DateTime? dateTime;
+
+    // Try to parse as ISO 8601 first (yyyy-MM-dd)
+    dateTime = DateTime.tryParse(dateString);
+    if (dateTime != null) return dateTime;
+
+    // Split by either / or -
+    final parts = dateString.contains('/') ? dateString.split('/') : dateString.split('-');
+
+    if (parts.length != 3) {
+      return null;
     }
+
+    try {
+      // Determine if the format is dd-MM-yyyy or yyyy-MM-dd
+      // by checking if the first part is a year (>= 1900)
+      final firstNum = int.parse(parts[0]);
+      final bool isYearFirst = firstNum >= 1900;
+
+      final year = int.parse(isYearFirst ? parts[0] : parts[2]);
+      final month = int.parse(parts[1]);
+      final day = int.parse(isYearFirst ? parts[2] : parts[0]);
+
+      dateTime = DateTime(year, month, day);
+    } catch (_) {
+      return null;
+    }
+
     return dateTime;
   }
 }

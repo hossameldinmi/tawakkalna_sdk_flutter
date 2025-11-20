@@ -322,7 +322,12 @@ void main() {
     });
     test('getUserDisabilityType returns correct value', () async {
       final result = await twk.getUserDisabilityType();
-      expect(result, const DisabilityType(code: 1000006, status: 401));
+      expect(
+          result,
+          const DisabilityType(
+            code: 1000006,
+            status: "401",
+          ));
     });
     test('askCameraPermission returns correct value', () async {
       final result = await twk.askCameraPermission();
