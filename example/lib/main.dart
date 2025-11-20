@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tawakkalna SDK Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.teal, useMaterial3: true),
       home: const TawakkalnaDemo(),
     );
@@ -396,29 +397,29 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
             child: _showLogs
                 ? _buildLogsView()
                 : _results.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.touch_app, size: 64, color: Colors.grey[400]),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Tap any button to call an API method',
-                          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                          textAlign: TextAlign.center,
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.touch_app, size: 64, color: Colors.grey[400]),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Tap any button to call an API method',
+                              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _results.length,
-                    itemBuilder: (context, index) {
-                      final key = _results.keys.elementAt(index);
-                      final value = _results[key];
-                      return _buildResultCard(key, value);
-                    },
-                  ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: _results.length,
+                        itemBuilder: (context, index) {
+                          final key = _results.keys.elementAt(index);
+                          final value = _results[key];
+                          return _buildResultCard(key, value);
+                        },
+                      ),
           ),
         ],
       ),
@@ -498,9 +499,8 @@ class _TawakkalnaDemoState extends State<TawakkalnaDemo> {
       elevation: 2,
       color: isError ? Colors.red[50] : null,
       child: ExpansionTile(
-        leading: isError
-            ? const Icon(Icons.error, color: Colors.red)
-            : const Icon(Icons.check_circle, color: Colors.green),
+        leading:
+            isError ? const Icon(Icons.error, color: Colors.red) : const Icon(Icons.check_circle, color: Colors.green),
         title: Text(
           title,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isError ? Colors.red[900] : null),
