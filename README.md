@@ -452,7 +452,7 @@ test('getUserFullName returns correct bilingual name', () async {
 });
 ```
 
-## \ud83e\uddea Mock/Demo Implementation
+## 🧪 Mock/Demo Implementation
 
 The SDK includes a comprehensive mock implementation for testing and development without actual Tawakkalna integration:
 
@@ -487,13 +487,13 @@ Mock data is loaded from `assets/mock_profile1.0.2.json` which contains:
 
 ### Benefits
 
-- \u2705 **No Authentication Required** - Test without real credentials
-- \ud83d\udea6 **Predictable Data** - Consistent responses for testing
-- \ud83d\ude80 **Fast Development** - No network latency
-- \ud83d\udcdd **Documentation** - See example data structures
-- \ud83e\uddb5 **Edge Cases** - Test various data scenarios
+- ✅ **No Authentication Required** - Test without real credentials
+- 🚦 **Predictable Data** - Consistent responses for testing
+- 🚀 **Fast Development** - No network latency
+- 📝 **Documentation** - See example data structures
+- 🧵 **Edge Cases** - Test various data scenarios
 
-## \ud83d\udd27 Custom Implementation
+## 🔧 Custom Implementation
 
 To integrate with actual Tawakkalna services or create your own data source:
 
@@ -538,7 +538,7 @@ void main() {
 }
 ```
 
-## \ud83e\udeb5 Debugging & Logging
+## 🪵 Debugging & Logging
 
 The SDK includes a built-in logger for debugging and monitoring:
 
@@ -563,12 +563,12 @@ void main() {
 
 ### Logger Features
 
-- \ud83d\udccb **Automatic Logging** - All API calls logged with request/response data
-- \ud83d\udcc8 **Statistics** - Track total logs, errors, warnings, and info messages
-- \ud83d\udd0d **Filtering** - Filter logs by level (error, warning, info)
-- \ud83d\udcbe **Memory Management** - Automatic cleanup at 1000 log limit
-- \ud83d\udd07 **Toggle On/Off** - Enable/disable logging at runtime
-- \ud83d\udcf1 **UI Integration** - Built-in log viewer in example app
+- 📋 **Automatic Logging** - All API calls logged with request/response data
+- 📈 **Statistics** - Track total logs, errors, warnings, and info messages
+- 🔍 **Filtering** - Filter logs by level (error, warning, info)
+- 💾 **Memory Management** - Automatic cleanup at 1000 log limit
+- 🔇 **Toggle On/Off** - Enable/disable logging at runtime
+- 📱 **UI Integration** - Built-in log viewer in example app
 
 ### Log Viewer (Example App)
 
