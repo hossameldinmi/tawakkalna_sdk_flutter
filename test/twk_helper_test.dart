@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/health_status.dart';
 import 'package:tawakkalna_sdk_flutter/src/enums/marital_status.dart';
+import 'package:tawakkalna_sdk_flutter/src/models/birth_city.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/device_info.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/disability_type.dart';
 import 'package:tawakkalna_sdk_flutter/src/models/location.dart';
@@ -380,6 +381,12 @@ void main() {
           fileName: 'cat.jpg',
         ),
       ];
+      expect(result, expected);
+    });
+
+    test('getUserBirthCity returns correct value', () async {
+      final result = await twk.getUserBirthCity();
+      const expected = BirthCity(nameAr: 'الرياض', nameEn: 'Riyadh');
       expect(result, expected);
     });
   });
