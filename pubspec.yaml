@@ -1,10 +1,10 @@
 name: tawakkalna_sdk_flutter
 description: Flutter SDK for Tawakkalna - Saudi Arabia's super app. Access government services, user data, and documents seamlessly in alignment with Vision 2030.
-version: 0.0.4-alpha.4
+version: 0.0.5-alpha.5
 repository: https://github.com/hossameldinmi/tawakkalna_sdk_flutter
 
 platforms:
-  web: null
+  web:
 
 topics:
   - tawakkalna
@@ -49,7 +49,7 @@ flutter:
   # This is required for using method channels on Android.
   # The 'ffiPlugin' specifies that native code should be built and bundled.
   # This is required for using `dart:ffi`.
-  # All these are used by the tooling to maintain consistency when
+  # All these are used by the tooling yto maintain consistency when
   # adding or updating assets for this project.
 
     # -------------------

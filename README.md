@@ -96,7 +96,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  tawakkalna_sdk_flutter: ^0.0.4-alpha.4
+  tawakkalna_sdk_flutter: ^0.0.5-alpha.5
 ```
 
 Then run:
@@ -117,29 +117,17 @@ Add this script tag to your `web/index.html` before the closing `</body>` tag:
 <!-- For development and testing with mock data -->
 <script src="assets/packages/tawakkalna_sdk_flutter/assets/web/twkhelper_mock.js"></script>
 ```
-
-#### For Production (Tawakkalna App Deployment)
-
-When deploying your mini app to the Tawakkalna platform, use the production JavaScript file:
-
 ```html
 <!-- For production deployment to Tawakkalna app -->
 <script src="assets/packages/tawakkalna_sdk_flutter/assets/web/twkhelper.js"></script>
 ```
+When deploying your mini app to the Tawakkalna platform, use the production JavaScript file:
 
 > **Important**: Choose the correct JavaScript file based on your environment:
 > - `twkhelper_mock.js` - Development/testing with mock data
 > - `twkhelper.js` - Production deployment to Tawakkalna app
 >
 > The SDK will not work on web without the appropriate JavaScript bridge file.
-
-> **Production Build Optimization**: When building for production (`flutter build web --release`), remove unnecessary JavaScript files and mock data from your build output to reduce bundle size:
-> ```bash
-> # After building, remove the unused mock files
-> rm -f build/web/assets/packages/tawakkalna_sdk_flutter/assets/web/twkhelper_mock.js
-> rm -f build/web/assets/assets/mock_profile1.0.2.json
-> ```
-> Similarly, if you used mock for development, remove `twkhelper.js` from development builds to avoid confusion.
 
 ## 🚀 Quick Start
 
@@ -518,17 +506,6 @@ class MyTwkApiV1 extends TwkApiV1 {
   // Implement all other required methods...
 }
 
-// Implement V2 API
-class MyTwkApiV2 extends TwkApiV2 {
-  @override
-  Future<FullName> getUserFullName() async {
-    // Your implementation
-    return FullName(en: 'John Doe', ar: 'جون دو');
-  }
-  
-  // Implement all other required methods...
-}
-
 // Use custom implementation
 void main() {
   final twk = TwkHelper(
@@ -653,12 +630,19 @@ The JavaScript bridge provides:
 
 ```dart
 // Development
-final twk = TwkHelper(); // Uses mock by default
+final twk = TwkHelper(); // Uses mock by default (debug mode or (NOT Web) platform)
+// or
+final twk = TwkHelper(
+  v1Api: TwkApiV1DemoJsonImpl(),
+  v2Api: TwkApiV2DemoJsonImpl(),
+); // Uses mock by default
 
 // Production
+final twk = TwkHelper(); // uses production by default (in web && release mode)
+// or
 final twk = TwkHelper(
-  v1Api: TwkApiV1ProductionImpl(),
-  v2Api: TwkApiV2ProductionImpl(),
+  v1Api: TwkApiV1SdkImpl(),
+  v2Api: TwkApiV2SdkImpl(),
 );
 ```
 
@@ -710,46 +694,7 @@ void main() {
 }
 ```
 
-### 5. Use Type-Safe Enums
-
-```dart
-// Good - Type safe
-final males = await twk.getUserFamilyMembers(
-  gender: Gender.male,  // Enum
-);
-
-// Avoid - Hardcoded values (not supported)
-// Always use the Gender enum for type safety
-```
-
 ## 🔧 Troubleshooting
-
-### Issue: "No data returned from API"
-
-**Solution**: Ensure you're using the correct implementation:
-
-```dart
-// For testing/development
-final twk = TwkHelper(); // Uses mock data
-
-// For production
-final twk = TwkHelper();
-```
-
-### Issue: "Type mismatch errors"
-
-**Solution**: All methods return strongly-typed models:
-
-```dart
-// Returns typed FullName model
-final FullName name = await twk.getUserFullName();
-
-// Returns int
-final int userId = await twk.getUserId();
-
-// Returns list of typed objects
-final List<Vehicle> vehicles = await twk.getUserVehicles();
-```
 
 ### Issue: "Logger consuming too much memory"
 
@@ -897,6 +842,148 @@ See the following documentation resources:
 - **Memory Mock** = In-memory mock implementation (TwkApiV1DemoJsonImpl / TwkApiV2DemoJsonImpl)
 - **JS Mock** = JavaScript bridge mock (twkhelper_mock.js)
 - **SDK** = Production SDK implementation (twkhelper.js)
+  
+## For Production (Tawakkalna App Deployment)
+
+## 📦 Building for Tawakkalna Release
+
+To build and package your Flutter mini app for deployment to the Tawakkalna platform:
+
+### Step 1: Prepare index.html
+
+**a) Remove the base href tag:**
+
+Remove the `<base href="$FLUTTER_BASE_HREF">` tag from your `web/index.html` file:
+
+```html
+<!-- Remove or comment out this line -->
+<!-- <base href="$FLUTTER_BASE_HREF"> -->
+```
+
+**b) Use production JavaScript bridge:**
+
+Ensure you're using `twkhelper.js` (not the mock version):
+
+```html
+<!-- For production deployment to Tawakkalna app -->
+<script src="assets/packages/tawakkalna_sdk_flutter/assets/web/twkhelper.js"></script>
+```
+
+This is required because Tawakkalna mini apps run in a specific context where the base href can cause navigation issues.
+
+### Step 2: Build the Web App
+
+Build your Flutter web app for release:
+
+```bash
+flutter build web --release
+```
+
+This will create an optimized production build in the `build/web` directory.
+
+### Step 3: Optimize Build Output
+
+Clean up unnecessary files to reduce bundle size:
+
+```bash
+# Remove mock JavaScript file (keep only twkhelper.js)
+rm -f build/web/assets/packages/tawakkalna_sdk_flutter/assets/web/twkhelper_mock.js
+
+# Remove mock data JSON file
+rm -f build/web/assets/assets/mock_profile1.0.2.json
+```
+
+### Step 4: Create Deployment Package
+
+Zip the entire `build/web` folder:
+
+```bash
+# Navigate to build directory
+cd build
+
+# Create zip file
+zip -r my_tawakkalna_app.zip web
+
+# Or use a more descriptive name
+zip -r my_app_v1.0.0.zip web
+```
+
+### Step 5: Optimize Bundle Size (If Needed)
+
+If your bundle exceeds Tawakkalna's size limit, you can reduce it by removing the CanvasKit renderer:
+
+```bash
+#!/bin/bash
+# build_for_tawakkalna.sh
+
+echo "Building for Tawakkalna release..."
+
+# Navigate to example app directory
+cd example
+
+read -p "Clean example build folder? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    rm -rf build
+    echo "Example build folder cleaned"
+fi
+
+Build the app
+flutter build web --release
+
+# Remove unnecessary files
+echo "Cleaning up unnecessary files..."
+rm -f build/web/assets/packages/tawakkalna_sdk_flutter/assets/web/twkhelper_mock.js
+rm -f build/web/assets/assets/mock_profile1.0.2.json
+
+# Optional: Remove CanvasKit to reduce size
+read -p "Remove CanvasKit to reduce bundle size? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    rm -rf build/web/canvaskit
+    echo "CanvasKit removed"
+fi
+
+# Create zip file
+cd build
+APP_NAME=$(grep "name:" ../pubspec.yaml | awk '{print $2}')
+VERSION=$(grep "version:" ../pubspec.yaml | awk '{print $2}')
+ZIP_NAME="${APP_NAME}_v${VERSION}.zip"
+
+
+# cd web
+zip -r "$ZIP_NAME" web/* -i 'web/*'
+
+GREEN='\033[0;32m'
+echo "${GREEN}Package created: $(pwd)/$ZIP_NAME"
+echo -e "\033[0m"
+
+FILE_SIZE_MB=$(ls -l "$ZIP_NAME" | awk '{print $5/1024/1024}')
+COLOR='\033[1;33m'
+
+echo "${COLOR}Package size: ${FILE_SIZE_MB}MB"
+```
+
+Make it executable and run:
+
+```bash
+chmod +x build_for_tawakkalna.sh
+./build_for_tawakkalna.sh
+```
+
+### Pre-Deployment Checklist
+
+Before uploading to Tawakkalna:
+
+- ✅ Verify `twkhelper.js` is included (not `twkhelper_mock.js`)
+- ✅ Remove `<base href>` tag from `index.html`
+- ✅ Test all SDK functions work correctly
+- ✅ Check bundle size is within Tawakkalna limits
+- ✅ Ensure no development/debug files are included
+- ✅ Verify all assets are loading correctly
+
 
 ## 🛣️ Roadmap
 

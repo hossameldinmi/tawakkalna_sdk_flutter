@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5-alpha.5] - 2025-11-23
+
+### Added
+- Comprehensive "Building for Tawakkalna Release" section in README with step-by-step deployment guide
+- Automated release script (`scripts/release.sh`) for building and packaging mini apps
+- Instructions for removing `<base href>` tag from index.html for Tawakkalna compatibility
+- Bundle size optimization guide (CanvasKit removal)
+- Pre-deployment checklist for Tawakkalna submissions
+
+### Changed
+- Improved README structure with dedicated deployment section
+- Fixed emoji rendering issues in README (Unicode escape sequences to actual emojis)
+- Enhanced production build workflow with cleanup steps for unnecessary mock files
+
+### Fixed
+- README emoji display issues in browsers (🧪, 🚦, 🚀, 📝, 🧵, 🔧, 🪵, 📋, 📈, 🔍, 💾, 🔇, 📱)
 
 ## [0.0.3-alpha.4] - 2025-11-20
 
@@ -83,8 +99,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Designed for building mini apps (HTML/JS) using Flutter Web
 - All platforms support mock data for development and testing
 
-[0.0.4-alpha.4]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.3
-[0.0.3-alpha.3]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.3
+[0.0.5-alpha.5]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.5-alpha.5
+[0.0.4-alpha.4]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.4-alpha.4
+[0.0.3-alpha.3]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.3-alpha.3
 [0.0.1-alpha.2]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.2
 [0.0.1-alpha.1]: https://github.com/hossameldinmi/tawakkalna_sdk_flutter/releases/tag/v0.0.1-alpha.1
 
